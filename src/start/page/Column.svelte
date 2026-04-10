@@ -1,18 +1,17 @@
 <script lang="ts">
-	import type { Column, Group } from "@/types/bookmarks";
+	import type { Column as ColumnType } from "@/state/bookmarks";
+	import { bookmarks } from "@/state/bookmarks";
 	import Widget from "./Widget.svelte";
 
 	interface Props {
-		column: Column;
-		groups: Group[];
-		onUpdateGroup: (group: Group) => void;
-		onDeleteGroup: (id: string) => void;
+		column: ColumnType;
 	}
 
-	let { column, groups, onUpdateGroup, onDeleteGroup }: Props = $props();
+	let { column }: Props = $props();
 
 	let columnGroups = $derived(
-		groups
+		bookmarks
+			.getGroups()
 			.filter((g) => g.columnId === column.id)
 			.toSorted((a, b) => a.order - b.order),
 	);
@@ -20,7 +19,7 @@
 
 <div class="column">
 	{#each columnGroups as group (group.id)}
-		<Widget {group} {onUpdateGroup} {onDeleteGroup} />
+		<Widget {group} />
 	{/each}
 </div>
 

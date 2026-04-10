@@ -1,22 +1,21 @@
 <script lang="ts">
+	import type { Group } from "@/state/bookmarks";
+	import { bookmarks } from "@/state/bookmarks";
 	import type { Component } from "svelte";
-	import type { Group } from "@/types/bookmarks";
-	import WidgetHeader from "./WidgetHeader.svelte";
+	import BrainIcon from "~icons/lucide/brain";
+	import BriefcaseIcon from "~icons/lucide/briefcase";
+	import CodeIcon from "~icons/lucide/code";
+	import Gamepad2Icon from "~icons/lucide/gamepad-2";
+	import UsersIcon from "~icons/lucide/users";
 	import BookmarkList from "./BookmarkList.svelte";
 	import EditGroupDialog from "./EditGroupDialog.svelte";
-	import BriefcaseIcon from "~icons/lucide/briefcase";
-	import BrainIcon from "~icons/lucide/brain";
-	import CodeIcon from "~icons/lucide/code";
-	import UsersIcon from "~icons/lucide/users";
-	import Gamepad2Icon from "~icons/lucide/gamepad-2";
+	import WidgetHeader from "./WidgetHeader.svelte";
 
 	interface Props {
 		group: Group;
-		onUpdateGroup: (group: Group) => void;
-		onDeleteGroup: (id: string) => void;
 	}
 
-	let { group, onUpdateGroup, onDeleteGroup }: Props = $props();
+	let { group }: Props = $props();
 
 	let editDialogOpen = $state(false);
 	let menuOpen = $state(false);
@@ -30,12 +29,12 @@
 	};
 
 	function handleSave(updatedGroup: Group) {
-		onUpdateGroup(updatedGroup);
+		bookmarks.updateGroup(updatedGroup);
 		editDialogOpen = false;
 	}
 
 	function handleDelete() {
-		onDeleteGroup(group.id);
+		bookmarks.deleteGroup(group.id);
 		editDialogOpen = false;
 	}
 </script>
