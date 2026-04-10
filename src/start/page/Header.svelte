@@ -1,5 +1,7 @@
 <script lang="ts">
+	import MoonIcon from "~icons/lucide/moon";
 	import SettingsIcon from "~icons/lucide/settings";
+	import SunIcon from "~icons/lucide/sun";
 	import Search from "./Search.svelte";
 
 	interface Props {
@@ -7,6 +9,18 @@
 	}
 
 	let { onSearch }: Props = $props();
+
+	let theme = $state(
+		typeof window !== "undefined"
+			? document.documentElement.getAttribute("data-theme") || "dark"
+			: "dark",
+	);
+
+	function toggleTheme() {
+		const newTheme = theme === "dark" ? "light" : "dark";
+		theme = newTheme;
+		document.documentElement.setAttribute("data-theme", newTheme);
+	}
 </script>
 
 <header class="header">
@@ -15,6 +29,13 @@
 		<Search {onSearch} />
 	</div>
 	<div class="header-right">
+		<button class="icon-button" onclick={toggleTheme} title="Переключить тему">
+			{#if theme === "dark"}
+				<SunIcon />
+			{:else}
+				<MoonIcon />
+			{/if}
+		</button>
 		<button class="icon-button">
 			<SettingsIcon class="settings-icon" />
 		</button>
@@ -69,6 +90,11 @@
 
 	.icon-button:hover {
 		background: var(--surface-variant);
+	}
+
+	.icon-button :global(svg) {
+		width: 1.25rem;
+		height: 1.25rem;
 	}
 
 	.icon-button :global(.settings-icon) {
