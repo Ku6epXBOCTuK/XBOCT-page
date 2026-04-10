@@ -1,0 +1,23 @@
+{
+  "name": "xboct-page",
+  "type": "module",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build"
+  },
+  "dependencies": {
+    "svelte": "^5.53.12"
+  },
+  "devDependencies": {
+    "@crxjs/vite-plugin": "^2.4.0",
+    "@sveltejs/vite-plugin-svelte": "^7.0.0",
+    "@tsconfig/svelte": "^5.0.8",
+    "@types/chrome": "^0.1.37",
+    "@types/node": "^25.5.2",
+    "typescript": "~5.9.3",
+    "vite": "^8.0.0",
+    "vite-plugin-zip-pack": "^1.2.4"
+  }
+}
