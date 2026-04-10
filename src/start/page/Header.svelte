@@ -30,9 +30,9 @@
 		justify-content: space-between;
 		align-items: center;
 		padding: 0.5rem 1.5rem;
-		background: rgba(12, 14, 18, 0.6);
+		background: var(--surface-alpha);
 		backdrop-filter: blur(12px);
-		border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+		border-bottom: 1px solid var(--overlay-white-5);
 	}
 
 	.header-left {

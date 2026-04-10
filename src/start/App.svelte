@@ -1,4 +1,6 @@
 <script lang="ts">
+	import "../vars.css";
+	import "./style.css";
 	import { bookmarks } from "@/state/bookmarks.svelte";
 	import { onMount } from "svelte";
 	import Background from "./page/Background.svelte";
@@ -40,7 +42,7 @@
 		min-height: 100vh;
 		background: var(--surface);
 		color: var(--on-surface);
-		font-family: "Inter", sans-serif;
+		font-family: var(--font-sans);
 		font-size: 0.875rem;
 		position: relative;
 	}

@@ -37,7 +37,7 @@
 	}
 
 	.bookmark-link:hover {
-		background: rgba(255, 255, 255, 0.05);
+		background: var(--overlay-white-5);
 		color: var(--on-surface);
 	}
 

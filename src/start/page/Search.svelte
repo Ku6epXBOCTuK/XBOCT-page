@@ -44,7 +44,7 @@
 	.search-input {
 		width: 100%;
 		padding: 0.375rem 0.75rem 0.375rem 2.25rem;
-		background: rgba(35, 38, 44, 0.4);
+		background: var(--surface-variant-alpha);
 		border: none;
 		border-radius: 0.375rem;
 		color: var(--on-surface);
@@ -59,6 +59,6 @@
 	}
 
 	.search-input:focus {
-		box-shadow: 0 0 0 1px rgba(129, 236, 255, 0.4);
+		box-shadow: var(--shadow-focus);
 	}
 </style>

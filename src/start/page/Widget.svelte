@@ -83,8 +83,8 @@
 		display: flex;
 		flex-direction: column;
 		backdrop-filter: blur(12px);
-		background: rgba(23, 26, 31, 0.5);
-		border: 1px solid rgba(255, 255, 255, 0.05);
+		background: var(--surface-container-alpha);
+		border: 1px solid var(--overlay-white-5);
 		border-radius: 0.5rem;
 	}
 
@@ -100,7 +100,7 @@
 		right: 0.5rem;
 		min-width: 120px;
 		background: var(--surface);
-		border: 1px solid rgba(255, 255, 255, 0.1);
+		border: 1px solid var(--overlay-white-10);
 		border-radius: 0.5rem;
 		padding: 0.25rem;
 	}
@@ -114,6 +114,6 @@
 	}
 
 	.menu-item:hover {
-		background: rgba(255, 255, 255, 0.1);
+		background: var(--overlay-white-10);
 	}
 </style>

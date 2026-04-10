@@ -39,7 +39,7 @@
 		justify-content: space-between;
 		padding-bottom: 0.25rem;
 		margin-bottom: 0.5rem;
-		border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+		border-bottom: 1px solid var(--overlay-white-5);
 	}
 
 	.widget-header-right {
@@ -96,6 +96,6 @@
 
 	.header-btn:hover {
 		color: var(--on-surface);
-		background: rgba(255, 255, 255, 0.1);
+		background: var(--overlay-white-10);
 	}
 </style>

@@ -238,7 +238,7 @@
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		background: rgba(0, 0, 0, 0.7);
+		background: var(--overlay-black-70);
 		z-index: 1000;
 	}
 
@@ -249,7 +249,7 @@
 		display: flex;
 		flex-direction: column;
 		background: var(--surface);
-		border: 1px solid rgba(255, 255, 255, 0.1);
+		border: 1px solid var(--overlay-white-10);
 		border-radius: 0.75rem;
 		overflow: hidden;
 	}
@@ -259,7 +259,7 @@
 		align-items: center;
 		justify-content: space-between;
 		padding: 1rem;
-		border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+		border-bottom: 1px solid var(--overlay-white-10);
 	}
 
 	.dialog-header h2 {
@@ -283,7 +283,7 @@
 	}
 
 	.close-btn:hover {
-		background: rgba(255, 255, 255, 0.1);
+		background: var(--overlay-white-10);
 		color: var(--on-surface);
 	}
 
@@ -313,8 +313,8 @@
 	.form-group input[type="text"],
 	.form-group select {
 		padding: 0.5rem 0.75rem;
-		background: rgba(255, 255, 255, 0.05);
-		border: 1px solid rgba(255, 255, 255, 0.1);
+		background: var(--overlay-white-5);
+		border: 1px solid var(--overlay-white-10);
 		border-radius: 0.5rem;
 		color: var(--on-surface);
 		font-size: 0.875rem;
@@ -337,7 +337,7 @@
 		align-items: center;
 		gap: 0.75rem;
 		padding: 0.5rem 0.75rem;
-		background: rgba(255, 255, 255, 0.03);
+		background: var(--overlay-white-3);
 		border-radius: 0.5rem;
 	}
 
@@ -361,7 +361,7 @@
 
 	.bookmark-title:focus {
 		border-color: var(--primary);
-		background: rgba(255, 255, 255, 0.05);
+		background: var(--overlay-white-5);
 	}
 
 	.bookmark-actions {
@@ -385,7 +385,7 @@
 	}
 
 	.action-btn:hover:not(:disabled) {
-		background: rgba(255, 255, 255, 0.1);
+		background: var(--overlay-white-10);
 		color: var(--on-surface);
 	}
 
@@ -395,7 +395,7 @@
 	}
 
 	.action-btn.delete:hover {
-		color: #ef4444;
+		color: var(--danger);
 	}
 
 	.add-btn {
@@ -405,7 +405,7 @@
 		gap: 0.5rem;
 		padding: 0.5rem;
 		background: transparent;
-		border: 1px dashed rgba(255, 255, 255, 0.2);
+		border: 1px dashed var(--overlay-white-20);
 		border-radius: 0.5rem;
 		color: var(--on-surface-dim);
 		font-size: 0.875rem;
@@ -425,7 +425,7 @@
 		align-items: center;
 		justify-content: space-between;
 		padding: 1rem;
-		border-top: 1px solid rgba(255, 255, 255, 0.1);
+		border-top: 1px solid var(--overlay-white-10);
 	}
 
 	.footer-right {
@@ -436,21 +436,21 @@
 	.delete-group-btn {
 		padding: 0.5rem 1rem;
 		background: transparent;
-		border: 1px solid #ef4444;
+		border: 1px solid var(--danger);
 		border-radius: 0.5rem;
-		color: #ef4444;
+		color: var(--danger);
 		font-size: 0.875rem;
 		cursor: pointer;
 		transition: background 0.15s ease;
 	}
 
 	.delete-group-btn:hover {
-		background: rgba(239, 68, 68, 0.1);
+		background: var(--danger-alpha);
 	}
 
 	.cancel-btn {
 		padding: 0.5rem 1rem;
-		background: rgba(255, 255, 255, 0.1);
+		background: var(--overlay-white-10);
 		border: none;
 		border-radius: 0.5rem;
 		color: var(--on-surface);
@@ -459,7 +459,7 @@
 	}
 
 	.cancel-btn:hover {
-		background: rgba(255, 255, 255, 0.15);
+		background: var(--overlay-white-15);
 	}
 
 	.save-btn {
@@ -467,7 +467,7 @@
 		background: var(--primary);
 		border: none;
 		border-radius: 0.5rem;
-		color: #000;
+		color: var(--on-surface-inverse);
 		font-size: 0.875rem;
 		font-weight: 600;
 		cursor: pointer;

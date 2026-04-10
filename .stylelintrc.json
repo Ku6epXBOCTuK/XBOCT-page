@@ -1,0 +1,14 @@
+{
+	"extends": ["stylelint-config-standard", "stylelint-config-html/svelte"],
+	"ignoreFiles": ["src/vars.css"],
+	"rules": {
+		"color-named": "never",
+		"color-no-hex": true,
+		"function-disallowed-list": ["rgb", "rgba", "hsl", "hwb"],
+		"selector-pseudo-class-no-unknown": [
+			true,
+			{ "ignorePseudoClasses": ["global"] }
+		],
+		"no-descending-specificity": null
+	}
+}

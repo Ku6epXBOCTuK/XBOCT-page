@@ -55,17 +55,22 @@ npm run lint
 src/
 ├── types/          # TypeScript интерфейсы
 ├── lib/            # Утилиты, services
-├── components/      # Переиспользуемые компоненты
+├── components/     # Переиспользуемые компоненты
 ├── start/          # Стартовая страница (newtab)
 └── popup/          # Popup окно
 ```
 
+### 5. Конфиги
+
+**КОНФИГИ МЕНЯТЬ ЗАПРЕЩЕНО.** Если нужно изменить конфиг (ESLint, Prettier, Stylelint и т.д.) — сначала спросить пользователя.
+
 ## Команды
 
 ```bash
-npm run dev     # Dev сервер
-npm run build   # Сборка
-npm run check   # Проверка типов
-npm run lint    # ESLint
-npm run format  # Prettier
+npm run dev      # Dev сервер
+npm run build    # Сборка
+npm run check    # Проверка типов
+npm run lint     # ESLint
+npm run lint:css # Stylelint (CSS + Svelte)
+npm run format   # Prettier
 ```

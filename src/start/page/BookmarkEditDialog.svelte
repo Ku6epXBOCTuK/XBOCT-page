@@ -87,7 +87,7 @@
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		background: rgba(0, 0, 0, 0.7);
+		background: var(--overlay-black-70);
 		z-index: 1001;
 	}
 
@@ -97,7 +97,7 @@
 		display: flex;
 		flex-direction: column;
 		background: var(--surface);
-		border: 1px solid rgba(255, 255, 255, 0.1);
+		border: 1px solid var(--overlay-white-10);
 		border-radius: 0.75rem;
 		overflow: hidden;
 	}
@@ -107,7 +107,7 @@
 		align-items: center;
 		justify-content: space-between;
 		padding: 1rem;
-		border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+		border-bottom: 1px solid var(--overlay-white-10);
 	}
 
 	.dialog-header h2 {
@@ -131,7 +131,7 @@
 	}
 
 	.close-btn:hover {
-		background: rgba(255, 255, 255, 0.1);
+		background: var(--overlay-white-10);
 		color: var(--on-surface);
 	}
 
@@ -146,7 +146,7 @@
 		display: flex;
 		justify-content: center;
 		padding: 1rem;
-		background: rgba(255, 255, 255, 0.03);
+		background: var(--overlay-white-3);
 		border-radius: 0.5rem;
 	}
 
@@ -172,8 +172,8 @@
 
 	.form-group input {
 		padding: 0.5rem 0.75rem;
-		background: rgba(255, 255, 255, 0.05);
-		border: 1px solid rgba(255, 255, 255, 0.1);
+		background: var(--overlay-white-5);
+		border: 1px solid var(--overlay-white-10);
 		border-radius: 0.5rem;
 		color: var(--on-surface);
 		font-size: 0.875rem;
@@ -189,7 +189,7 @@
 		align-items: center;
 		justify-content: space-between;
 		padding: 1rem;
-		border-top: 1px solid rgba(255, 255, 255, 0.1);
+		border-top: 1px solid var(--overlay-white-10);
 	}
 
 	.footer-right {
@@ -200,21 +200,21 @@
 	.delete-btn {
 		padding: 0.5rem 1rem;
 		background: transparent;
-		border: 1px solid #ef4444;
+		border: 1px solid var(--danger);
 		border-radius: 0.5rem;
-		color: #ef4444;
+		color: var(--danger);
 		font-size: 0.875rem;
 		cursor: pointer;
 		transition: background 0.15s ease;
 	}
 
 	.delete-btn:hover {
-		background: rgba(239, 68, 68, 0.1);
+		background: var(--danger-alpha);
 	}
 
 	.cancel-btn {
 		padding: 0.5rem 1rem;
-		background: rgba(255, 255, 255, 0.1);
+		background: var(--overlay-white-10);
 		border: none;
 		border-radius: 0.5rem;
 		color: var(--on-surface);
@@ -223,7 +223,7 @@
 	}
 
 	.cancel-btn:hover {
-		background: rgba(255, 255, 255, 0.15);
+		background: var(--overlay-white-15);
 	}
 
 	.save-btn {
@@ -231,7 +231,7 @@
 		background: var(--primary);
 		border: none;
 		border-radius: 0.5rem;
-		color: #000;
+		color: var(--on-surface-inverse);
 		font-size: 0.875rem;
 		font-weight: 600;
 		cursor: pointer;
