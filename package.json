@@ -16,6 +16,7 @@
 	},
 	"devDependencies": {
 		"@crxjs/vite-plugin": "^2.4.0",
+		"@iconify-json/lucide": "^1.2.102",
 		"@sveltejs/vite-plugin-svelte": "^7.0.0",
 		"@tsconfig/svelte": "^5.0.8",
 		"@types/chrome": "^0.1.37",
@@ -26,6 +27,7 @@
 		"prettier-plugin-svelte": "^3.5.1",
 		"svelte-check": "^4.4.6",
 		"typescript": "~5.9.3",
+		"unplugin-icons": "^23.0.1",
 		"vite": "^8.0.0",
 		"vite-plugin-zip-pack": "^1.2.4"
 	}

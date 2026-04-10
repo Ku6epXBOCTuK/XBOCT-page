@@ -1,6 +1,7 @@
 import { crx } from "@crxjs/vite-plugin";
 import { svelte } from "@sveltejs/vite-plugin-svelte";
 import path from "node:path";
+import Icons from "unplugin-icons/vite";
 import { defineConfig } from "vite";
 import zip from "vite-plugin-zip-pack";
 import manifest from "./manifest.config";
@@ -14,6 +15,9 @@ export default defineConfig({
 	},
 	plugins: [
 		svelte(),
+		Icons({
+			compiler: "svelte",
+		}),
 		crx({ manifest }),
 		zip({ outDir: "release", outFileName: `crx-${name}-${version}.zip` }),
 	],
