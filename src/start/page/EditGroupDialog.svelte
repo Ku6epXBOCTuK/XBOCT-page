@@ -1,6 +1,5 @@
 <script lang="ts">
 	import type { Bookmark, Group } from "@/state/bookmarks.svelte";
-	import { nanoid } from "nanoid";
 	import type { Component } from "svelte";
 	import ArrowDownIcon from "~icons/lucide/arrow-down";
 	import ArrowUpIcon from "~icons/lucide/arrow-up";
@@ -8,9 +7,12 @@
 	import BriefcaseIcon from "~icons/lucide/briefcase";
 	import CodeIcon from "~icons/lucide/code";
 	import Gamepad2Icon from "~icons/lucide/gamepad-2";
+	import PencilIcon from "~icons/lucide/pencil";
 	import PlusIcon from "~icons/lucide/plus";
+	import TrashIcon from "~icons/lucide/trash-2";
 	import UsersIcon from "~icons/lucide/users";
 	import XIcon from "~icons/lucide/x";
+	import BookmarkEditDialog from "./BookmarkEditDialog.svelte";
 
 	interface Props {
 		group: Group;
@@ -27,6 +29,9 @@
 	let icon = $state(group.icon || "");
 	// svelte-ignore state_referenced_locally
 	let bookmarks = $state<Bookmark[]>([...group.bookmarks]);
+
+	let editingBookmarkId: string | null = $state(null);
+	let editingBookmark: Bookmark | null = $state(null);
 
 	const iconOptions: {
 		value: string;
@@ -46,12 +51,18 @@
 			...group,
 			name,
 			icon: icon || undefined,
-			bookmarks: bookmarks.filter((b) => b.title.trim() && b.url.trim()),
+			bookmarks: bookmarks.filter((b) => b.title.trim()),
 		});
 	}
 
 	function addBookmark() {
-		bookmarks = [...bookmarks, { id: nanoid(), title: "", url: "" }];
+		const newBookmark: Bookmark = {
+			id: crypto.randomUUID(),
+			title: "",
+			url: "",
+		};
+		editingBookmark = newBookmark;
+		editingBookmarkId = newBookmark.id;
 	}
 
 	function removeBookmark(id: string) {
@@ -67,6 +78,36 @@
 			newBookmarks[index],
 		];
 		bookmarks = newBookmarks;
+	}
+
+	function openBookmarkEdit(bookmark: Bookmark) {
+		editingBookmark = { ...bookmark };
+		editingBookmarkId = bookmark.id;
+	}
+
+	function handleBookmarkSave(updated: Bookmark) {
+		if (updated.title.trim() && updated.url.trim()) {
+			bookmarks = bookmarks.map((b) => (b.id === updated.id ? updated : b));
+		}
+		editingBookmarkId = null;
+		editingBookmark = null;
+	}
+
+	function handleBookmarkDelete(id: string) {
+		bookmarks = bookmarks.filter((b) => b.id !== id);
+		editingBookmarkId = null;
+		editingBookmark = null;
+	}
+
+	function handleBookmarkCancel() {
+		if (
+			editingBookmark &&
+			!group.bookmarks.find((b) => b.id === editingBookmark!.id)
+		) {
+			// Добавленная но не сохраненная - удаляем
+		}
+		editingBookmarkId = null;
+		editingBookmark = null;
 	}
 
 	function handleKeydown(e: KeyboardEvent) {
@@ -115,18 +156,19 @@
 				<div id="bookmarks-list" class="bookmarks-list">
 					{#each bookmarks as bookmark, index (bookmark.id)}
 						<div class="bookmark-item">
-							<input
-								type="text"
-								bind:value={bookmark.title}
-								placeholder="Название"
+							{#if bookmark.favicon}
+								<img src={bookmark.favicon} alt="" class="bookmark-favicon" />
+							{/if}
+							<span
 								class="bookmark-title"
-							/>
-							<input
-								type="url"
-								bind:value={bookmark.url}
-								placeholder="URL"
-								class="bookmark-url"
-							/>
+								contenteditable="true"
+								oninput={(e) => {
+									const target = e.target as HTMLElement;
+									bookmark.title = target.innerText;
+								}}
+							>
+								{bookmark.title}
+							</span>
 							<div class="bookmark-actions">
 								<button
 									class="action-btn"
@@ -145,11 +187,18 @@
 									<ArrowDownIcon />
 								</button>
 								<button
+									class="action-btn"
+									onclick={() => openBookmarkEdit(bookmark)}
+									title="Редактировать"
+								>
+									<PencilIcon />
+								</button>
+								<button
 									class="action-btn delete"
 									onclick={() => removeBookmark(bookmark.id)}
 									title="Удалить"
 								>
-									<XIcon />
+									<TrashIcon />
 								</button>
 							</div>
 						</div>
@@ -172,6 +221,15 @@
 		</div>
 	</div>
 </div>
+
+{#if editingBookmark && editingBookmarkId}
+	<BookmarkEditDialog
+		bookmark={editingBookmark}
+		onSave={handleBookmarkSave}
+		onCancel={handleBookmarkCancel}
+		onDelete={() => handleBookmarkDelete(editingBookmarkId!)}
+	/>
+{/if}
 
 <style>
 	.dialog-overlay {
@@ -253,7 +311,6 @@
 	}
 
 	.form-group input[type="text"],
-	.form-group input[type="url"],
 	.form-group select {
 		padding: 0.5rem 0.75rem;
 		background: rgba(255, 255, 255, 0.05);
@@ -276,28 +333,41 @@
 	}
 
 	.bookmark-item {
-		display: grid;
-		grid-template-columns: 1fr 1fr auto;
-		gap: 0.5rem;
-		padding: 0.5rem;
+		display: flex;
+		align-items: center;
+		gap: 0.75rem;
+		padding: 0.5rem 0.75rem;
 		background: rgba(255, 255, 255, 0.03);
 		border-radius: 0.5rem;
 	}
 
-	.bookmark-title {
-		grid-column: 1 / 2;
+	.bookmark-favicon {
+		width: 20px;
+		height: 20px;
+		object-fit: contain;
+		flex-shrink: 0;
 	}
 
-	.bookmark-url {
-		grid-column: 2 / 3;
+	.bookmark-title {
+		flex: 1;
+		min-width: 0;
+		font-size: 0.875rem;
+		color: var(--on-surface);
+		outline: none;
+		padding: 0.25rem;
+		border-radius: 0.25rem;
+		border: 1px solid transparent;
+	}
+
+	.bookmark-title:focus {
+		border-color: var(--primary);
+		background: rgba(255, 255, 255, 0.05);
 	}
 
 	.bookmark-actions {
-		grid-column: 3 / 4;
-		grid-row: 1 / 3;
 		display: flex;
-		flex-direction: column;
 		gap: 0.25rem;
+		flex-shrink: 0;
 	}
 
 	.action-btn {

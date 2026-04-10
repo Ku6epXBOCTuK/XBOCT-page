@@ -21,5 +21,10 @@
 		"isolatedModules": true,
 		"types": ["unplugin-icons/types/svelte", "chrome"]
 	},
-	"include": ["src/**/*.ts", "src/**/*.js", "src/**/*.svelte"]
+	"include": [
+		"src/**/*.ts",
+		"src/**/*.js",
+		"src/**/*.svelte",
+		"src/**/*.svelte.ts"
+	]
 }

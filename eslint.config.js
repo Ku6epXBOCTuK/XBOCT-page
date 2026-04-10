@@ -20,7 +20,6 @@ export default [
 	{
 		files: ["**/*.svelte.ts"],
 		languageOptions: {
-			parser: eslintPluginSvelte.languageOptions.parser,
 			parserOptions: {
 				parser: tseslint.parser,
 			},
