@@ -1,52 +1,36 @@
-# Svelte + Vite + CRXJS
+# XBOCT Page
 
-This template helps you quickly start developing Chrome extensions with Svelte, TypeScript and Vite. It includes the CRXJS Vite plugin for seamless Chrome extension development.
+Стартовая страница для управления закладками.
 
-## Features
+## Возможности
 
-- Svelte with component syntax
-- TypeScript support
-- Vite build tool
-- CRXJS Vite plugin integration
-- Chrome extension manifest configuration
+- Замена стартовой страницы Chrome
+- Сохранение закладок из popup
+- Управление закладками
 
-## Quick Start
-
-1. Install dependencies:
+## Разработка
 
 ```bash
 npm install
+npm run dev      # Запуск dev сервера
+npm run build    # Сборка расширения
+npm run check    # Проверка типов Svelte
+npm run lint     # Линтинг ESLint
+npm run format   # Форматирование Prettier
 ```
 
-2. Start development server:
+## Структура
 
-```bash
-npm run dev
+```
+src/
+├── start/      # Стартовая страница (newtab)
+├── popup/      # Popup окно расширения
+└── components/ # Переиспользуемые компоненты
 ```
 
-3. Open Chrome and navigate to `chrome://extensions/`, enable "Developer mode", and load the unpacked extension from the `dist` directory.
+## Технологии
 
-4. Build for production:
-
-```bash
-npm run build
-```
-
-## Project Structure
-
-- `src/popup/` - Extension popup UI
-- `src/content/` - Content scripts
-- `manifest.config.ts` - Chrome extension manifest configuration
-
-## Chrome Extension Development Notes
-
-- Use `manifest.config.ts` to configure your extension
-- The CRXJS plugin automatically handles manifest generation
-- Content scripts should be placed in `src/content/`
-- Popup UI should be placed in `src/popup/`
-
-## Documentation
-
-- [Svelte Documentation](https://svelte.dev/)
-- [Vite Documentation](https://vitejs.dev/)
-- [CRXJS Documentation](https://crxjs.dev/vite-plugin)
+- Svelte 5 (runes)
+- TypeScript
+- Vite
+- CRXJS

@@ -9,7 +9,6 @@
 
 		/* Bundler mode */
 		"moduleResolution": "bundler",
-		"allowImportingTsExtensions": true,
 
 		/* Linting */
 		"strict": true,
@@ -21,5 +20,5 @@
 		"skipLibCheck": true,
 		"noUncheckedSideEffectImports": true
 	},
-	"include": ["vite.config.ts"]
+	"include": ["vite.config.ts", "manifest.config.ts"]
 }

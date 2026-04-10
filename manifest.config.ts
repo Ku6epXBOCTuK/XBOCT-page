@@ -14,16 +14,6 @@ export default defineManifest({
 		},
 		default_popup: "src/popup/index.html",
 	},
-	content_scripts: [
-		{
-			js: ["src/content/main.ts"],
-			matches: ["https://*/*"],
-		},
-	],
-	permissions: ["sidePanel", "contentSettings"],
-	side_panel: {
-		default_path: "src/sidepanel/index.html",
-	},
 	chrome_url_overrides: {
 		newtab: "src/start/index.html",
 	},
