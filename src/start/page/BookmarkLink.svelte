@@ -6,15 +6,16 @@
 	}
 
 	let { bookmark }: Props = $props();
-
-	function openBookmark() {
-		window.open(bookmark.url, "_blank");
-	}
 </script>
 
-<button class="bookmark-link" onclick={openBookmark}>
+<a
+	class="bookmark-link"
+	href={bookmark.url}
+	target="_blank"
+	rel="noopener noreferrer"
+>
 	<span class="bookmark-title">{bookmark.title}</span>
-</button>
+</a>
 
 <style>
 	.bookmark-link {
@@ -29,6 +30,7 @@
 		font-size: 0.75rem;
 		text-align: left;
 		cursor: pointer;
+		text-decoration: none;
 		transition:
 			background 0.2s,
 			color 0.2s;
