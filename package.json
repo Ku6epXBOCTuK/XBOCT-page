@@ -11,6 +11,7 @@
 		"format": "prettier --write src/"
 	},
 	"dependencies": {
+		"nanoid": "^5.1.7",
 		"svelte": "^5.53.12"
 	},
 	"devDependencies": {

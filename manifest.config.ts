@@ -17,4 +17,5 @@ export default defineManifest({
 	chrome_url_overrides: {
 		newtab: "src/start/index.html",
 	},
+	permissions: ["storage"],
 });

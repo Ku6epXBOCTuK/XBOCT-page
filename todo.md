@@ -1,0 +1,219 @@
+# TODO: Стартовая страница с закладками
+
+## 1. Типы данных
+
+**Создать `src/types/bookmarks.ts`:**
+
+```typescript
+import { nanoid } from "nanoid";
+
+export interface Bookmark {
+	id: string;
+	title: string;
+	url: string;
+	favicon?: string;
+	createdAt: number;
+}
+
+export interface Group {
+	id: string;
+	columnId: string; // ссылка на колонку
+	order: number; // порядок внутри колонки
+	name: string;
+	bookmarks: Bookmark[];
+}
+
+export interface Column {
+	id: string;
+	order: number;
+}
+
+export interface BookmarkData {
+	columns: Column[];
+	groups: Group[];
+	version: number; // для миграций
+}
+
+export const DEFAULT_COLUMNS: Column[] = [
+	{ id: nanoid(), order: 0 },
+	{ id: nanoid(), order: 1 },
+	{ id: nanoid(), order: 2 },
+];
+```
+
+---
+
+## 2. Storage Service
+
+**Создать `src/lib/storage.ts`:**
+
+```typescript
+import type { BookmarkData } from "@/types/bookmarks";
+
+const STORAGE_KEY = "bookmarks";
+
+export async function getBookmarks(): Promise<BookmarkData>;
+export async function setBookmarks(data: BookmarkData): Promise<void>;
+export async function getStorageUsage(): Promise<{
+	used: number;
+	limit: number;
+	percent: number;
+}>;
+export function isStorageNearLimit(): Promise<boolean>;
+```
+
+**Функции:**
+
+- `getBookmarks()` — получить все данные
+- `setBookmarks(data)` — сохранить данные
+- `getStorageUsage()` — получить { used, limit, percent }
+- `isStorageNearLimit()` — true если > 80%
+
+---
+
+## 3. Утилиты
+
+**Создать `src/lib/bookmarks.ts`:**
+
+```typescript
+import { nanoid } from "nanoid";
+import type { Bookmark, Group, Column, BookmarkData } from "@/types/bookmarks";
+
+export function createBookmark(title: string, url: string): Bookmark;
+export function createGroup(name: string, columnId: string): Group;
+export function createColumn(): Column;
+export function exportToJson(data: BookmarkData): string;
+export function importFromJson(json: string): BookmarkData;
+export function reorderColumns(
+	columns: Column[],
+	fromIndex: number,
+	toIndex: number,
+): Column[];
+export function reorderGroups(
+	groups: Group[],
+	columnId: string,
+	fromIndex: number,
+	toIndex: number,
+): Group[];
+```
+
+---
+
+## 4. UI компоненты
+
+```
+src/components/
+├── Column.svelte              # Колонка с виджетами
+├── BookmarkWidget.svelte       # Виджет одной группы
+├── BookmarkList.svelte        # Список закладок в виджете
+├── AddGroupModal.svelte        # Модалка добавления группы
+├── AddBookmarkModal.svelte    # Модалка добавления закладки
+├── StorageWarning.svelte       # Предупреждение о заполненности
+└── EmptyState.svelte          # Состояние когда нет закладок
+```
+
+**Каждый компонент:**
+
+- Column — контейнер для виджетов в одной колонке, drag & drop для перемещения виджетов
+- BookmarkWidget — название группы, список закладок, кнопки редактирования
+- BookmarkList — закладки с иконкой сайта и названием
+- AddGroupModal — инпут для названия группы, выбор колонки
+- AddBookmarkModal — инпуты URL и title
+- StorageWarning — показывать если > 80%
+
+---
+
+## 5. Логика приложения (Svelte 5 runes)
+
+**В `src/start/App.svelte`:**
+
+```typescript
+let columns = $state<Column[]>([]);
+let groups = $state<Group[]>([]);
+let storageWarning = $state(false);
+
+$effect(() => {
+	loadBookmarks();
+	checkStorageUsage();
+});
+```
+
+**Функции:**
+
+- `loadBookmarks()` — загрузить из storage
+- `saveBookmarks()` — сохранить в storage
+- `addColumn()` — добавить колонку
+- `deleteColumn(id)` — удалить колонку
+- `addGroup(name, columnId)` — добавить группу
+- `deleteGroup(id)` — удалить группу
+- `moveGroup(groupId, newColumnId, newOrder)` — переместить группу между колонками
+- `addBookmark(groupId, title, url)` — добавить закладку
+- `deleteBookmark(groupId, bookmarkId)` — удалить закладку
+- `checkStorageUsage()` — проверить заполненность
+
+---
+
+## 6. Drag & Drop
+
+**Библиотеки для рассмотрения:**
+
+- `svelte-dnd-action` — популярная библиотека для Svelte
+- Нативный HTML5 Drag & Drop API
+
+**Нужно реализовать:**
+
+- Перетаскивание виджетов внутри колонки
+- Перетаскивание виджетов между колонками
+
+---
+
+## 7. Popup
+
+**Функционал popup:**
+
+- Добавить текущую страницу в закладки
+- Показать последние N закладок
+- Кнопка "Открыть стартовую страницу"
+
+---
+
+## 8. Импорт/Экспорт
+
+**Export:**
+
+- Кнопка в UI → формирует JSON → скачивает файл `bookmarks-{date}.json`
+
+**Import:**
+
+- Кнопка в UI → file input → парсит JSON → предлагает merge или replace
+
+---
+
+## Файлы для создания
+
+```
+src/
+├── types/
+│   └── bookmarks.ts
+├── lib/
+│   ├── storage.ts
+│   └── bookmarks.ts
+├── components/
+│   ├── Column.svelte
+│   ├── BookmarkWidget.svelte
+│   ├── BookmarkList.svelte
+│   ├── AddGroupModal.svelte
+│   ├── AddBookmarkModal.svelte
+│   ├── StorageWarning.svelte
+│   └── EmptyState.svelte
+└── start/
+    └── App.svelte  (переработать)
+```
+
+---
+
+## Готовые зависимости
+
+- nanoid ✅
+- Lucide (через unplugin-icons) — добавить позже
+- svelte-dnd-action — для drag & drop (опционально)
