@@ -1,6 +1,6 @@
 <script lang="ts">
-	import type { Column as ColumnType } from "@/state/bookmarks";
-	import { bookmarks } from "@/state/bookmarks";
+	import type { Column as ColumnType } from "@/state/bookmarks.svelte";
+	import { bookmarks } from "@/state/bookmarks.svelte";
 	import Widget from "./Widget.svelte";
 
 	interface Props {

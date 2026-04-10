@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { Bookmark, Group } from "@/state/bookmarks";
+	import type { Bookmark, Group } from "@/state/bookmarks.svelte";
 	import { nanoid } from "nanoid";
 	import type { Component } from "svelte";
 	import ArrowDownIcon from "~icons/lucide/arrow-down";

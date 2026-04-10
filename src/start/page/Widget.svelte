@@ -1,6 +1,6 @@
 <script lang="ts">
-	import type { Group } from "@/state/bookmarks";
-	import { bookmarks } from "@/state/bookmarks";
+	import type { Group } from "@/state/bookmarks.svelte";
+	import { bookmarks } from "@/state/bookmarks.svelte";
 	import type { Component } from "svelte";
 	import BrainIcon from "~icons/lucide/brain";
 	import BriefcaseIcon from "~icons/lucide/briefcase";

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { Bookmark } from "@/state/bookmarks";
+	import type { Bookmark } from "@/state/bookmarks.svelte";
 	import BookmarkLink from "./BookmarkLink.svelte";
 
 	interface Props {

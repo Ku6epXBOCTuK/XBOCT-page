@@ -19,7 +19,7 @@
 		"allowJs": true,
 		"checkJs": true,
 		"isolatedModules": true,
-		"types": ["unplugin-icons/types/svelte"]
+		"types": ["unplugin-icons/types/svelte", "chrome"]
 	},
 	"include": ["src/**/*.ts", "src/**/*.js", "src/**/*.svelte"]
 }

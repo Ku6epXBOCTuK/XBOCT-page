@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { bookmarks } from "@/state/bookmarks";
+	import { bookmarks } from "@/state/bookmarks.svelte";
 	import Column from "./Column.svelte";
 
 	let sortedColumns = $derived(

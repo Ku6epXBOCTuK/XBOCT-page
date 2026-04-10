@@ -1,10 +1,15 @@
 <script lang="ts">
-	import { bookmarks } from "@/state/bookmarks";
+	import { bookmarks } from "@/state/bookmarks.svelte";
+	import { onMount } from "svelte";
 	import Background from "./page/Background.svelte";
-	import Header from "./page/Header.svelte";
-	import Stats from "./page/Stats.svelte";
 	import ColumnsGrid from "./page/ColumnsGrid.svelte";
 	import FAB from "./page/FAB.svelte";
+	import Header from "./page/Header.svelte";
+	import Stats from "./page/Stats.svelte";
+
+	onMount(() => {
+		bookmarks.load();
+	});
 
 	let totalBookmarks = $derived(bookmarks.getTotalBookmarks());
 
