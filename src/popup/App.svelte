@@ -2,7 +2,6 @@
 	import CrxLogo from "@/assets/crx.svg";
 	import svelteLogo from "@/assets/svelte.svg";
 	import viteLogo from "@/assets/vite.svg";
-	import HelloWorld from "@/components/HelloWorld.svelte";
 </script>
 
 <div>
@@ -16,7 +15,6 @@
 		<img src={CrxLogo} class="logo crx" alt="crx logo" />
 	</a>
 </div>
-<HelloWorld msg="Vite + Svelte + CRXJS" />
 
 <style>
 	.logo {
