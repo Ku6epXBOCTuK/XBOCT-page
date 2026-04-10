@@ -5,16 +5,18 @@
 	interface Props {
 		columns: ColumnType[];
 		groups: Group[];
+		onUpdateGroup: (group: Group) => void;
+		onDeleteGroup: (id: string) => void;
 	}
 
-	let { columns, groups }: Props = $props();
+	let { columns, groups, onUpdateGroup, onDeleteGroup }: Props = $props();
 
 	let sortedColumns = $derived(columns.toSorted((a, b) => a.order - b.order));
 </script>
 
 <div class="columns-grid">
 	{#each sortedColumns as column (column.id)}
-		<Column {column} {groups} />
+		<Column {column} {groups} {onUpdateGroup} {onDeleteGroup} />
 	{/each}
 </div>
 

@@ -98,6 +98,14 @@
 	function handleAddClick() {
 		console.log("Add clicked");
 	}
+
+	function onUpdateGroup(updatedGroup: Group) {
+		groups = groups.map((g) => (g.id === updatedGroup.id ? updatedGroup : g));
+	}
+
+	function onDeleteGroup(id: string) {
+		groups = groups.filter((g) => g.id !== id);
+	}
 </script>
 
 <div class="start-page">
@@ -107,7 +115,7 @@
 
 	<main class="main">
 		<Stats count={totalBookmarks} />
-		<ColumnsGrid {columns} {groups} />
+		<ColumnsGrid {columns} {groups} {onUpdateGroup} {onDeleteGroup} />
 	</main>
 
 	<FAB onclick={handleAddClick} />

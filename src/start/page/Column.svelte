@@ -5,9 +5,11 @@
 	interface Props {
 		column: Column;
 		groups: Group[];
+		onUpdateGroup: (group: Group) => void;
+		onDeleteGroup: (id: string) => void;
 	}
 
-	let { column, groups }: Props = $props();
+	let { column, groups, onUpdateGroup, onDeleteGroup }: Props = $props();
 
 	let columnGroups = $derived(
 		groups
@@ -18,7 +20,7 @@
 
 <div class="column">
 	{#each columnGroups as group (group.id)}
-		<Widget {group} />
+		<Widget {group} {onUpdateGroup} {onDeleteGroup} />
 	{/each}
 </div>
 
