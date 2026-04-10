@@ -2,50 +2,105 @@
 	--font-sans: Inter, system-ui, sans-serif;
 
 	--surface: #0c0e12;
-	--surface-dim: #0c0e12;
-	--surface-container: #171a1f;
-	--surface-container-high: #1d2025;
-	--surface-container-highest: #23262c;
-	--surface-variant: #23262c;
-
-	--on-surface: #f6f6fc;
-	--on-surface-dim: #aaabb0;
-
 	--primary: #81ecff;
-	--primary-dim: #00d4ec;
-	--on-primary: #005762;
 
-	--secondary: #45a3f7;
-	--tertiary: #ad9fff;
+	--surface-dim: oklch(7% 0.015 285);
+	--surface-container: oklch(10% 0.015 285);
+	--surface-container-high: oklch(13% 0.015 285);
+	--surface-container-highest: oklch(16% 0.015 285);
+	--surface-variant: oklch(16% 0.015 285);
 
-	--outline: #74757a;
+	--on-surface: oklch(95% 0.02 285);
+	--on-surface-dim: oklch(67% 0.015 285);
+	--on-surface-inverse: oklch(0% 0 0);
 
-	--danger: #ef4444;
-	--on-surface-inverse: #000000;
+	--primary-dim: oklch(72% 0.2 190);
+	--on-primary: oklch(25% 0.15 194);
+
+	--secondary: oklch(70% 0.18 245);
+	--tertiary: oklch(80% 0.22 280);
+
+	--outline: oklch(45% 0.02 285);
+
+	--danger: oklch(60% 0.22 25);
 
 	--shadow-none: 0 0;
 	--shadow-fab:
-		0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
-	--shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-	--shadow-focus: 0 0 0 1px rgba(129, 236, 255, 0.4);
+		0 4px 6px -1px oklch(0% 0 0 / 0.1), 0 2px 4px -2px oklch(0% 0 0 / 0.1);
+	--shadow-sm: 0 1px 2px 0 oklch(0% 0 0 / 0.05);
+	--shadow-focus: 0 0 0 1px oklch(72% 0.2 190 / 0.4);
 
-	--overlay-white-3: rgba(255, 255, 255, 0.03);
-	--overlay-white-5: rgba(255, 255, 255, 0.05);
-	--overlay-white-10: rgba(255, 255, 255, 0.1);
-	--overlay-white-15: rgba(255, 255, 255, 0.15);
-	--overlay-white-20: rgba(255, 255, 255, 0.2);
-	--overlay-white-40: rgba(255, 255, 255, 0.4);
-	--overlay-white-50: rgba(255, 255, 255, 0.5);
-	--overlay-white-60: rgba(255, 255, 255, 0.6);
+	--overlay-white-3: oklch(100% 0 0 / 0.03);
+	--overlay-white-5: oklch(100% 0 0 / 0.05);
+	--overlay-white-10: oklch(100% 0 0 / 0.1);
+	--overlay-white-15: oklch(100% 0 0 / 0.15);
+	--overlay-white-20: oklch(100% 0 0 / 0.2);
+	--overlay-white-40: oklch(100% 0 0 / 0.4);
+	--overlay-white-50: oklch(100% 0 0 / 0.5);
+	--overlay-white-60: oklch(100% 0 0 / 0.6);
 
-	--overlay-black-5: rgba(0, 0, 0, 0.05);
-	--overlay-black-10: rgba(0, 0, 0, 0.1);
-	--overlay-black-70: rgba(0, 0, 0, 0.7);
+	--overlay-black-5: oklch(0% 0 0 / 0.05);
+	--overlay-black-10: oklch(0% 0 0 / 0.1);
+	--overlay-black-70: oklch(0% 0 0 / 0.7);
 
-	--primary-alpha: rgba(129, 236, 255, 0.4);
-	--danger-alpha: rgba(239, 68, 68, 0.1);
+	--primary-alpha: oklch(72% 0.2 190 / 0.4);
+	--danger-alpha: oklch(60% 0.22 25 / 0.1);
 
-	--surface-alpha: rgba(12, 14, 18, 0.6);
-	--surface-variant-alpha: rgba(35, 38, 44, 0.4);
-	--surface-container-alpha: rgba(23, 26, 31, 0.5);
+	--surface-alpha: oklch(7% 0.015 285 / 0.6);
+	--surface-variant-alpha: oklch(16% 0.015 285 / 0.4);
+	--surface-container-alpha: oklch(10% 0.015 285 / 0.5);
+}
+
+@media (prefers-color-scheme: light) {
+	:root {
+		--surface: #f5f6f7;
+		--primary: #00618f;
+
+		--surface-dim: oklch(94% 0.01 285);
+		--surface-container: oklch(94% 0.01 285);
+		--surface-container-high: oklch(92% 0.01 285);
+		--surface-container-highest: oklch(100% 0 0);
+		--surface-variant: oklch(92% 0.01 285);
+
+		--on-surface: oklch(22% 0.02 285);
+		--on-surface-dim: oklch(45% 0.015 285);
+		--on-surface-inverse: oklch(100% 0 0);
+
+		--primary-dim: oklch(65% 0.18 200);
+		--on-primary: oklch(100% 0 0);
+
+		--secondary: oklch(55% 0.2 230);
+		--tertiary: oklch(75% 0.2 280);
+
+		--outline: oklch(60% 0.02 285);
+
+		--danger: oklch(55% 0.2 25);
+
+		--shadow-none: 0 0;
+		--shadow-fab:
+			0 4px 6px -1px oklch(22% 0.02 285 / 0.06),
+			0 2px 4px -2px oklch(22% 0.02 285 / 0.04);
+		--shadow-sm: 0 1px 2px 0 oklch(22% 0.02 285 / 0.04);
+		--shadow-focus: 0 0 0 1px oklch(65% 0.18 200 / 0.4);
+
+		--overlay-white-3: oklch(22% 0.02 285 / 0.03);
+		--overlay-white-5: oklch(22% 0.02 285 / 0.05);
+		--overlay-white-10: oklch(22% 0.02 285 / 0.1);
+		--overlay-white-15: oklch(22% 0.02 285 / 0.15);
+		--overlay-white-20: oklch(22% 0.02 285 / 0.2);
+		--overlay-white-40: oklch(22% 0.02 285 / 0.4);
+		--overlay-white-50: oklch(22% 0.02 285 / 0.5);
+		--overlay-white-60: oklch(22% 0.02 285 / 0.6);
+
+		--overlay-black-5: oklch(100% 0 0 / 0.05);
+		--overlay-black-10: oklch(100% 0 0 / 0.1);
+		--overlay-black-70: oklch(100% 0 0 / 0.7);
+
+		--primary-alpha: oklch(65% 0.18 200 / 0.4);
+		--danger-alpha: oklch(55% 0.2 25 / 0.1);
+
+		--surface-alpha: oklch(94% 0.01 285 / 0.6);
+		--surface-variant-alpha: oklch(92% 0.01 285 / 0.4);
+		--surface-container-alpha: oklch(94% 0.01 285 / 0.5);
+	}
 }
