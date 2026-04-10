@@ -5,7 +5,6 @@ export interface Bookmark {
 	title: string;
 	url: string;
 	favicon?: string;
-	createdAt: number;
 }
 
 export interface Group {
@@ -13,6 +12,7 @@ export interface Group {
 	columnId: string;
 	order: number;
 	name: string;
+	icon?: string;
 	bookmarks: Bookmark[];
 }
 
@@ -31,4 +31,5 @@ export const DEFAULT_COLUMNS: Column[] = [
 	{ id: nanoid(), order: 0 },
 	{ id: nanoid(), order: 1 },
 	{ id: nanoid(), order: 2 },
+	{ id: nanoid(), order: 3 },
 ];

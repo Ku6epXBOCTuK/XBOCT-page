@@ -1,13 +1,21 @@
 <script lang="ts">
+	import type { Component } from "svelte";
+
 	interface Props {
 		name: string;
+		icon?: Component;
 	}
 
-	let { name }: Props = $props();
+	let { name, icon: Icon }: Props = $props();
 </script>
 
 <div class="widget-header">
 	<h2 class="widget-title">{name}</h2>
+	{#if Icon}
+		<div class="widget-icon">
+			<Icon />
+		</div>
+	{/if}
 </div>
 
 <style>
@@ -25,6 +33,15 @@
 		font-weight: 700;
 		text-transform: uppercase;
 		letter-spacing: 0.05em;
+		color: var(--primary);
+	}
+
+	.widget-icon {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 1rem;
+		height: 1rem;
 		color: var(--primary);
 	}
 </style>

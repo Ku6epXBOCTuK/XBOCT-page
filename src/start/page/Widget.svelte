@@ -1,17 +1,34 @@
 <script lang="ts">
+	import type { Component } from "svelte";
 	import type { Group } from "@/types/bookmarks";
 	import WidgetHeader from "./WidgetHeader.svelte";
 	import BookmarkList from "./BookmarkList.svelte";
+	import BriefcaseIcon from "~icons/lucide/briefcase";
+	import BrainIcon from "~icons/lucide/brain";
+	import CodeIcon from "~icons/lucide/code";
+	import UsersIcon from "~icons/lucide/users";
+	import Gamepad2Icon from "~icons/lucide/gamepad-2";
 
 	interface Props {
 		group: Group;
 	}
 
 	let { group }: Props = $props();
+
+	const iconMap: Record<string, Component> = {
+		briefcase: BriefcaseIcon,
+		brain: BrainIcon,
+		code: CodeIcon,
+		users: UsersIcon,
+		"gamepad-2": Gamepad2Icon,
+	};
 </script>
 
 <div class="widget">
-	<WidgetHeader name={group.name} />
+	<WidgetHeader
+		name={group.name}
+		icon={group.icon ? iconMap[group.icon] : undefined}
+	/>
 	<BookmarkList bookmarks={group.bookmarks} />
 </div>
 

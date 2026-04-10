@@ -11,6 +11,7 @@
 		{ id: nanoid(), order: 0 },
 		{ id: nanoid(), order: 1 },
 		{ id: nanoid(), order: 2 },
+		{ id: nanoid(), order: 3 },
 	];
 
 	let columns = $state<Column[]>(DEFAULT_COLUMNS);
@@ -20,24 +21,18 @@
 			columnId: DEFAULT_COLUMNS[0].id,
 			order: 0,
 			name: "Essential Tools",
+			icon: "briefcase",
 			bookmarks: [
 				{
 					id: nanoid(),
 					title: "Google Drive",
 					url: "https://drive.google.com",
-					createdAt: Date.now(),
 				},
-				{
-					id: nanoid(),
-					title: "Gmail",
-					url: "https://gmail.com",
-					createdAt: Date.now(),
-				},
+				{ id: nanoid(), title: "Gmail", url: "https://gmail.com" },
 				{
 					id: nanoid(),
 					title: "Google Calendar",
 					url: "https://calendar.google.com",
-					createdAt: Date.now(),
 				},
 			],
 		},
@@ -46,19 +41,10 @@
 			columnId: DEFAULT_COLUMNS[0].id,
 			order: 1,
 			name: "AI Lab",
+			icon: "brain",
 			bookmarks: [
-				{
-					id: nanoid(),
-					title: "ChatGPT",
-					url: "https://chat.openai.com",
-					createdAt: Date.now(),
-				},
-				{
-					id: nanoid(),
-					title: "Claude",
-					url: "https://claude.ai",
-					createdAt: Date.now(),
-				},
+				{ id: nanoid(), title: "ChatGPT", url: "https://chat.openai.com" },
+				{ id: nanoid(), title: "Claude", url: "https://claude.ai" },
 			],
 		},
 		{
@@ -66,25 +52,15 @@
 			columnId: DEFAULT_COLUMNS[1].id,
 			order: 0,
 			name: "Dev Hub",
+			icon: "code",
 			bookmarks: [
-				{
-					id: nanoid(),
-					title: "GitHub",
-					url: "https://github.com",
-					createdAt: Date.now(),
-				},
+				{ id: nanoid(), title: "GitHub", url: "https://github.com" },
 				{
 					id: nanoid(),
 					title: "Stack Overflow",
 					url: "https://stackoverflow.com",
-					createdAt: Date.now(),
 				},
-				{
-					id: nanoid(),
-					title: "MDN",
-					url: "https://developer.mozilla.org",
-					createdAt: Date.now(),
-				},
+				{ id: nanoid(), title: "MDN", url: "https://developer.mozilla.org" },
 			],
 		},
 		{
@@ -92,19 +68,21 @@
 			columnId: DEFAULT_COLUMNS[2].id,
 			order: 0,
 			name: "Social",
+			icon: "users",
 			bookmarks: [
-				{
-					id: nanoid(),
-					title: "Twitter",
-					url: "https://twitter.com",
-					createdAt: Date.now(),
-				},
-				{
-					id: nanoid(),
-					title: "LinkedIn",
-					url: "https://linkedin.com",
-					createdAt: Date.now(),
-				},
+				{ id: nanoid(), title: "Twitter", url: "https://twitter.com" },
+				{ id: nanoid(), title: "LinkedIn", url: "https://linkedin.com" },
+			],
+		},
+		{
+			id: nanoid(),
+			columnId: DEFAULT_COLUMNS[3].id,
+			order: 0,
+			name: "Entertainment",
+			icon: "gamepad-2",
+			bookmarks: [
+				{ id: nanoid(), title: "YouTube", url: "https://youtube.com" },
+				{ id: nanoid(), title: "Twitch", url: "https://twitch.tv" },
 			],
 		},
 	]);
