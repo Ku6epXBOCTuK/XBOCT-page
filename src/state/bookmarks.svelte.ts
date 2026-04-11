@@ -129,6 +129,8 @@ function createBookmarksState(): BookmarksStore {
 
 	async function save() {
 		try {
+			console.log("Saved columns:", $state.snapshot(columns));
+			console.log("Saved groups:", $state.snapshot(groups));
 			await chrome.storage.sync.set({
 				[STORAGE_KEY]: { version: 1, columns, groups },
 			});
@@ -141,12 +143,18 @@ function createBookmarksState(): BookmarksStore {
 		try {
 			const result = await chrome.storage.sync.get(STORAGE_KEY);
 			const data = result[STORAGE_KEY] as StorageData | undefined;
+			console.log("Storage data:", data);
 			if (data && data.columns && data.groups) {
-				columns = data.columns;
-				groups = data.groups;
+				columns = Object.values(data.columns) as Column[];
+				groups = Object.values(data.groups).map((g) => ({
+					...g,
+					bookmarks: Object.values(g.bookmarks || {}) as Bookmark[],
+				})) as Group[];
+				console.log("Loaded columns:", $state.snapshot(columns));
+				console.log("Loaded groups:", $state.snapshot(groups));
 			}
-		} catch {
-			// Ignore storage errors
+		} catch (e) {
+			console.error("Storage error:", e);
 		}
 	}
 
@@ -163,8 +171,10 @@ function createBookmarksState(): BookmarksStore {
 			groups = groups.filter((g) => g.id !== id);
 			save();
 		},
-		getTotalBookmarks: () =>
-			groups.reduce((acc, g) => acc + g.bookmarks.length, 0),
+		getTotalBookmarks: () => {
+			if (!Array.isArray(groups)) return 0;
+			return groups.reduce((acc, g) => acc + g.bookmarks.length, 0);
+		},
 		load,
 	};
 }

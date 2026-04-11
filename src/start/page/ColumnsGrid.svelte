@@ -3,7 +3,7 @@
 	import Column from "./Column.svelte";
 
 	let sortedColumns = $derived(
-		bookmarks.getColumns().toSorted((a, b) => a.order - b.order),
+		[...bookmarks.getColumns()].toSorted((a, b) => a.order - b.order),
 	);
 </script>
 
