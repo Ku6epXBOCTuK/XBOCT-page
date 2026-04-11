@@ -30,6 +30,9 @@
 	// svelte-ignore state_referenced_locally
 	let bookmarks = $state<Bookmark[]>([...group.bookmarks]);
 
+	let newUrl = $state("");
+	let loadingUrls = $state<Set<string>>(new Set());
+
 	let editingBookmarkId: string | null = $state(null);
 	let editingBookmark: Bookmark | null = $state(null);
 
@@ -63,6 +66,72 @@
 		};
 		editingBookmark = newBookmark;
 		editingBookmarkId = newBookmark.id;
+	}
+
+	async function addBookmarkByUrl() {
+		const url = newUrl.trim();
+		if (!url) return;
+
+		const domain = getDomain(url);
+		const id = crypto.randomUUID();
+		const tempTitle = "получаем название...";
+
+		const newBookmark: Bookmark = {
+			id,
+			title: tempTitle,
+			url,
+			favicon: `https://www.google.com/s2/favicons?domain=${domain}&sz=32`,
+		};
+
+		bookmarks = [...bookmarks, newBookmark];
+		loadingUrls = new Set([...loadingUrls, id]);
+		newUrl = "";
+
+		console.log("[EditGroupDialog] Sending request for:", url);
+
+		try {
+			const response = await chrome.runtime.sendMessage({
+				action: "fetchPageInfo",
+				url,
+			});
+
+			console.log("[EditGroupDialog] Response:", response);
+
+			if (response && !response.error) {
+				bookmarks = bookmarks.map((b) =>
+					b.id === id
+						? {
+								...b,
+								title: response.title || domain,
+								favicon: response.favicon || b.favicon,
+							}
+						: b,
+				);
+			} else {
+				console.log(
+					"[EditGroupDialog] Error or no response, using domain:",
+					domain,
+				);
+				bookmarks = bookmarks.map((b) =>
+					b.id === id ? { ...b, title: domain } : b,
+				);
+			}
+		} catch (err) {
+			console.error("[EditGroupDialog] Catch error:", err);
+			bookmarks = bookmarks.map((b) =>
+				b.id === id ? { ...b, title: domain } : b,
+			);
+		} finally {
+			loadingUrls = new Set([...loadingUrls].filter((i) => i !== id));
+		}
+	}
+
+	function getDomain(url: string): string {
+		try {
+			return new URL(url).hostname;
+		} catch {
+			return url;
+		}
 	}
 
 	function removeBookmark(id: string) {
@@ -153,6 +222,18 @@
 
 			<div class="form-group">
 				<label for="bookmarks-list">Закладки</label>
+				<div class="url-input-row">
+					<input
+						type="url"
+						id="new-url"
+						bind:value={newUrl}
+						placeholder="https://example.com"
+						onkeydown={(e) => e.key === "Enter" && addBookmarkByUrl()}
+					/>
+					<button class="add-url-btn" onclick={addBookmarkByUrl}>
+						Добавить
+					</button>
+				</div>
 				<div id="bookmarks-list" class="bookmarks-list">
 					{#each bookmarks as bookmark, index (bookmark.id)}
 						<div class="bookmark-item">
@@ -161,6 +242,7 @@
 							{/if}
 							<span
 								class="bookmark-title"
+								class:loading={loadingUrls.has(bookmark.id)}
 								contenteditable="true"
 								oninput={(e) => {
 									const target = e.target as HTMLElement;
@@ -476,5 +558,46 @@
 
 	.save-btn:hover {
 		opacity: 0.9;
+	}
+
+	.url-input-row {
+		display: flex;
+		gap: 0.5rem;
+		margin-bottom: 0.75rem;
+	}
+
+	.url-input-row input {
+		flex: 1;
+		padding: 0.5rem 0.75rem;
+		background: var(--overlay-white-5);
+		border: 1px solid var(--overlay-white-10);
+		border-radius: 0.5rem;
+		color: var(--on-surface);
+		font-size: 0.875rem;
+	}
+
+	.url-input-row input:focus {
+		outline: none;
+		border-color: var(--primary);
+	}
+
+	.add-url-btn {
+		padding: 0.5rem 1rem;
+		background: var(--primary);
+		border: none;
+		border-radius: 0.5rem;
+		color: var(--on-surface-inverse);
+		font-size: 0.875rem;
+		font-weight: 600;
+		cursor: pointer;
+	}
+
+	.add-url-btn:hover {
+		opacity: 0.9;
+	}
+
+	.bookmark-title.loading {
+		font-style: italic;
+		opacity: 0.7;
 	}
 </style>

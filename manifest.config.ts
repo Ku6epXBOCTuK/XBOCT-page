@@ -17,5 +17,9 @@ export default defineManifest({
 	chrome_url_overrides: {
 		newtab: "src/start/index.html",
 	},
-	permissions: ["storage"],
+	permissions: ["storage", "favicon"],
+	host_permissions: ["<all_urls>"],
+	background: {
+		service_worker: "src/system/background.ts",
+	},
 });
