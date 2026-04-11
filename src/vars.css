@@ -1,104 +1,126 @@
 :root {
 	--font-sans: Inter, system-ui, sans-serif;
 
-	--surface: #0c0e12;
+	--surface: #1a1c22;
 	--primary: #81ecff;
 
-	--surface-dim: oklch(7% 0.015 285);
-	--surface-container: oklch(10% 0.015 285);
-	--surface-container-high: oklch(13% 0.015 285);
-	--surface-container-highest: oklch(16% 0.015 285);
-	--surface-variant: oklch(16% 0.015 285);
+	--surface-dim: oklch(10% 0.015 250);
+	--surface-container: oklch(14% 0.015 250);
+	--surface-container-low: oklch(12% 0.015 250);
+	--surface-container-high: oklch(18% 0.015 250);
+	--surface-container-highest: oklch(20% 0.015 250);
+	--surface-container-lowest: oklch(6% 0.015 250);
+	--surface-variant: oklch(18% 0.015 250);
+	--surface-bright: oklch(21% 0.015 250);
+	--surface-tint: oklch(72% 0.2 190);
 
-	--on-surface: oklch(95% 0.02 285);
-	--on-surface-dim: oklch(67% 0.015 285);
+	--on-surface: oklch(96% 0.01 250);
+	--on-surface-variant: oklch(67% 0.015 250);
+	--inverse-on-surface: oklch(33% 0.015 250);
+	--inverse-surface: oklch(98% 0.01 250);
 	--on-surface-inverse: oklch(0% 0 0);
 
 	--primary-dim: oklch(72% 0.2 190);
 	--on-primary: oklch(25% 0.15 194);
 
-	--secondary: oklch(70% 0.18 245);
-	--tertiary: oklch(80% 0.22 280);
+	--secondary: oklch(65% 0.2 220);
+	--secondary-dim: oklch(65% 0.2 220);
+	--tertiary: oklch(70% 0.22 270);
+	--tertiary-dim: oklch(65% 0.2 270);
 
-	--outline: oklch(45% 0.02 285);
+	--outline: oklch(45% 0.02 280);
+	--outline-variant: oklch(28% 0.02 280);
 
 	--danger: oklch(60% 0.22 25);
 
 	--shadow-none: 0 0;
 	--shadow-fab:
-		0 4px 6px -1px oklch(0% 0 0 / 0.1), 0 2px 4px -2px oklch(0% 0 0 / 0.1);
-	--shadow-sm: 0 1px 2px 0 oklch(0% 0 0 / 0.05);
+		0 4px 6px -1px oklch(0% 0 0 / 0.2), 0 2px 4px -1px oklch(0% 0 0 / 0.1);
+	--shadow-sm: 0 1px 2px 0 oklch(0% 0 0 / 0.1);
 	--shadow-focus: 0 0 0 1px oklch(72% 0.2 190 / 0.4);
 
 	--overlay-white-3: oklch(100% 0 0 / 0.03);
 	--overlay-white-5: oklch(100% 0 0 / 0.05);
+	--overlay-white-8: oklch(100% 0 0 / 0.08);
 	--overlay-white-10: oklch(100% 0 0 / 0.1);
 	--overlay-white-15: oklch(100% 0 0 / 0.15);
 	--overlay-white-20: oklch(100% 0 0 / 0.2);
 	--overlay-white-40: oklch(100% 0 0 / 0.4);
-	--overlay-white-50: oklch(100% 0 0 / 0.5);
 	--overlay-white-60: oklch(100% 0 0 / 0.6);
 
 	--overlay-black-5: oklch(0% 0 0 / 0.05);
 	--overlay-black-10: oklch(0% 0 0 / 0.1);
+	--overlay-black-40: oklch(0% 0 0 / 0.4);
 	--overlay-black-70: oklch(0% 0 0 / 0.7);
 
 	--primary-alpha: oklch(72% 0.2 190 / 0.4);
 	--danger-alpha: oklch(60% 0.22 25 / 0.1);
 
-	--surface-alpha: oklch(7% 0.015 285 / 0.6);
-	--surface-variant-alpha: oklch(16% 0.015 285 / 0.4);
-	--surface-container-alpha: oklch(10% 0.015 285 / 0.5);
+	--surface-alpha: oklch(10% 0.015 250 / 0.8);
+	--surface-variant-alpha: oklch(18% 0.015 250 / 0.7);
+	--surface-container-alpha: oklch(14% 0.015 250 / 0.7);
+	--surface-container-high-alpha: oklch(18% 0.015 250 / 0.4);
 }
 
 :root[data-theme="light"] {
-	--surface: #f5f6f7;
-	--primary: #00618f;
+	--surface: #edf3f7;
+	--primary: #005a7b;
 
-	--surface-dim: oklch(94% 0.01 285);
-	--surface-container: oklch(94% 0.01 285);
-	--surface-container-high: oklch(92% 0.01 285);
-	--surface-container-highest: oklch(100% 0 0);
-	--surface-variant: oklch(92% 0.01 285);
+	--surface-dim: oklch(84% 0.015 230);
+	--surface-container: oklch(90% 0.015 230);
+	--surface-container-low: oklch(90% 0.015 230);
+	--surface-container-high: oklch(88% 0.015 230);
+	--surface-container-highest: oklch(86% 0.015 230);
+	--surface-container-lowest: oklch(96% 0.01 230);
+	--surface-variant: oklch(86% 0.015 230);
+	--surface-bright: oklch(96% 0.01 230);
+	--surface-tint: oklch(45% 0.18 200);
 
-	--on-surface: oklch(22% 0.02 285);
-	--on-surface-dim: oklch(45% 0.015 285);
+	--on-surface: oklch(12% 0.015 250);
+	--on-surface-variant: oklch(26% 0.015 250);
+	--inverse-on-surface: oklch(94% 0.01 250);
+	--inverse-surface: oklch(18% 0.015 250);
 	--on-surface-inverse: oklch(100% 0 0);
 
-	--primary-dim: oklch(65% 0.18 200);
+	--primary-dim: oklch(45% 0.18 200);
 	--on-primary: oklch(100% 0 0);
 
-	--secondary: oklch(55% 0.2 230);
-	--tertiary: oklch(75% 0.2 280);
+	--secondary: oklch(45% 0.18 200);
+	--secondary-dim: oklch(45% 0.18 200);
+	--tertiary: oklch(32% 0.15 250);
+	--tertiary-dim: oklch(32% 0.15 250);
 
-	--outline: oklch(60% 0.02 285);
+	--outline: oklch(45% 0.02 280);
+	--outline-variant: oklch(76% 0.015 280);
 
-	--danger: oklch(55% 0.2 25);
+	--danger: oklch(50% 0.2 25);
 
 	--shadow-none: 0 0;
 	--shadow-fab:
-		0 4px 6px -1px oklch(22% 0.02 285 / 0.06),
-		0 2px 4px -2px oklch(22% 0.02 285 / 0.04);
-	--shadow-sm: 0 1px 2px 0 oklch(22% 0.02 285 / 0.04);
-	--shadow-focus: 0 0 0 1px oklch(65% 0.18 200 / 0.4);
+		0 4px 6px -1px oklch(12% 0.015 250 / 0.05),
+		0 2px 4px -1px oklch(12% 0.015 250 / 0.03);
+	--shadow-sm: 0 1px 2px 0 oklch(12% 0.015 250 / 0.04);
+	--shadow-focus: 0 0 0 1px oklch(45% 0.18 200 / 0.4);
 
-	--overlay-white-3: oklch(22% 0.02 285 / 0.03);
-	--overlay-white-5: oklch(22% 0.02 285 / 0.05);
-	--overlay-white-10: oklch(22% 0.02 285 / 0.1);
-	--overlay-white-15: oklch(22% 0.02 285 / 0.15);
-	--overlay-white-20: oklch(22% 0.02 285 / 0.2);
-	--overlay-white-40: oklch(22% 0.02 285 / 0.4);
-	--overlay-white-50: oklch(22% 0.02 285 / 0.5);
-	--overlay-white-60: oklch(22% 0.02 285 / 0.6);
+	--overlay-white-3: oklch(12% 0.015 250 / 0.03);
+	--overlay-white-5: oklch(12% 0.015 250 / 0.05);
+	--overlay-white-8: oklch(12% 0.015 250 / 0.08);
+	--overlay-white-10: oklch(12% 0.015 250 / 0.1);
+	--overlay-white-15: oklch(12% 0.015 250 / 0.15);
+	--overlay-white-20: oklch(12% 0.015 250 / 0.2);
+	--overlay-white-40: oklch(12% 0.015 250 / 0.4);
+	--overlay-white-60: oklch(12% 0.015 250 / 0.6);
 
 	--overlay-black-5: oklch(100% 0 0 / 0.05);
 	--overlay-black-10: oklch(100% 0 0 / 0.1);
+	--overlay-black-40: oklch(100% 0 0 / 0.4);
 	--overlay-black-70: oklch(100% 0 0 / 0.7);
 
-	--primary-alpha: oklch(65% 0.18 200 / 0.4);
-	--danger-alpha: oklch(55% 0.2 25 / 0.1);
+	--primary-alpha: oklch(45% 0.18 200 / 0.4);
+	--danger-alpha: oklch(50% 0.2 25 / 0.1);
 
-	--surface-alpha: oklch(94% 0.01 285 / 0.6);
-	--surface-variant-alpha: oklch(92% 0.01 285 / 0.4);
-	--surface-container-alpha: oklch(94% 0.01 285 / 0.5);
+	--surface-alpha: oklch(90% 0.015 230 / 0.7);
+	--surface-variant-alpha: oklch(86% 0.015 230 / 0.6);
+	--surface-container-alpha: oklch(90% 0.015 230 / 0.85);
+	--surface-container-high-alpha: oklch(88% 0.015 230 / 0.6);
 }

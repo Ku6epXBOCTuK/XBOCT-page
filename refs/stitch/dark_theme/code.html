@@ -1,0 +1,838 @@
+<!doctype html>
+
+<html class="dark" lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta content="width=device-width, initial-scale=1.0" name="viewport" />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+			rel="stylesheet"
+		/>
+		<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+		<script id="tailwind-config">
+			tailwind.config = {
+				darkMode: "class",
+				theme: {
+					extend: {
+						colors: {
+							"on-tertiary": "#2b1183",
+							"surface-variant": "#2d323b",
+							"surface-dim": "#1a1c22",
+							"inverse-surface": "#f9f9ff",
+							"primary-dim": "#00d4ec",
+							"inverse-primary": "#006976",
+							"on-tertiary-fixed": "#170059",
+							"surface-container": "#23272f",
+							"primary-container": "#00e3fd",
+							surface: "#1a1c22",
+							"on-error-container": "#ffa8a3",
+							error: "#ff716c",
+							outline: "#74757a",
+							"surface-container-lowest": "#0c0e12",
+							"primary-fixed": "#00e3fd",
+							"surface-container-high": "#2d323b",
+							"on-surface": "#f6f6fc",
+							secondary: "#45a3f7",
+							"tertiary-dim": "#9f8ffd",
+							"on-primary-fixed-variant": "#005762",
+							"secondary-dim": "#45a3f7",
+							"on-tertiary-fixed-variant": "#392490",
+							tertiary: "#ad9fff",
+							"surface-container-low": "#1d2025",
+							background: "#1a1c22",
+							"secondary-fixed": "#b2d5ff",
+							"on-secondary-container": "#f5f8ff",
+							"outline-variant": "#46484d",
+							"on-primary-fixed": "#003840",
+							primary: "#81ecff",
+							"on-secondary-fixed-variant": "#00538c",
+							"tertiary-fixed-dim": "#a495ff",
+							"surface-bright": "#353a43",
+							"on-tertiary-container": "#1f0070",
+							"tertiary-fixed": "#b2a5ff",
+							"error-dim": "#d7383b",
+							"on-primary-container": "#004d57",
+							"tertiary-container": "#9f8ffd",
+							"on-background": "#f6f6fc",
+							"surface-container-highest": "#333942",
+							"secondary-fixed-dim": "#98c7ff",
+							"on-error": "#490006",
+							"primary-fixed-dim": "#00d4ec",
+							"error-container": "#9f0519",
+							"on-secondary": "#00213d",
+							"secondary-container": "#0061a2",
+							"inverse-on-surface": "#53555a",
+							"surface-tint": "#81ecff",
+							"on-secondary-fixed": "#00365e",
+							"on-surface-variant": "#aaabb0",
+							"on-primary": "#005762",
+						},
+						borderRadius: {
+							DEFAULT: "0.25rem",
+							lg: "0.5rem",
+							xl: "1.5rem",
+							full: "9999px",
+						},
+						fontFamily: {
+							headline: ["Inter"],
+							body: ["Inter"],
+							label: ["Inter"],
+						},
+					},
+				},
+			};
+		</script>
+		<style>
+			body {
+				font-family: "Inter", sans-serif;
+				font-size: 0.875rem;
+			}
+			.material-symbols-outlined {
+				font-variation-settings:
+					"FILL" 0,
+					"wght" 400,
+					"GRAD" 0,
+					"opsz" 20;
+				font-size: 1.125rem;
+			}
+			.glass-panel {
+				backdrop-filter: blur(12px);
+				background-color: rgba(45, 50, 59, 0.7);
+				border: 1px solid rgba(255, 255, 255, 0.08);
+				box-shadow:
+					0 4px 6px -1px rgba(0, 0, 0, 0.2),
+					0 2px 4px -1px rgba(0, 0, 0, 0.1);
+			}
+			.glass-search {
+				backdrop-filter: blur(10px);
+				background-color: rgba(35, 38, 44, 0.4);
+			}
+			.bookmark-link {
+				transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+			}
+		</style>
+	</head>
+	<body
+		class="bg-[#1a1c22] text-on-surface min-h-screen selection:bg-primary selection:text-on-primary"
+	>
+		<!-- Hero Background Layer -->
+		<div class="fixed inset-0 -z-10 overflow-hidden">
+			<div class="absolute inset-0 bg-[#1a1c22]"></div>
+			<div
+				class="absolute top-0 right-0 w-[40%] h-[40%] bg-primary/5 rounded-full blur-[100px]"
+			></div>
+			<div
+				class="absolute bottom-0 left-0 w-[30%] h-[30%] bg-secondary/5 rounded-full blur-[100px]"
+			></div>
+			<img
+				alt="Abstract dark silk texture"
+				class="absolute inset-0 object-cover opacity-10 mix-blend-overlay"
+				src="https://lh3.googleusercontent.com/aida-public/AB6AXuCuAqePCZc_kgFFKqs-4Bg-2ZAXLMCGFCYzxFiw1zXSJEHHFpVlwClqGgV54sMGjmmEQa7kBLE2HjQlmnqbC8aJymrzlTAR6_YLJjfOiIJRMiUJNIkio3VY1ao-E3EziAToMChoeVbKMU3W_VbNSsC0G01pD1FlgG5ZEVKpHyHPH6ARvN7wqXy5BX1-HijzWP8nLQWdjDD7VFUMVhdDUPdI2dqFWUBf-cDgrmIedD0xSP8qjK9pAwGJvECtyrrwSVhx8TAkbR2pUKk"
+			/>
+		</div>
+		<!-- Top Navigation Shell -->
+		<header
+			class="w-full py-2 px-6 bg-[#1a1c22]/80 backdrop-blur-md border-b border-white/10 sticky top-0 z-50"
+		>
+			<div class="flex justify-between items-center max-w-[1920px] mx-auto">
+				<div class="flex items-center gap-6">
+					<span class="text-lg font-bold tracking-tight text-[#f6f6fc]"
+						>Ethereal</span
+					>
+					<div class="relative w-80 group">
+						<div
+							class="absolute inset-y-0 left-3 flex items-center pointer-events-none"
+						>
+							<span
+								class="material-symbols-outlined text-on-surface-variant/70 !text-base"
+								>search</span
+							>
+						</div>
+						<input
+							class="w-full py-1.5 pl-9 pr-3 bg-surface-container-highest/40 border-none rounded-md glass-search text-sm text-on-surface placeholder:text-on-surface-variant/50 focus:ring-1 focus:ring-primary/40 transition-all duration-200"
+							placeholder="Search universe..."
+							type="text"
+						/>
+					</div>
+				</div>
+				<div class="flex items-center gap-4">
+					<nav class="hidden md:flex gap-4 mr-4">
+						<a class="text-xs text-[#81ecff] font-semibold" href="#"
+							>Dashboard</a
+						>
+						<a
+							class="text-xs text-[#aaabb0] hover:text-[#81ecff] transition-colors"
+							href="#"
+							>History</a
+						>
+					</nav>
+					<button
+						class="p-1 rounded-md hover:bg-surface-variant transition-colors group"
+					>
+						<span
+							class="material-symbols-outlined text-on-surface-variant !text-lg"
+							>settings</span
+						>
+					</button>
+					<div
+						class="w-7 h-7 rounded-full bg-gradient-to-br from-primary to-secondary p-[1px]"
+					>
+						<img
+							alt="User Profile"
+							class="w-full h-full rounded-full object-cover"
+							src="https://lh3.googleusercontent.com/aida-public/AB6AXCUMb8rcg0QNJNeIGwCuR1vtXLMGYXHU0JjGTt2PCzAMUhfoQGg_QY61cgoWsuToeZYn_lz-jTkRdPpnOS7F1zrCtmul3zNvX9_beUAZRbmVvRuL_9tj0Cbt-V3Gb15Mr2E4CfsUMhQfuSjH3DyW6DLISUzViLgazFV5f0yk5jQ28fXriziloXyDcqg7t3BzTK_yWtrnRsg87oCJygUqe_oqZlZ6c2LQiz35kCoA2hiB6vpNRon2rc9psdjLjdFgSrCMOKcaPmKV8s"
+						/>
+					</div>
+				</div>
+			</div>
+		</header>
+		<main class="max-w-[1920px] mx-auto px-6 py-4">
+			<!-- Compact Header -->
+			<section class="mb-4 flex items-baseline gap-2">
+				<h1 class="text-lg font-bold text-on-surface">Curator's Hub</h1>
+				<span class="text-xs text-on-surface-variant opacity-60"
+					>Dashboard v2.4 • 48 bookmarks synced</span
+				>
+			</section>
+			<!-- Dense Bookmark Grid -->
+			<div
+				class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-3"
+			>
+				<!-- Group 1: Utilities -->
+				<div class="glass-panel rounded-lg p-3 flex flex-col">
+					<div
+						class="flex items-center justify-between mb-2 pb-1 border-b border-white/10"
+					>
+						<h2 class="text-xs font-bold uppercase tracking-wider text-primary">
+							Essential Tools
+						</h2>
+						<span class="material-symbols-outlined text-primary !text-sm"
+							>construction</span
+						>
+					</div>
+					<div class="flex flex-col">
+						<a
+							class="bookmark-link flex items-center gap-2 py-1 px-1.5 rounded hover:bg-white/5"
+							href="#"
+						>
+							<span class="material-symbols-outlined text-secondary !text-sm"
+								>cloud</span
+							>
+							<span class="text-xs text-on-surface-variant truncate"
+								>Google Drive</span
+							>
+						</a>
+						<a
+							class="bookmark-link flex items-center gap-2 py-1 px-1.5 rounded hover:bg-white/5"
+							href="#"
+						>
+							<span class="material-symbols-outlined text-secondary !text-sm"
+								>mail</span
+							>
+							<span class="text-xs text-on-surface-variant truncate"
+								>Gmail</span
+							>
+						</a>
+						<a
+							class="bookmark-link flex items-center gap-2 py-1 px-1.5 rounded hover:bg-white/5"
+							href="#"
+						>
+							<span class="material-symbols-outlined text-secondary !text-sm"
+								>calendar_today</span
+							>
+							<span class="text-xs text-on-surface-variant truncate"
+								>Google Calendar</span
+							>
+						</a>
+						<a
+							class="bookmark-link flex items-center gap-2 py-1 px-1.5 rounded hover:bg-white/5"
+							href="#"
+						>
+							<span class="material-symbols-outlined text-secondary !text-sm"
+								>description</span
+							>
+							<span class="text-xs text-on-surface-variant truncate"
+								>Google Docs</span
+							>
+						</a>
+						<a
+							class="bookmark-link flex items-center gap-2 py-1 px-1.5 rounded hover:bg-white/5"
+							href="#"
+						>
+							<span class="material-symbols-outlined text-secondary !text-sm"
+								>table_view</span
+							>
+							<span class="text-xs text-on-surface-variant truncate"
+								>Google Sheets</span
+							>
+						</a>
+					</div>
+				</div>
+				<!-- Group 2: AI Resources -->
+				<div class="glass-panel rounded-lg p-3 flex flex-col">
+					<div
+						class="flex items-center justify-between mb-2 pb-1 border-b border-white/10"
+					>
+						<h2 class="text-xs font-bold uppercase tracking-wider text-primary">
+							AI Lab
+						</h2>
+						<span class="material-symbols-outlined text-primary !text-sm"
+							>psychology</span
+						>
+					</div>
+					<div class="flex flex-col">
+						<a
+							class="bookmark-link flex items-center gap-2 py-1 px-1.5 rounded hover:bg-white/5"
+							href="#"
+						>
+							<span class="material-symbols-outlined text-secondary !text-sm"
+								>chat</span
+							>
+							<span class="text-xs text-on-surface-variant truncate"
+								>ChatGPT</span
+							>
+						</a>
+						<a
+							class="bookmark-link flex items-center gap-2 py-1 px-1.5 rounded hover:bg-white/5"
+							href="#"
+						>
+							<span class="material-symbols-outlined text-secondary !text-sm"
+								>auto_awesome</span
+							>
+							<span class="text-xs text-on-surface-variant truncate"
+								>Claude 3.5 Sonnet</span
+							>
+						</a>
+						<a
+							class="bookmark-link flex items-center gap-2 py-1 px-1.5 rounded hover:bg-white/5"
+							href="#"
+						>
+							<span class="material-symbols-outlined text-secondary !text-sm"
+								>image</span
+							>
+							<span class="text-xs text-on-surface-variant truncate"
+								>Midjourney</span
+							>
+						</a>
+						<a
+							class="bookmark-link flex items-center gap-2 py-1 px-1.5 rounded hover:bg-white/5"
+							href="#"
+						>
+							<span class="material-symbols-outlined text-secondary !text-sm"
+								>science</span
+							>
+							<span class="text-xs text-on-surface-variant truncate"
+								>Perplexity AI</span
+							>
+						</a>
+						<a
+							class="bookmark-link flex items-center gap-2 py-1 px-1.5 rounded hover:bg-white/5"
+							href="#"
+						>
+							<span class="material-symbols-outlined text-secondary !text-sm"
+								>terminal</span
+							>
+							<span class="text-xs text-on-surface-variant truncate"
+								>Github Copilot</span
+							>
+						</a>
+						<a
+							class="bookmark-link flex items-center gap-2 py-1 px-1.5 rounded hover:bg-white/5"
+							href="#"
+						>
+							<span class="material-symbols-outlined text-secondary !text-sm"
+								>bolt</span
+							>
+							<span class="text-xs text-on-surface-variant truncate"
+								>Groq Cloud</span
+							>
+						</a>
+					</div>
+				</div>
+				<!-- Group 3: Engineering -->
+				<div class="glass-panel rounded-lg p-3 flex flex-col">
+					<div
+						class="flex items-center justify-between mb-2 pb-1 border-b border-white/10"
+					>
+						<h2 class="text-xs font-bold uppercase tracking-wider text-primary">
+							Dev Hub
+						</h2>
+						<span class="material-symbols-outlined text-primary !text-sm"
+							>code</span
+						>
+					</div>
+					<div class="flex flex-col">
+						<a
+							class="bookmark-link flex items-center gap-2 py-1 px-1.5 rounded hover:bg-white/5"
+							href="#"
+						>
+							<span class="material-symbols-outlined text-secondary !text-sm"
+								>terminal</span
+							>
+							<span class="text-xs text-on-surface-variant truncate"
+								>GitHub Repos</span
+							>
+						</a>
+						<a
+							class="bookmark-link flex items-center gap-2 py-1 px-1.5 rounded hover:bg-white/5"
+							href="#"
+						>
+							<span class="material-symbols-outlined text-secondary !text-sm"
+								>database</span
+							>
+							<span class="text-xs text-on-surface-variant truncate"
+								>Vercel Dashboard</span
+							>
+						</a>
+						<a
+							class="bookmark-link flex items-center gap-2 py-1 px-1.5 rounded hover:bg-white/5"
+							href="#"
+						>
+							<span class="material-symbols-outlined text-secondary !text-sm"
+								>forum</span
+							>
+							<span class="text-xs text-on-surface-variant truncate"
+								>Stack Overflow</span
+							>
+						</a>
+						<a
+							class="bookmark-link flex items-center gap-2 py-1 px-1.5 rounded hover:bg-white/5"
+							href="#"
+						>
+							<span class="material-symbols-outlined text-secondary !text-sm"
+								>api</span
+							>
+							<span class="text-xs text-on-surface-variant truncate"
+								>MDN Web Docs</span
+							>
+						</a>
+						<a
+							class="bookmark-link flex items-center gap-2 py-1 px-1.5 rounded hover:bg-white/5"
+							href="#"
+						>
+							<span class="material-symbols-outlined text-secondary !text-sm"
+								>memory</span
+							>
+							<span class="text-xs text-on-surface-variant truncate"
+								>DigitalOcean</span
+							>
+						</a>
+						<a
+							class="bookmark-link flex items-center gap-2 py-1 px-1.5 rounded hover:bg-white/5"
+							href="#"
+						>
+							<span class="material-symbols-outlined text-secondary !text-sm"
+								>dns</span
+							>
+							<span class="text-xs text-on-surface-variant truncate"
+								>Netlify</span
+							>
+						</a>
+					</div>
+				</div>
+				<!-- Group 4: Design -->
+				<div class="glass-panel rounded-lg p-3 flex flex-col">
+					<div
+						class="flex items-center justify-between mb-2 pb-1 border-b border-white/10"
+					>
+						<h2 class="text-xs font-bold uppercase tracking-wider text-primary">
+							Creative
+						</h2>
+						<span class="material-symbols-outlined text-primary !text-sm"
+							>palette</span
+						>
+					</div>
+					<div class="flex flex-col">
+						<a
+							class="bookmark-link flex items-center gap-2 py-1 px-1.5 rounded hover:bg-white/5"
+							href="#"
+						>
+							<span class="material-symbols-outlined text-secondary !text-sm"
+								>edit</span
+							>
+							<span class="text-xs text-on-surface-variant truncate"
+								>Figma Design</span
+							>
+						</a>
+						<a
+							class="bookmark-link flex items-center gap-2 py-1 px-1.5 rounded hover:bg-white/5"
+							href="#"
+						>
+							<span class="material-symbols-outlined text-secondary !text-sm"
+								>brush</span
+							>
+							<span class="text-xs text-on-surface-variant truncate"
+								>Dribbble Shots</span
+							>
+						</a>
+						<a
+							class="bookmark-link flex items-center gap-2 py-1 px-1.5 rounded hover:bg-white/5"
+							href="#"
+						>
+							<span class="material-symbols-outlined text-secondary !text-sm"
+								>collections</span
+							>
+							<span class="text-xs text-on-surface-variant truncate"
+								>Pinterest Mood</span
+							>
+						</a>
+						<a
+							class="bookmark-link flex items-center gap-2 py-1 px-1.5 rounded hover:bg-white/5"
+							href="#"
+						>
+							<span class="material-symbols-outlined text-secondary !text-sm"
+								>photo_library</span
+							>
+							<span class="text-xs text-on-surface-variant truncate"
+								>Unsplash Assets</span
+							>
+						</a>
+						<a
+							class="bookmark-link flex items-center gap-2 py-1 px-1.5 rounded hover:bg-white/5"
+							href="#"
+						>
+							<span class="material-symbols-outlined text-secondary !text-sm"
+								>layers</span
+							>
+							<span class="text-xs text-on-surface-variant truncate"
+								>Behance Portfolio</span
+							>
+						</a>
+					</div>
+				</div>
+				<!-- Group 5: Library -->
+				<div class="glass-panel rounded-lg p-3 flex flex-col">
+					<div
+						class="flex items-center justify-between mb-2 pb-1 border-b border-white/10"
+					>
+						<h2 class="text-xs font-bold uppercase tracking-wider text-primary">
+							Library
+						</h2>
+						<span class="material-symbols-outlined text-primary !text-sm"
+							>book</span
+						>
+					</div>
+					<div class="flex flex-col">
+						<a
+							class="bookmark-link flex items-center gap-2 py-1 px-1.5 rounded hover:bg-white/5"
+							href="#"
+						>
+							<span class="material-symbols-outlined text-secondary !text-sm"
+								>history_edu</span
+							>
+							<span class="text-xs text-on-surface-variant truncate"
+								>React Documentation</span
+							>
+						</a>
+						<a
+							class="bookmark-link flex items-center gap-2 py-1 px-1.5 rounded hover:bg-white/5"
+							href="#"
+						>
+							<span class="material-symbols-outlined text-secondary !text-sm"
+								>grid_view</span
+							>
+							<span class="text-xs text-on-surface-variant truncate"
+								>Tailwind CSS v3</span
+							>
+						</a>
+						<a
+							class="bookmark-link flex items-center gap-2 py-1 px-1.5 rounded hover:bg-white/5"
+							href="#"
+						>
+							<span class="material-symbols-outlined text-secondary !text-sm"
+								>school</span
+							>
+							<span class="text-xs text-on-surface-variant truncate"
+								>Coursera Courses</span
+							>
+						</a>
+						<a
+							class="bookmark-link flex items-center gap-2 py-1 px-1.5 rounded hover:bg-white/5"
+							href="#"
+						>
+							<span class="material-symbols-outlined text-secondary !text-sm"
+								>menu_book</span
+							>
+							<span class="text-xs text-on-surface-variant truncate"
+								>Rust Book</span
+							>
+						</a>
+						<a
+							class="bookmark-link flex items-center gap-2 py-1 px-1.5 rounded hover:bg-white/5"
+							href="#"
+						>
+							<span class="material-symbols-outlined text-secondary !text-sm"
+								>import_contacts</span
+							>
+							<span class="text-xs text-on-surface-variant truncate"
+								>O'Reilly Learning</span
+							>
+						</a>
+						<a
+							class="bookmark-link flex items-center gap-2 py-1 px-1.5 rounded hover:bg-white/5"
+							href="#"
+						>
+							<span class="material-symbols-outlined text-secondary !text-sm"
+								>laptop_mac</span
+							>
+							<span class="text-xs text-on-surface-variant truncate"
+								>Frontend Masters</span
+							>
+						</a>
+					</div>
+				</div>
+				<!-- Group 6: Social & Comm -->
+				<div class="glass-panel rounded-lg p-3 flex flex-col">
+					<div
+						class="flex items-center justify-between mb-2 pb-1 border-b border-white/10"
+					>
+						<h2 class="text-xs font-bold uppercase tracking-wider text-primary">
+							Communicate
+						</h2>
+						<span class="material-symbols-outlined text-primary !text-sm"
+							>forum</span
+						>
+					</div>
+					<div class="flex flex-col">
+						<a
+							class="bookmark-link flex items-center gap-2 py-1 px-1.5 rounded hover:bg-white/5"
+							href="#"
+						>
+							<span class="material-symbols-outlined text-secondary !text-sm"
+								>alternate_email</span
+							>
+							<span class="text-xs text-on-surface-variant truncate"
+								>Slack Workspace</span
+							>
+						</a>
+						<a
+							class="bookmark-link flex items-center gap-2 py-1 px-1.5 rounded hover:bg-white/5"
+							href="#"
+						>
+							<span class="material-symbols-outlined text-secondary !text-sm"
+								>group</span
+							>
+							<span class="text-xs text-on-surface-variant truncate"
+								>Discord Servers</span
+							>
+						</a>
+						<a
+							class="bookmark-link flex items-center gap-2 py-1 px-1.5 rounded hover:bg-white/5"
+							href="#"
+						>
+							<span class="material-symbols-outlined text-secondary !text-sm"
+								>public</span
+							>
+							<span class="text-xs text-on-surface-variant truncate"
+								>X / Twitter</span
+							>
+						</a>
+						<a
+							class="bookmark-link flex items-center gap-2 py-1 px-1.5 rounded hover:bg-white/5"
+							href="#"
+						>
+							<span class="material-symbols-outlined text-secondary !text-sm"
+								>work</span
+							>
+							<span class="text-xs text-on-surface-variant truncate"
+								>LinkedIn Feed</span
+							>
+						</a>
+					</div>
+				</div>
+				<!-- Group 7: Entertainment -->
+				<div class="glass-panel rounded-lg p-3 flex flex-col">
+					<div
+						class="flex items-center justify-between mb-2 pb-1 border-b border-white/10"
+					>
+						<h2 class="text-xs font-bold uppercase tracking-wider text-primary">
+							Leisure
+						</h2>
+						<span class="material-symbols-outlined text-primary !text-sm"
+							>play_circle</span
+						>
+					</div>
+					<div class="flex flex-col">
+						<a
+							class="bookmark-link flex items-center gap-2 py-1 px-1.5 rounded hover:bg-white/5"
+							href="#"
+						>
+							<span class="material-symbols-outlined text-secondary !text-sm"
+								>movie</span
+							>
+							<span class="text-xs text-on-surface-variant truncate"
+								>YouTube</span
+							>
+						</a>
+						<a
+							class="bookmark-link flex items-center gap-2 py-1 px-1.5 rounded hover:bg-white/5"
+							href="#"
+						>
+							<span class="material-symbols-outlined text-secondary !text-sm"
+								>headphones</span
+							>
+							<span class="text-xs text-on-surface-variant truncate"
+								>Spotify Web</span
+							>
+						</a>
+						<a
+							class="bookmark-link flex items-center gap-2 py-1 px-1.5 rounded hover:bg-white/5"
+							href="#"
+						>
+							<span class="material-symbols-outlined text-secondary !text-sm"
+								>rss_feed</span
+							>
+							<span class="text-xs text-on-surface-variant truncate"
+								>Hacker News</span
+							>
+						</a>
+						<a
+							class="bookmark-link flex items-center gap-2 py-1 px-1.5 rounded hover:bg-white/5"
+							href="#"
+						>
+							<span class="material-symbols-outlined text-secondary !text-sm"
+								>article</span
+							>
+							<span class="text-xs text-on-surface-variant truncate"
+								>The Verge</span
+							>
+						</a>
+					</div>
+				</div>
+				<!-- Group 8: Finance -->
+				<div class="glass-panel rounded-lg p-3 flex flex-col">
+					<div
+						class="flex items-center justify-between mb-2 pb-1 border-b border-white/10"
+					>
+						<h2 class="text-xs font-bold uppercase tracking-wider text-primary">
+							Portfolio
+						</h2>
+						<span class="material-symbols-outlined text-primary !text-sm"
+							>payments</span
+						>
+					</div>
+					<div class="flex flex-col">
+						<a
+							class="bookmark-link flex items-center gap-2 py-1 px-1.5 rounded hover:bg-white/5"
+							href="#"
+						>
+							<span class="material-symbols-outlined text-secondary !text-sm"
+								>account_balance</span
+							>
+							<span class="text-xs text-on-surface-variant truncate"
+								>Chase Bank</span
+							>
+						</a>
+						<a
+							class="bookmark-link flex items-center gap-2 py-1 px-1.5 rounded hover:bg-white/5"
+							href="#"
+						>
+							<span class="material-symbols-outlined text-secondary !text-sm"
+								>currency_exchange</span
+							>
+							<span class="text-xs text-on-surface-variant truncate"
+								>Binance</span
+							>
+						</a>
+						<a
+							class="bookmark-link flex items-center gap-2 py-1 px-1.5 rounded hover:bg-white/5"
+							href="#"
+						>
+							<span class="material-symbols-outlined text-secondary !text-sm"
+								>trending_up</span
+							>
+							<span class="text-xs text-on-surface-variant truncate"
+								>Robinhood</span
+							>
+						</a>
+						<a
+							class="bookmark-link flex items-center gap-2 py-1 px-1.5 rounded hover:bg-white/5"
+							href="#"
+						>
+							<span class="material-symbols-outlined text-secondary !text-sm"
+								>receipt_long</span
+							>
+							<span class="text-xs text-on-surface-variant truncate"
+								>Stripe Dashboard</span
+							>
+						</a>
+					</div>
+				</div>
+			</div>
+			<!-- Integrated Widgets Row -->
+			<section class="mt-4 grid grid-cols-1 md:grid-cols-3 gap-3">
+				<div
+					class="md:col-span-2 glass-panel rounded-lg p-4 flex items-center justify-between group overflow-hidden relative"
+				>
+					<div class="relative z-10">
+						<span
+							class="text-[10px] uppercase tracking-widest text-primary font-bold mb-1 block"
+							>Focus</span
+						>
+						<h3 class="text-sm font-bold text-on-surface">
+							Design Systems Mastery with Ethereal UI
+						</h3>
+					</div>
+					<button
+						class="relative z-10 bg-primary/20 text-primary border border-primary/30 px-3 py-1 rounded text-[10px] font-bold hover:bg-primary hover:text-on-primary transition-all"
+					>
+						CONTINUE
+					</button>
+					<div
+						class="absolute right-0 top-0 w-32 h-32 bg-primary/10 rounded-full blur-[40px]"
+					></div>
+				</div>
+				<div
+					class="glass-panel rounded-lg p-3 flex items-center justify-between px-6"
+				>
+					<div class="flex items-center gap-3">
+						<span class="material-symbols-outlined text-secondary !text-2xl"
+							>partly_cloudy_day</span
+						>
+						<div>
+							<div class="text-lg font-bold">24°C</div>
+							<div
+								class="text-[10px] text-on-surface-variant uppercase font-medium"
+							>
+								San Francisco
+							</div>
+						</div>
+					</div>
+					<div class="text-right">
+						<div class="text-[10px] text-on-surface-variant font-bold">
+							H: 45%
+						</div>
+						<div class="text-[10px] text-on-surface-variant font-bold">
+							W: 12km/h
+						</div>
+					</div>
+				</div>
+			</section>
+		</main>
+		<!-- Compact FAB -->
+		<button
+			class="fixed bottom-6 right-6 w-10 h-10 bg-primary text-on-primary rounded-full shadow-lg flex items-center justify-center hover:scale-110 active:scale-95 transition-all z-50"
+		>
+			<span
+				class="material-symbols-outlined !text-xl"
+				style="font-variation-settings: &quot;FILL&quot; 1"
+				>add</span
+			>
+		</button>
+		<!-- Slim Footer -->
+		<footer class="w-full py-4 px-6 border-t border-white/10 mt-4">
+			<div
+				class="max-w-[1920px] mx-auto flex justify-between items-center opacity-40"
+			>
+				<div class="flex gap-4 text-[10px] font-medium">
+					<a class="hover:text-primary transition-colors" href="#">Privacy</a>
+					<a class="hover:text-primary transition-colors" href="#">Terms</a>
+					<a class="hover:text-primary transition-colors" href="#">Settings</a>
+				</div>
+				<div class="text-[10px] font-bold tracking-tighter uppercase">
+					Ethereal OS v2.4.0
+				</div>
+			</div>
+		</footer>
+	</body>
+</html>
