@@ -5,7 +5,6 @@
 	import { onMount } from "svelte";
 	import Background from "./page/Background.svelte";
 	import ColumnsGrid from "./page/ColumnsGrid.svelte";
-	import FAB from "./page/FAB.svelte";
 	import Header from "./page/Header.svelte";
 	import Stats from "./page/Stats.svelte";
 
@@ -18,10 +17,6 @@
 	function handleSearch(query: string) {
 		console.log("Search:", query);
 	}
-
-	function handleAddClick() {
-		console.log("Add clicked");
-	}
 </script>
 
 <div class="start-page">
@@ -33,8 +28,6 @@
 		<Stats count={totalBookmarks} />
 		<ColumnsGrid />
 	</main>
-
-	<FAB onclick={handleAddClick} />
 </div>
 
 <style>

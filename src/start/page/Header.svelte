@@ -3,6 +3,7 @@
 	import SettingsIcon from "~icons/lucide/settings";
 	import SunIcon from "~icons/lucide/sun";
 	import Search from "./Search.svelte";
+	import SettingsDialog from "./SettingsDialog.svelte";
 
 	interface Props {
 		onSearch?: (query: string) => void;
@@ -15,6 +16,8 @@
 			? document.documentElement.getAttribute("data-theme") || "dark"
 			: "dark",
 	);
+
+	let settingsOpen = $state(false);
 
 	function toggleTheme() {
 		const newTheme = theme === "dark" ? "light" : "dark";
@@ -36,11 +39,19 @@
 				<MoonIcon />
 			{/if}
 		</button>
-		<button class="icon-button">
+		<button
+			class="icon-button"
+			onclick={() => (settingsOpen = true)}
+			title="Настройки"
+		>
 			<SettingsIcon class="settings-icon" />
 		</button>
 	</div>
 </header>
+
+{#if settingsOpen}
+	<SettingsDialog onClose={() => (settingsOpen = false)} />
+{/if}
 
 <style>
 	.header {

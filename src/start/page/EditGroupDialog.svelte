@@ -1,6 +1,7 @@
 <script lang="ts">
 	import type { Bookmark, Group } from "@/state/bookmarks.svelte";
 	import type { Component } from "svelte";
+	import { bookmarks as bookmarksStore } from "@/state/bookmarks.svelte";
 	import ArrowDownIcon from "~icons/lucide/arrow-down";
 	import ArrowUpIcon from "~icons/lucide/arrow-up";
 	import BrainIcon from "~icons/lucide/brain";
@@ -63,6 +64,7 @@
 			id: crypto.randomUUID(),
 			title: "",
 			url: "",
+			favicon: "",
 		};
 		editingBookmark = newBookmark;
 		editingBookmarkId = newBookmark.id;
@@ -80,7 +82,7 @@
 			id,
 			title: tempTitle,
 			url,
-			favicon: `https://www.google.com/s2/favicons?domain=${domain}&sz=32`,
+			favicon: bookmarksStore.getFaviconUrl(url),
 		};
 
 		bookmarks = [...bookmarks, newBookmark];
@@ -103,7 +105,6 @@
 						? {
 								...b,
 								title: response.title || domain,
-								favicon: response.favicon || b.favicon,
 							}
 						: b,
 				);
