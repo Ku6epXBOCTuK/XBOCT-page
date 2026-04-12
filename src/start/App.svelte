@@ -40,15 +40,23 @@
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	function onDragStart(event: any) {
 		activeId = event.operation.source?.id as string;
-		activeData = event.operation.source?.data as DragData;
+		const sourceData = event.operation.source?.data;
+		activeData = sourceData as DragData;
 		activeOverId = undefined;
-		console.log("[DND] drag start", activeId, activeData);
+		console.log("[DND] drag start", activeId);
+		console.log("[DND] source data:", sourceData);
 	}
 
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	function onDragOver(event: any) {
-		activeOverId = event.operation.target?.id as string;
-		console.log("[DND] drag over", activeOverId);
+		const over = event.operation.target;
+		const container = event.operation.container;
+		activeOverId = over?.id as string;
+		console.log("[DND] drag over", {
+			overId: over?.id,
+			containerId: container?.id,
+			activeId: event.operation.source?.id,
+		});
 	}
 
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -65,45 +73,44 @@
 		const activeIdStr = active.id as string;
 		const overIdStr = over.id as string;
 		const groups = bookmarks.getGroups();
-		console.log("[DND] groups:", groups.length);
+		const columns = bookmarks.getColumns();
 
-		if (activeIdStr.startsWith("group:")) {
-			const groupId = activeIdStr.replace("group:", "");
+		const isGroupActive = groups.some((g) => g.id === activeIdStr);
+		const isGroupOver = groups.some((g) => g.id === overIdStr);
+
+		if (isGroupActive) {
+			const groupId = activeIdStr;
 			console.log("[DND] moving group:", groupId, "to:", overIdStr);
 
-			if (overIdStr.startsWith("column:")) {
-				const columnId = overIdStr.replace("column:", "");
-				console.log("[DND] drop on column:", columnId);
-				const columns = bookmarks.getColumns();
-				const targetColumn = columns.find((c) => c.id === columnId);
+			const targetGroup = groups.find((g) => g.id === groupId);
+			if (!targetGroup) return;
+
+			if (isGroupOver) {
+				const target = groups.find((g) => g.id === overIdStr);
+				if (!target) return;
+
+				const columnGroups = groups
+					.filter((g) => g.columnId === target.columnId)
+					.toSorted((a, b) => a.order - b.order);
+				const targetIndex = columnGroups.findIndex((g) => g.id === overIdStr);
+				console.log("[DND] target index:", targetIndex);
+				bookmarks.moveGroup(groupId, target.columnId, targetIndex);
+			} else {
+				const targetColumn = columns.find((c) => c.id === overIdStr);
 				if (!targetColumn) return;
 				const columnGroups = groups
 					.filter((g) => g.columnId === targetColumn.id)
 					.toSorted((a, b) => a.order - b.order);
 				console.log("[DND] column has groups:", columnGroups.length);
 				bookmarks.moveGroup(groupId, targetColumn.id, columnGroups.length);
-			} else if (overIdStr.startsWith("group-widget:")) {
-				const targetGroupId = overIdStr.replace("group-widget:", "");
-				console.log("[DND] drop on group-widget:", targetGroupId);
-				const targetGroup = groups.find((g) => g.id === targetGroupId);
-				if (!targetGroup) return;
-
-				const columnGroups = groups
-					.filter((g) => g.columnId === targetGroup.columnId)
-					.toSorted((a, b) => a.order - b.order);
-				const targetIndex = columnGroups.findIndex(
-					(g) => g.id === targetGroupId,
-				);
-				console.log("[DND] target index:", targetIndex);
-				bookmarks.moveGroup(groupId, targetGroup.columnId, targetIndex);
 			}
 		} else if (activeIdStr.startsWith("bookmark:")) {
 			const parts = activeIdStr.split(":");
 			const bookmarkId = parts[1];
 			const fromGroupId = parts[2];
 
-			if (overIdStr.startsWith("group:")) {
-				const toGroupId = overIdStr.replace("group:", "");
+			if (isGroupOver) {
+				const toGroupId = overIdStr;
 				const toGroup = groups.find((g) => g.id === toGroupId);
 				if (!toGroup) return;
 				bookmarks.moveBookmark(
@@ -127,6 +134,7 @@
 		<DragDropProvider {onDragEnd} {onDragStart} {onDragOver}>
 			<ColumnsGrid {activeId} {activeOverId} />
 			{#if activeData?.group}
+				{console.log("[DND] rendering ghost, activeData:", activeData)}
 				<DragOverlay>
 					{#snippet children(source)}
 						{@const data = source.data as DragData}

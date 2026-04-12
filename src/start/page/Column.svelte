@@ -13,7 +13,10 @@
 
 	let { column, activeId, activeOverId }: Props = $props();
 
-	const droppable = createDroppable({ id: `column:${column.id}` });
+	const droppable = createDroppable({
+		id: column.id,
+		accept: ["item", column.id],
+	});
 
 	let columnGroups = $derived(
 		bookmarks
@@ -22,40 +25,45 @@
 			.toSorted((a, b) => a.order - b.order),
 	);
 
-	let insertIndex = $state(-1);
+	let columnGroupIds = $derived(columnGroups.map((g) => g.id));
 
-	$effect(() => {
-		const isDraggingGroup = activeId?.startsWith("group:");
-		const isOverThisColumn = activeOverId === `column:${column.id}`;
-
-		if (isDraggingGroup && isOverThisColumn) {
-			insertIndex = columnGroups.length;
-		} else {
-			insertIndex = -1;
+	let insertIndex = $derived.by(() => {
+		if (!activeOverId || activeOverId === activeId) return -1;
+		if (activeOverId === column.id) {
+			return columnGroups.length;
 		}
+		const idx = columnGroupIds.indexOf(activeOverId);
+		return idx >= 0 ? idx + 1 : -1;
 	});
+
+	let isOverEmptyRegion = $derived.by(() => {
+		console.log("[Column] isOverEmptyRegion:", {
+			columnId: column.id,
+			activeOverId,
+			activeId,
+		});
+		if (!activeOverId || activeOverId === activeId) return false;
+		if (activeOverId === column.id) return true;
+		if (columnGroupIds.includes(activeOverId)) return true;
+		return false;
+	});
+
+	let shouldHighlight = $derived(insertIndex >= 0);
 </script>
 
 <div
-	class="column"
-	class:drop-target={droppable.isDropTarget}
+	class="column {shouldHighlight ? 'drop-target' : ''}"
 	{@attach droppable.attach}
 	role="list"
 >
 	{#each columnGroups as group, i (group.id)}
 		{#if insertIndex === i}
-			<div class="widget-wrapper">
-				<InsertPlaceholder />
-			</div>
+			<InsertPlaceholder />
 		{/if}
-		<div class="widget-wrapper">
-			<Widget {group} isDragging={activeId === `group:${group.id}`} />
-		</div>
+		<Widget {group} index={i} columnId={column.id} />
 	{/each}
 	{#if insertIndex === columnGroups.length}
-		<div class="widget-wrapper">
-			<InsertPlaceholder />
-		</div>
+		<InsertPlaceholder />
 	{/if}
 </div>
 
@@ -65,15 +73,13 @@
 		flex-direction: column;
 		gap: 0.75rem;
 		padding: 0.25rem;
+		padding-bottom: 200px;
+		min-height: 200px;
 		border-radius: 0.5rem;
 		transition: background 0.15s ease;
 	}
 
 	.column.drop-target {
 		background: var(--overlay-white-10);
-	}
-
-	.widget-wrapper {
-		position: relative;
 	}
 </style>

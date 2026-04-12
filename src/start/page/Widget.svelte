@@ -2,7 +2,7 @@
 	import type { Component } from "svelte";
 	import type { Group } from "@/state/bookmarks.svelte";
 	import { bookmarks } from "@/state/bookmarks.svelte";
-	import { createDraggable } from "@dnd-kit/svelte";
+	import { createSortable } from "@dnd-kit/svelte/sortable";
 	import BrainIcon from "~icons/lucide/brain";
 	import BriefcaseIcon from "~icons/lucide/briefcase";
 	import CodeIcon from "~icons/lucide/code";
@@ -14,13 +14,16 @@
 
 	interface Props {
 		group: Group;
-		isDragging?: boolean;
+		index: number;
+		columnId: string;
 	}
 
-	let { group, isDragging = false }: Props = $props();
+	let { group, index, columnId }: Props = $props();
 
-	const draggable = createDraggable({
-		id: `group:${group.id}`,
+	const sortable = createSortable({
+		id: group.id,
+		index,
+		group: columnId,
 		data: {
 			group: {
 				id: group.id,
@@ -38,6 +41,8 @@
 
 	let editDialogOpen = $state(false);
 	let menuOpen = $state(false);
+
+	let isDragging = $derived(sortable.isDragging);
 
 	const iconMap: Record<string, Component> = {
 		briefcase: BriefcaseIcon,
@@ -58,7 +63,7 @@
 	}
 </script>
 
-<div class="widget" class:dragging={isDragging} {@attach draggable.attach}>
+<div class="widget {isDragging ? 'dragging' : ''}" {@attach sortable.attach}>
 	<WidgetHeader
 		name={group.name}
 		icon={group.icon ? iconMap[group.icon] : undefined}
