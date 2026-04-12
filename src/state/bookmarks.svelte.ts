@@ -141,6 +141,13 @@ interface BookmarksStore {
 	getGroups(): Group[];
 	updateGroup(updatedGroup: Group): void;
 	deleteGroup(id: string): void;
+	moveGroup(groupId: string, targetColumnId: string, targetIndex: number): void;
+	moveBookmark(
+		bookmarkId: string,
+		fromGroupId: string,
+		toGroupId: string,
+		toIndex: number,
+	): void;
 	getTotalBookmarks(): number;
 	load(): Promise<void>;
 	exportJson(compressed?: boolean): void;
@@ -158,7 +165,7 @@ function createBookmarksState(): BookmarksStore {
 			const data = toJson(groups, columns);
 			console.log(
 				"[bookmarks] Saved:",
-				JSON.stringify(data, null, 2).slice(0, 500) + "...",
+				JSON.stringify(data, null, 2).slice(0, 60) + "...",
 			);
 			await chrome.storage.sync.set({
 				[STORAGE_KEY]: data,
@@ -204,6 +211,104 @@ function createBookmarksState(): BookmarksStore {
 	function doDeleteGroup(id: string) {
 		columns = columns;
 		groups = groups.filter((g) => g.id !== id);
+		saveToStorage();
+	}
+
+	function doMoveGroup(
+		groupId: string,
+		targetColumnId: string,
+		targetIndex: number,
+	) {
+		console.log("[bookmarks] moveGroup", {
+			groupId,
+			targetColumnId,
+			targetIndex,
+		});
+		const group = groups.find((g) => g.id === groupId);
+		if (!group) {
+			console.log("[bookmarks] group not found:", groupId);
+			return;
+		}
+
+		const sourceColumnId = group.columnId;
+		console.log("[bookmarks] source column:", sourceColumnId);
+
+		if (sourceColumnId === targetColumnId) {
+			const columnGroups = groups
+				.filter((g) => g.columnId === sourceColumnId)
+				.toSorted((a, b) => a.order - b.order);
+			const sourceIndex = columnGroups.findIndex((g) => g.id === groupId);
+			console.log("[bookmarks] source index:", sourceIndex);
+			const moved = columnGroups.splice(sourceIndex, 1)[0];
+			columnGroups.splice(targetIndex, 0, moved);
+			groups = groups.map((g) => {
+				const idx = columnGroups.findIndex((cg) => cg.id === g.id);
+				return idx >= 0 ? { ...g, order: idx } : g;
+			});
+		} else {
+			const sourceColumnGroups = groups
+				.filter((g) => g.columnId === sourceColumnId)
+				.toSorted((a, b) => a.order - b.order);
+			const sourceIndex = sourceColumnGroups.findIndex((g) => g.id === groupId);
+			console.log("[bookmarks] source index:", sourceIndex);
+			const moved = sourceColumnGroups.splice(sourceIndex, 1)[0];
+
+			const targetColumnGroups = groups
+				.filter((g) => g.columnId === targetColumnId)
+				.toSorted((a, b) => a.order - b.order);
+			targetColumnGroups.splice(targetIndex, 0, moved);
+
+			groups = groups.map((g) => {
+				if (g.id === moved.id) {
+					return { ...g, columnId: targetColumnId };
+				}
+				if (g.columnId === sourceColumnId) {
+					const idx = sourceColumnGroups.findIndex((cg) => cg.id === g.id);
+					return idx >= 0 ? { ...g, order: idx } : g;
+				}
+				if (g.columnId === targetColumnId) {
+					const idx = targetColumnGroups.findIndex((cg) => cg.id === g.id);
+					return idx >= 0 ? { ...g, order: idx } : g;
+				}
+				return g;
+			});
+		}
+
+		columns = columns;
+		saveToStorage();
+	}
+
+	function doMoveBookmark(
+		bookmarkId: string,
+		fromGroupId: string,
+		toGroupId: string,
+		toIndex: number,
+	) {
+		const fromGroup = groups.find((g) => g.id === fromGroupId);
+		const toGroup = groups.find((g) => g.id === toGroupId);
+		if (!fromGroup || !toGroup) return;
+
+		const bookmark = fromGroup.bookmarks.find((b) => b.id === bookmarkId);
+		if (!bookmark) return;
+
+		if (fromGroupId === toGroupId) {
+			const idx = fromGroup.bookmarks.findIndex((b) => b.id === bookmarkId);
+			const moved = fromGroup.bookmarks.splice(idx, 1)[0];
+			fromGroup.bookmarks.splice(toIndex, 0, moved);
+			groups = groups.map((g) => (g.id === fromGroupId ? { ...g } : g));
+		} else {
+			fromGroup.bookmarks = fromGroup.bookmarks.filter(
+				(b) => b.id !== bookmarkId,
+			);
+			toGroup.bookmarks.splice(toIndex, 0, bookmark);
+			groups = groups.map((g) => {
+				if (g.id === fromGroupId || g.id === toGroupId) {
+					return { ...g };
+				}
+				return g;
+			});
+		}
+
 		saveToStorage();
 	}
 
@@ -275,6 +380,8 @@ function createBookmarksState(): BookmarksStore {
 		getGroups: () => groups,
 		updateGroup: doUpdateGroup,
 		deleteGroup: doDeleteGroup,
+		moveGroup: doMoveGroup,
+		moveBookmark: doMoveBookmark,
 		getTotalBookmarks: doGetTotalBookmarks,
 		load: loadFromStorageAction,
 		exportJson: doExportJson,

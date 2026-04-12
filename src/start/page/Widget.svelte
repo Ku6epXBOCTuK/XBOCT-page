@@ -1,7 +1,8 @@
 <script lang="ts">
+	import type { Component } from "svelte";
 	import type { Group } from "@/state/bookmarks.svelte";
 	import { bookmarks } from "@/state/bookmarks.svelte";
-	import type { Component } from "svelte";
+	import { createDraggable } from "@dnd-kit/svelte";
 	import BrainIcon from "~icons/lucide/brain";
 	import BriefcaseIcon from "~icons/lucide/briefcase";
 	import CodeIcon from "~icons/lucide/code";
@@ -16,6 +17,8 @@
 	}
 
 	let { group }: Props = $props();
+
+	const draggable = createDraggable({ id: `group:${group.id}` });
 
 	let editDialogOpen = $state(false);
 	let menuOpen = $state(false);
@@ -39,14 +42,14 @@
 	}
 </script>
 
-<div class="widget">
+<div class="widget" {@attach draggable.attach}>
 	<WidgetHeader
 		name={group.name}
 		icon={group.icon ? iconMap[group.icon] : undefined}
 		onEdit={() => (editDialogOpen = true)}
 		onMenu={() => (menuOpen = !menuOpen)}
 	/>
-	<BookmarkList bookmarks={group.bookmarks} />
+	<BookmarkList bookmarks={group.bookmarks} groupId={group.id} />
 </div>
 
 {#if editDialogOpen}
