@@ -1,0 +1,337 @@
+{
+  "version": 1,
+  "groups": [
+    {
+      "column": 0,
+      "name": "Полезные вещи",
+      "bookmarks": [
+        [
+          "https://github.com/Ku6epXBOCTuK",
+          "github"
+        ],
+        [
+          "https://www.google.com/search?q=&amp;newwindow=1&amp;sca_esv=17169e571295e934&amp;sxsrf=ANbL-n7Slj47OiYtBu7qB0Lyd0I8Puc4Xg%3A1770955489880&amp;source=hp&amp;ei=4aKOadr5M5HLwPAPxKe2uAU&amp;iflsig=AFdpzrgAAAAAaY6w8UgQznUnpEXrK_t4J4pkpyv7XiPQ&amp;aep=22&amp;udm=50&amp;ved=0ahUKEwia7oqny9WSAxWRJRAIHcSTDVcQteYPCBc&amp;oq=&amp;gs_lp=Egdnd3Mtd2l6IgBIAFAAWABwAHgAkAEAmAEAoAEAqgEAuAEByAEAmAIAoAIAmAMAkgcAoAcAsgcAuAcAwgcAyAcAgAgA&amp;sclient=gws-wiz",
+          "Google"
+        ],
+        [
+          "https://chat.deepseek.com",
+          "Думалка"
+        ],
+        [
+          "https://chat.z.ai/",
+          "GLM chat - Z.ai"
+        ],
+        [
+          "https://grok.com/",
+          "Grok"
+        ],
+        [
+          "https://ku6epxboctuk.yonote.ru/home",
+          "заметки"
+        ],
+        [
+          "https://excalidraw.com/",
+          "схемки"
+        ],
+        [
+          "https://g.dev/Ku6epXBOCTuK",
+          "G.dev"
+        ],
+        [
+          "https://youtube.com/",
+          "YouTube"
+        ]
+      ]
+    },
+    {
+      "column": 0,
+      "name": "Онлайн сервисы",
+      "bookmarks": [
+        [
+          "https://drawdb.vercel.app/",
+          "Схемы DB"
+        ],
+        [
+          "https://play.rust-lang.org",
+          "Rust Playground"
+        ],
+        [
+          "https://svelte.dev/playground/hello-world",
+          "Svelte Playground"
+        ],
+        [
+          "https://pixso.net/app/drafts",
+          "Pixso"
+        ],
+        [
+          "https://regex101.com/",
+          "Regex101.com"
+        ],
+        [
+          "https://design.penpot.app/",
+          "Penpot"
+        ]
+      ]
+    },
+    {
+      "column": 0,
+      "name": "AI сервисы",
+      "bookmarks": [
+        [
+          "https://openrouter.ai/",
+          "OpenRouter"
+        ],
+        [
+          "https://www.animaapp.com/",
+          "Anima: the UX Design Agent"
+        ],
+        [
+          "https://app.fireworks.ai/",
+          "Fireworks"
+        ],
+        [
+          "https://3d.hunyuan.tencent.com/",
+          "Tencent Hunyuan 3D"
+        ],
+        [
+          "https://app.superdesign.dev/",
+          "Superdesign"
+        ]
+      ]
+    },
+    {
+      "column": 0,
+      "name": "Книжки\\Документация",
+      "bookmarks": [
+        [
+          "https://doc.rust-lang.ru/book/",
+          "Rust book"
+        ],
+        [
+          "https://doc.rust-lang.ru/stable/nomicon/index.html",
+          "The Rustonomicon"
+        ],
+        [
+          "https://google.github.io/comprehensive-rust/",
+          "Comprehensive Rust"
+        ],
+        [
+          "https://rust-fuzz.github.io/book/cargo-fuzz.html",
+          "Fuzzing with cargo-fuzz"
+        ],
+        [
+          "https://sotrh.github.io/learn-wgpu/",
+          "Learn wgpu"
+        ],
+        [
+          "https://svelte.dev/docs/svelte/overview",
+          "Svelte Docs"
+        ],
+        [
+          "https://svelte.dev/docs/kit/introduction",
+          "SvelteKit Docs"
+        ],
+        [
+          "https://docs.cocogitto.io/reference/config#configuration-reference",
+          "Сocogitto DOCS"
+        ],
+        [
+          "https://refactoring.guru/ru/",
+          "Рефакторинг и Паттерны проектирования"
+        ],
+        [
+          "https://rust-exercises.com/100-exercises/",
+          "Rust exercises"
+        ]
+      ]
+    },
+    {
+      "column": 1,
+      "name": "Не особо полезные вещи",
+      "bookmarks": [
+        [
+          "https://www.twitch.tv/directory/category/software-and-game-development",
+          "Сборище программистов"
+        ],
+        [
+          "https://mail.google.com/mail/u/0/#inbox",
+          "Gmail"
+        ],
+        [
+          "https://web.telegram.org/a/",
+          "Telegram Web"
+        ],
+        [
+          "https://discord.com/app",
+          "Discord"
+        ],
+        [
+          "https://twitch.tv/moderator/ku6ep_xboctuk",
+          "Модерка"
+        ],
+        [
+          "https://dashboard.twitch.tv/u/ku6ep_xboctuk/stream-manager",
+          "Панель управления"
+        ],
+        [
+          "https://music.yandex.ru/",
+          "Yandex Music"
+        ],
+        [
+          "https://lofiradio.ru/",
+          "Радио"
+        ],
+        [
+          "https://tunetank.com/discover/genres/lo-fi/",
+          "Royalty-Free Lo-Fi Music"
+        ],
+        [
+          "https://app.daily.dev/",
+          "daily.dev"
+        ]
+      ]
+    },
+    {
+      "column": 1,
+      "name": "OBS \\ Streamerbot \\ Widgets",
+      "bookmarks": [
+        [
+          "https://docs.streamer.bot/api",
+          "Docs Streamer.bot"
+        ]
+      ]
+    },
+    {
+      "column": 1,
+      "name": "Курсы",
+      "bookmarks": [
+        [
+          "https://stepik.org/learn",
+          "Stepik"
+        ],
+        [
+          "https://sql-academy.org/ru",
+          "Sql-academy"
+        ],
+        [
+          "https://freecodecamp.org/",
+          "Freecodecamp.org"
+        ],
+        [
+          "https://realpython.com/async-io-python/",
+          "Realpython.com"
+        ],
+        [
+          "https://scrimba.com/home",
+          "Learn to code with Scrimba"
+        ]
+      ]
+    },
+    {
+      "column": 1,
+      "name": "Временные ссылки",
+      "bookmarks": [
+        [
+          "https://is-a.dev/",
+          "is-a.dev"
+        ]
+      ]
+    },
+    {
+      "column": 2,
+      "name": "Задачки и алгоритмы",
+      "bookmarks": [
+        [
+          "https://www.codewars.com/",
+          "Codewars"
+        ],
+        [
+          "https://leetcode.com/",
+          "Литкод"
+        ],
+        [
+          "https://exercism.org/tracks/rust/exercises",
+          "Rust Exercism.org"
+        ],
+        [
+          "https://leetcode.com/",
+          "Leetcode.com"
+        ],
+        [
+          "https://codebattle.hexlet.io/",
+          "Hexlet Codebattle • Game for programmers"
+        ],
+        [
+          "https://leetcode.com/problem-list/oizxjoit/",
+          "Blind 75"
+        ]
+      ]
+    },
+    {
+      "column": 2,
+      "name": "Дизайн идеи",
+      "bookmarks": [
+        [
+          "https://ru.pinterest.com/ku6epxboctuk/",
+          "Pinterest"
+        ],
+        [
+          "https://ru.freepik.com/",
+          "Freepik"
+        ],
+        [
+          "https://vecteezy.com/",
+          "Vecteezy.com"
+        ],
+        [
+          "https://behance.net/",
+          "Behance.net"
+        ],
+        [
+          "https://figmafreebie.com",
+          "Figmafreebie.com"
+        ]
+      ]
+    },
+    {
+      "column": 2,
+      "name": "Ассеты",
+      "bookmarks": [
+        [
+          "https://www.svgrepo.com/",
+          "Icons in SVG"
+        ],
+        [
+          "https://emojidb.org/",
+          "EmojiDB"
+        ],
+        [
+          "https://www.svgviewer.dev/",
+          "SVG Viewer"
+        ],
+        [
+          "https://lucide.dev/guide/packages/lucide-svelte",
+          "Lucide Icons"
+        ],
+        [
+          "https://verstaem.online",
+          "Верстаем.онлайн"
+        ],
+        [
+          "https://melt-ui.com/",
+          "Melt UI"
+        ]
+      ]
+    },
+    {
+      "column": 2,
+      "name": "Игры",
+      "bookmarks": [
+        [
+          "https://games.yandex.ru/console/applications",
+          "Yandex games console"
+        ]
+      ]
+    }
+  ]
+}
