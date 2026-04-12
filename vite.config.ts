@@ -21,9 +21,4 @@ export default defineConfig({
 		crx({ manifest }),
 		zip({ outDir: "release", outFileName: `crx-${name}-${version}.zip` }),
 	],
-	server: {
-		cors: {
-			origin: [/chrome-extension:\/\//],
-		},
-	},
 });

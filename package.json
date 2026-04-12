@@ -9,7 +9,8 @@
 		"check": "svelte-check --tsconfig ./tsconfig.app.json",
 		"lint": "eslint src/",
 		"lint:css": "stylelint \"src/**/*.{css,svelte}\"",
-		"format": "prettier --write src/"
+		"format": "prettier --write src/",
+		"postinstall": "patch-package"
 	},
 	"dependencies": {
 		"nanoid": "^5.1.7",
@@ -24,6 +25,7 @@
 		"@types/node": "^25.5.2",
 		"eslint": "^10.2.0",
 		"eslint-plugin-svelte": "^3.17.0",
+		"patch-package": "^8.0.1",
 		"prettier": "^3.8.2",
 		"prettier-plugin-svelte": "^3.5.1",
 		"stylelint": "^17.6.0",

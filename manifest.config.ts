@@ -22,4 +22,12 @@ export default defineManifest({
 	background: {
 		service_worker: "src/system/background.ts",
 	},
+	web_accessible_resources: [
+		{
+			resources: ["_favicon/*"],
+			matches: ["<all_urls>"],
+			extension_ids: [],
+			use_dynamic_url: true,
+		},
+	],
 });

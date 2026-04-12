@@ -21,26 +21,27 @@ export interface Column {
 	order: number;
 }
 
-interface StorageData {
-	version: number;
-	columns: Column[] | Record<string, Column>;
-	groups: Group[] | Record<string, Group>;
-}
-
 const STORAGE_KEY = "bookmarks";
 const COLUMNS_COUNT = 4;
 
-function getExtensionId(): string | null {
-	if (typeof chrome !== "undefined" && chrome.runtime?.id) {
-		return chrome.runtime.id;
-	}
-	return null;
+interface GroupJson {
+	column: number;
+	name: string;
+	icon?: string;
+	bookmarks: [string, string][];
+}
+
+interface StorageJson {
+	version: number;
+	groups: GroupJson[];
 }
 
 function getFaviconUrl(url: string): string {
-	const extId = getExtensionId();
-	if (!extId) return "";
-	return `chrome-extension://${extId}/_favicon/?pageUrl=${encodeURIComponent(url)}&size=32`;
+	const base = chrome.runtime.getURL("/_favicon/");
+	const faviconUrl = new URL(base);
+	faviconUrl.searchParams.set("pageUrl", url);
+	faviconUrl.searchParams.set("size", "32");
+	return faviconUrl.toString();
 }
 
 function generateDefaultColumns(): Column[] {
@@ -63,7 +64,7 @@ function generateDefaultGroups(defaultColumns: Column[]): Group[] {
 					id: nanoid(),
 					title: "Repository",
 					url: "https://github.com/Ku6epXBOCTuK/XBOCT-page",
-					favicon: "",
+					favicon: getFaviconUrl("https://github.com/Ku6epXBOCTuK/XBOCT-page"),
 				},
 			],
 		},
@@ -78,26 +79,16 @@ function getDefaultData(): { columns: Column[]; groups: Group[] } {
 	};
 }
 
-function parseStorageData(data: StorageData): {
-	columns: Column[];
-	groups: Group[];
-} {
-	const columns: Column[] = Array.isArray(data.columns)
-		? data.columns
-		: (Object.values(data.columns) as Column[]);
-
-	const processGroup = (g: Group): Group => ({
-		...g,
-		bookmarks: Array.isArray(g.bookmarks)
-			? g.bookmarks
-			: (Object.values(g.bookmarks || {}) as Bookmark[]),
-	});
-
-	const groups: Group[] = Array.isArray(data.groups)
-		? data.groups.map(processGroup)
-		: Object.values(data.groups).map(processGroup);
-
-	return { columns, groups };
+function ensureFourColumns(cols: Column[]): Column[] {
+	if (cols.length >= COLUMNS_COUNT) return cols.slice(0, COLUMNS_COUNT);
+	const needed = COLUMNS_COUNT - cols.length;
+	return [
+		...cols,
+		...Array.from({ length: needed }, (_, i) => ({
+			id: nanoid(),
+			order: cols.length + i,
+		})),
+	];
 }
 
 function ensureFavicon(groups: Group[]): Group[] {
@@ -108,6 +99,41 @@ function ensureFavicon(groups: Group[]): Group[] {
 			favicon: b.favicon || getFaviconUrl(b.url),
 		})),
 	}));
+}
+
+function toJson(groups: Group[], columns: Column[]): StorageJson {
+	return {
+		version: 1,
+		groups: groups.map((g) => ({
+			column: columns.findIndex((c) => c.id === g.columnId),
+			name: g.name,
+			icon: g.icon,
+			bookmarks: g.bookmarks.map((b) => [b.url, b.title]),
+		})),
+	};
+}
+
+function fromJson(data: StorageJson): { columns: Column[]; groups: Group[] } {
+	const columns = generateDefaultColumns();
+
+	const groups: Group[] = data.groups.map((g) => {
+		const columnIndex = g.column % COLUMNS_COUNT;
+		return {
+			id: nanoid(),
+			columnId: columns[columnIndex]?.id || columns[0].id,
+			order: 0,
+			name: g.name,
+			icon: g.icon,
+			bookmarks: (g.bookmarks || []).map((b) => ({
+				id: nanoid(),
+				url: b[0] || "",
+				title: b[1] || "",
+				favicon: getFaviconUrl(b[0] || ""),
+			})),
+		};
+	});
+
+	return { columns, groups };
 }
 
 interface BookmarksStore {
@@ -129,42 +155,41 @@ function createBookmarksState(): BookmarksStore {
 
 	async function saveToStorage() {
 		try {
-			console.log("[bookmarks] Saved columns:", $state.snapshot(columns));
-			console.log("[bookmarks] Saved groups:", $state.snapshot(groups));
+			const data = toJson(groups, columns);
+			console.log(
+				"[bookmarks] Saved:",
+				JSON.stringify(data, null, 2).slice(0, 500) + "...",
+			);
 			await chrome.storage.sync.set({
-				[STORAGE_KEY]: { version: 1, columns, groups },
+				[STORAGE_KEY]: data,
 			});
 		} catch {
 			// Ignore storage errors (e.g., in incognito)
 		}
 	}
 
-	function ensureFourColumns(cols: Column[]): Column[] {
-		if (cols.length >= COLUMNS_COUNT) return cols.slice(0, COLUMNS_COUNT);
-		const needed = COLUMNS_COUNT - cols.length;
-		return [
-			...cols,
-			...Array.from({ length: needed }, (_, i) => ({
-				id: nanoid(),
-				order: cols.length + i,
-			})),
-		];
-	}
-
 	async function loadFromStorageAction(): Promise<void> {
 		try {
 			const result = await chrome.storage.sync.get(STORAGE_KEY);
-			const data = result[STORAGE_KEY] as StorageData | undefined;
-			console.log("[bookmarks] Storage data:", data);
-			if (data && data.columns && data.groups) {
-				const loaded = parseStorageData(data);
-				columns = ensureFourColumns(loaded.columns);
-				groups = ensureFavicon(loaded.groups);
-				console.log("[bookmarks] Loaded columns:", $state.snapshot(columns));
-				console.log("[bookmarks] Loaded groups:", $state.snapshot(groups));
+			const data = result[STORAGE_KEY] as StorageJson | undefined;
+			console.log(
+				"[bookmarks] Storage data:",
+				data
+					? JSON.stringify(data, null, 2).slice(0, 500) + "..."
+					: "undefined",
+			);
+
+			if (data && data.groups) {
+				const loaded = fromJson(data);
+				columns = loaded.columns;
+				groups = loaded.groups;
 			} else {
 				columns = ensureFourColumns(columns);
+				groups = ensureFavicon(groups);
 			}
+
+			console.log("[bookmarks] Loaded columns:", $state.snapshot(columns));
+			console.log("[bookmarks] Loaded groups:", $state.snapshot(groups));
 		} catch (e) {
 			console.error("[bookmarks] Storage error:", e);
 		}
@@ -188,15 +213,7 @@ function createBookmarksState(): BookmarksStore {
 	}
 
 	function doExportJson(compressed = false) {
-		const data = {
-			version: 1,
-			groups: $state.snapshot(groups).map((g) => ({
-				column: columns.findIndex((c) => c.id === g.columnId),
-				name: g.name,
-				icon: g.icon,
-				bookmarks: g.bookmarks.map((b) => [b.url, b.title]),
-			})),
-		};
+		const data = toJson(groups, columns);
 		const json = compressed
 			? JSON.stringify(data)
 			: JSON.stringify(data, null, 2);
@@ -217,25 +234,17 @@ function createBookmarksState(): BookmarksStore {
 	async function doImportJson(file: File): Promise<boolean> {
 		try {
 			const text = await file.text();
-			const data = JSON.parse(text);
+			const data = JSON.parse(text) as StorageJson;
 			console.log("[bookmarks] Importing:", text.slice(0, 500) + "...");
 			if (!data.version || !data.groups) {
 				console.log("[bookmarks] Import failed: invalid format");
 				return false;
 			}
 
-			const importedGroups = data.groups as Array<{
-				column: number;
-				name: string;
-				icon?: string;
-				bookmarks: Array<[string, string]>;
-			}>;
-
 			const existingColumns = columns;
-			const numColumns = COLUMNS_COUNT;
 
-			groups = importedGroups.map((g) => {
-				const columnIndex = g.column % numColumns;
+			groups = data.groups.map((g) => {
+				const columnIndex = g.column % COLUMNS_COUNT;
 				return {
 					id: nanoid(),
 					columnId:

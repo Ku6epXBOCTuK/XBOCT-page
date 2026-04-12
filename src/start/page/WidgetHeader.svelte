@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { Component } from "svelte";
-	import PencilIcon from "~icons/lucide/pencil";
 	import MoreVerticalIcon from "~icons/lucide/more-vertical";
+	import PencilIcon from "~icons/lucide/pencil";
 
 	interface Props {
 		name: string;
@@ -16,11 +16,6 @@
 <div class="widget-header">
 	<h2 class="widget-title">{name}</h2>
 	<div class="widget-header-right">
-		{#if Icon}
-			<div class="widget-icon">
-				<Icon />
-			</div>
-		{/if}
 		<div class="widget-header-actions">
 			<button class="header-btn" onclick={onEdit} title="Редактировать">
 				<PencilIcon />
@@ -29,6 +24,11 @@
 				<MoreVerticalIcon />
 			</button>
 		</div>
+		{#if Icon}
+			<div class="widget-icon">
+				<Icon />
+			</div>
+		{/if}
 	</div>
 </div>
 

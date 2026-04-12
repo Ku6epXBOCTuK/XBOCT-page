@@ -72,9 +72,11 @@ src/
 
 ```bash
 npm run dev      # Dev сервер
-npm run build    # Сборка
+npm run build    # Сборка (перезаписывает dist)
 npm run check    # Проверка типов
 npm run lint     # ESLint
 npm run lint:css # Stylelint (CSS + Svelte)
 npm run format   # Prettier
 ```
+
+**Важно:** `npm run build` перезаписывает папку dist и может сломать работающий dev сервер. Использовать только для финальной сборки.

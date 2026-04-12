@@ -14,6 +14,9 @@
 	target="_blank"
 	rel="noopener noreferrer"
 >
+	{#if bookmark.favicon}
+		<img src={bookmark.favicon} alt="" class="bookmark-favicon" />
+	{/if}
 	<span class="bookmark-title">{bookmark.title}</span>
 </a>
 
@@ -39,6 +42,13 @@
 	.bookmark-link:hover {
 		background: var(--overlay-white-5);
 		color: var(--on-surface);
+	}
+
+	.bookmark-favicon {
+		width: 16px;
+		height: 16px;
+		object-fit: contain;
+		flex-shrink: 0;
 	}
 
 	.bookmark-title {
