@@ -3,12 +3,15 @@
 	import { bookmarks } from "@/state/bookmarks.svelte";
 	import { createDroppable } from "@dnd-kit/svelte";
 	import Widget from "./Widget.svelte";
+	import InsertPlaceholder from "./InsertPlaceholder.svelte";
 
 	interface Props {
 		column: ColumnType;
+		activeId?: string;
+		activeOverId?: string;
 	}
 
-	let { column }: Props = $props();
+	let { column, activeId, activeOverId }: Props = $props();
 
 	const droppable = createDroppable({ id: `column:${column.id}` });
 
@@ -18,16 +21,42 @@
 			.filter((g) => g.columnId === column.id)
 			.toSorted((a, b) => a.order - b.order),
 	);
+
+	let insertIndex = $state(-1);
+
+	$effect(() => {
+		const isDraggingGroup = activeId?.startsWith("group:");
+		const isOverThisColumn = activeOverId === `column:${column.id}`;
+
+		if (isDraggingGroup && isOverThisColumn) {
+			insertIndex = columnGroups.length;
+		} else {
+			insertIndex = -1;
+		}
+	});
 </script>
 
 <div
 	class="column"
 	class:drop-target={droppable.isDropTarget}
 	{@attach droppable.attach}
+	role="list"
 >
-	{#each columnGroups as group (group.id)}
-		<Widget {group} />
+	{#each columnGroups as group, i (group.id)}
+		{#if insertIndex === i}
+			<div class="widget-wrapper">
+				<InsertPlaceholder />
+			</div>
+		{/if}
+		<div class="widget-wrapper">
+			<Widget {group} isDragging={activeId === `group:${group.id}`} />
+		</div>
 	{/each}
+	{#if insertIndex === columnGroups.length}
+		<div class="widget-wrapper">
+			<InsertPlaceholder />
+		</div>
+	{/if}
 </div>
 
 <style>
@@ -42,5 +71,9 @@
 
 	.column.drop-target {
 		background: var(--overlay-white-10);
+	}
+
+	.widget-wrapper {
+		position: relative;
 	}
 </style>

@@ -14,11 +14,27 @@
 
 	interface Props {
 		group: Group;
+		isDragging?: boolean;
 	}
 
-	let { group }: Props = $props();
+	let { group, isDragging = false }: Props = $props();
 
-	const draggable = createDraggable({ id: `group:${group.id}` });
+	const draggable = createDraggable({
+		id: `group:${group.id}`,
+		data: {
+			group: {
+				id: group.id,
+				name: group.name,
+				icon: group.icon,
+				bookmarks: group.bookmarks.map((b) => ({
+					id: b.id,
+					title: b.title,
+					url: b.url,
+					favicon: b.favicon,
+				})),
+			},
+		},
+	});
 
 	let editDialogOpen = $state(false);
 	let menuOpen = $state(false);
@@ -42,7 +58,7 @@
 	}
 </script>
 
-<div class="widget" {@attach draggable.attach}>
+<div class="widget" class:dragging={isDragging} {@attach draggable.attach}>
 	<WidgetHeader
 		name={group.name}
 		icon={group.icon ? iconMap[group.icon] : undefined}
@@ -89,6 +105,12 @@
 		background: var(--surface-container-alpha);
 		border: 1px solid var(--overlay-white-5);
 		border-radius: 0.5rem;
+		transition: opacity 0.15s ease;
+	}
+
+	.widget.dragging {
+		opacity: 0.3;
+		border-style: dashed;
 	}
 
 	.menu-overlay {

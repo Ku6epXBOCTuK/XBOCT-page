@@ -2,6 +2,13 @@
 	import { bookmarks } from "@/state/bookmarks.svelte";
 	import Column from "./Column.svelte";
 
+	interface Props {
+		activeId?: string;
+		activeOverId?: string;
+	}
+
+	let { activeId, activeOverId }: Props = $props();
+
 	let sortedColumns = $derived(
 		[...bookmarks.getColumns()].toSorted((a, b) => a.order - b.order),
 	);
@@ -9,7 +16,7 @@
 
 <div class="columns-grid">
 	{#each sortedColumns as column (column.id)}
-		<Column {column} />
+		<Column {column} {activeId} {activeOverId} />
 	{/each}
 </div>
 
