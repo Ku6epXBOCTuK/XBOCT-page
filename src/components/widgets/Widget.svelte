@@ -9,7 +9,7 @@
 	import Gamepad2Icon from "~icons/lucide/gamepad-2";
 	import UsersIcon from "~icons/lucide/users";
 	import BookmarkList from "./BookmarkList.svelte";
-	import EditGroupDialog from "./EditGroupDialog.svelte";
+	import EditGroupDialog from "../dialogs/EditGroupDialog.svelte";
 	import WidgetHeader from "./WidgetHeader.svelte";
 
 	interface Props {

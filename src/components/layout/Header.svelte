@@ -2,8 +2,8 @@
 	import MoonIcon from "~icons/lucide/moon";
 	import SettingsIcon from "~icons/lucide/settings";
 	import SunIcon from "~icons/lucide/sun";
-	import Search from "./Search.svelte";
-	import SettingsDialog from "./SettingsDialog.svelte";
+	import Search from "../ui/Search.svelte";
+	import SettingsDialog from "../dialogs/SettingsDialog.svelte";
 
 	interface Props {
 		onSearch?: (query: string) => void;
