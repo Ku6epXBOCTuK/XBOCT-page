@@ -21,9 +21,6 @@ export interface Column {
 	order: number;
 }
 
-const STORAGE_KEY = "bookmarks";
-const COLUMNS_COUNT = 4;
-
 interface GroupJson {
 	column: number;
 	name: string;
@@ -35,6 +32,9 @@ interface StorageJson {
 	version: number;
 	groups: GroupJson[];
 }
+
+const STORAGE_KEY = "bookmarks";
+const COLUMNS_COUNT = 4;
 
 function getFaviconUrl(url: string): string {
 	const base = chrome.runtime.getURL("/_favicon/");
@@ -73,9 +73,10 @@ function generateDefaultGroups(defaultColumns: Column[]): Group[] {
 
 function getDefaultData(): { columns: Column[]; groups: Group[] } {
 	const defaultColumns = generateDefaultColumns();
+	const defaultGroups = generateDefaultGroups(defaultColumns);
 	return {
 		columns: defaultColumns,
-		groups: generateDefaultGroups(defaultColumns),
+		groups: defaultGroups,
 	};
 }
 
@@ -202,19 +203,19 @@ function createBookmarksState(): BookmarksStore {
 		}
 	}
 
-	function doUpdateGroup(updatedGroup: Group) {
+	function updateGroup(updatedGroup: Group) {
 		columns = columns;
 		groups = groups.map((g) => (g.id === updatedGroup.id ? updatedGroup : g));
 		saveToStorage();
 	}
 
-	function doDeleteGroup(id: string) {
+	function deleteGroup(id: string) {
 		columns = columns;
 		groups = groups.filter((g) => g.id !== id);
 		saveToStorage();
 	}
 
-	function doMoveGroup(
+	function moveGroup(
 		groupId: string,
 		targetColumnId: string,
 		targetIndex: number,
@@ -278,7 +279,7 @@ function createBookmarksState(): BookmarksStore {
 		saveToStorage();
 	}
 
-	function doMoveBookmark(
+	function moveBookmark(
 		bookmarkId: string,
 		fromGroupId: string,
 		toGroupId: string,
@@ -312,12 +313,12 @@ function createBookmarksState(): BookmarksStore {
 		saveToStorage();
 	}
 
-	function doGetTotalBookmarks(): number {
+	function getTotalBookmarks(): number {
 		if (!Array.isArray(groups)) return 0;
 		return groups.reduce((acc, g) => acc + g.bookmarks.length, 0);
 	}
 
-	function doExportJson(compressed = false) {
+	function exportJson(compressed = false) {
 		const data = toJson(groups, columns);
 		const json = compressed
 			? JSON.stringify(data)
@@ -336,11 +337,11 @@ function createBookmarksState(): BookmarksStore {
 		console.log("[bookmarks] Export done");
 	}
 
-	async function doImportJson(file: File): Promise<boolean> {
+	async function importJson(file: File): Promise<boolean> {
 		try {
-			const text = await file.text();
-			const data = JSON.parse(text) as StorageJson;
-			console.log("[bookmarks] Importing:", text.slice(0, 500) + "...");
+			const text = await file.text(); // Read file content as text
+			const data = JSON.parse(text) as StorageJson; // Parse text as JSON and cast to StorageJson type
+			console.log("[bookmarks] Importing:", text.slice(0, 500) + "..."); // Log first 500 chars of imported data
 			if (!data.version || !data.groups) {
 				console.log("[bookmarks] Import failed: invalid format");
 				return false;
@@ -378,14 +379,14 @@ function createBookmarksState(): BookmarksStore {
 	return {
 		getColumns: () => columns,
 		getGroups: () => groups,
-		updateGroup: doUpdateGroup,
-		deleteGroup: doDeleteGroup,
-		moveGroup: doMoveGroup,
-		moveBookmark: doMoveBookmark,
-		getTotalBookmarks: doGetTotalBookmarks,
+		updateGroup,
+		deleteGroup,
+		moveGroup,
+		moveBookmark,
+		getTotalBookmarks,
 		load: loadFromStorageAction,
-		exportJson: doExportJson,
-		importJson: doImportJson,
+		exportJson,
+		importJson,
 		getFaviconUrl,
 	};
 }

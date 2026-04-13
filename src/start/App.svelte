@@ -1,13 +1,14 @@
 <script lang="ts">
-	import "../vars.css";
-	import "./style.css";
 	import { bookmarks } from "@/state/bookmarks.svelte";
+	import { Debug } from "@dnd-kit/dom/plugins/debug";
+	import { DragDropProvider, DragOverlay } from "@dnd-kit/svelte";
 	import { onMount } from "svelte";
+	import "../vars.css";
 	import Background from "./page/Background.svelte";
 	import ColumnsGrid from "./page/ColumnsGrid.svelte";
 	import Header from "./page/Header.svelte";
 	import Stats from "./page/Stats.svelte";
-	import { DragDropProvider, DragOverlay } from "@dnd-kit/svelte";
+	import "./style.css";
 
 	interface DragData {
 		group?: {
@@ -131,7 +132,12 @@
 
 	<main class="main">
 		<Stats count={totalBookmarks} />
-		<DragDropProvider {onDragEnd} {onDragStart} {onDragOver}>
+		<DragDropProvider
+			{onDragEnd}
+			{onDragStart}
+			{onDragOver}
+			plugins={(defaults) => [Debug, ...defaults]}
+		>
 			<ColumnsGrid {activeId} {activeOverId} />
 			{#if activeData?.group}
 				{console.log("[DND] rendering ghost, activeData:", activeData)}

@@ -10,7 +10,7 @@
 
 	let { bookmarks, groupId }: Props = $props();
 
-	const droppable = createDroppable({ id: groupId });
+	const droppable = $derived(createDroppable({ id: groupId }));
 </script>
 
 <div class="bookmark-list" {@attach droppable.attach}>

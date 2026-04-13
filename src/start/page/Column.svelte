@@ -3,7 +3,6 @@
 	import { bookmarks } from "@/state/bookmarks.svelte";
 	import { createDroppable } from "@dnd-kit/svelte";
 	import Widget from "./Widget.svelte";
-	import InsertPlaceholder from "./InsertPlaceholder.svelte";
 
 	interface Props {
 		column: ColumnType;
@@ -13,10 +12,12 @@
 
 	let { column, activeId, activeOverId }: Props = $props();
 
-	const droppable = createDroppable({
-		id: column.id,
-		accept: ["item", column.id],
-	});
+	const droppable = $derived(
+		createDroppable({
+			id: column.id,
+			accept: ["item", column.id],
+		}),
+	);
 
 	let columnGroups = $derived(
 		bookmarks
@@ -36,18 +37,6 @@
 		return idx >= 0 ? idx + 1 : -1;
 	});
 
-	let isOverEmptyRegion = $derived.by(() => {
-		console.log("[Column] isOverEmptyRegion:", {
-			columnId: column.id,
-			activeOverId,
-			activeId,
-		});
-		if (!activeOverId || activeOverId === activeId) return false;
-		if (activeOverId === column.id) return true;
-		if (columnGroupIds.includes(activeOverId)) return true;
-		return false;
-	});
-
 	let shouldHighlight = $derived(insertIndex >= 0);
 </script>
 
@@ -57,14 +46,8 @@
 	role="list"
 >
 	{#each columnGroups as group, i (group.id)}
-		{#if insertIndex === i}
-			<InsertPlaceholder />
-		{/if}
 		<Widget {group} index={i} columnId={column.id} />
 	{/each}
-	{#if insertIndex === columnGroups.length}
-		<InsertPlaceholder />
-	{/if}
 </div>
 
 <style>

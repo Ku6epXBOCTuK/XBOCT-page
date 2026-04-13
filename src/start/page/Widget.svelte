@@ -1,8 +1,8 @@
 <script lang="ts">
-	import type { Component } from "svelte";
 	import type { Group } from "@/state/bookmarks.svelte";
 	import { bookmarks } from "@/state/bookmarks.svelte";
 	import { createSortable } from "@dnd-kit/svelte/sortable";
+	import type { Component } from "svelte";
 	import BrainIcon from "~icons/lucide/brain";
 	import BriefcaseIcon from "~icons/lucide/briefcase";
 	import CodeIcon from "~icons/lucide/code";
@@ -20,24 +20,26 @@
 
 	let { group, index, columnId }: Props = $props();
 
-	const sortable = createSortable({
-		id: group.id,
-		index,
-		group: columnId,
-		data: {
-			group: {
-				id: group.id,
-				name: group.name,
-				icon: group.icon,
-				bookmarks: group.bookmarks.map((b) => ({
-					id: b.id,
-					title: b.title,
-					url: b.url,
-					favicon: b.favicon,
-				})),
+	const sortable = $derived(
+		createSortable({
+			id: group.id,
+			index,
+			group: columnId,
+			data: {
+				group: {
+					id: group.id,
+					name: group.name,
+					icon: group.icon,
+					bookmarks: group.bookmarks.map((b) => ({
+						id: b.id,
+						title: b.title,
+						url: b.url,
+						favicon: b.favicon,
+					})),
+				},
 			},
-		},
-	});
+		}),
+	);
 
 	let editDialogOpen = $state(false);
 	let menuOpen = $state(false);
@@ -115,7 +117,6 @@
 
 	.widget.dragging {
 		opacity: 0.3;
-		border-style: dashed;
 	}
 
 	.menu-overlay {
