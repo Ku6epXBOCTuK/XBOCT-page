@@ -1,13 +1,13 @@
 <script lang="ts">
+	import Background from "$cmp/Background.svelte";
+	import ColumnsGrid from "$cmp/ColumnsGrid.svelte";
+	import Header from "$cmp/Header.svelte";
+	import Stats from "$cmp/Stats.svelte";
 	import { bookmarks } from "@/state/bookmarks.svelte";
 	import { Debug } from "@dnd-kit/dom/plugins/debug";
 	import { DragDropProvider, DragOverlay } from "@dnd-kit/svelte";
 	import { onMount } from "svelte";
 	import "../vars.css";
-	import Background from "./page/Background.svelte";
-	import ColumnsGrid from "./page/ColumnsGrid.svelte";
-	import Header from "./page/Header.svelte";
-	import Stats from "./page/Stats.svelte";
 	import "./style.css";
 
 	interface DragData {

@@ -7,7 +7,8 @@
 		"useDefineForClassFields": true,
 		"module": "ESNext",
 		"paths": {
-			"@/*": ["./src/*"]
+			"@/*": ["./src/*"],
+			"$cmp/*": ["./src/components/*"]
 		},
 		"resolveJsonModule": true,
 		/**
