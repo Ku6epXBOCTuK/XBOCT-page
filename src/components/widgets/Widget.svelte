@@ -1,13 +1,8 @@
 <script lang="ts">
-	import type { Group } from "@/state/bookmarks.svelte";
-	import { bookmarks } from "@/state/bookmarks.svelte";
+	import type { Group } from "$lib/state/bookmarks.svelte";
+	import { bookmarks } from "$lib/state/bookmarks.svelte";
 	import { createSortable } from "@dnd-kit/svelte/sortable";
-	import type { Component } from "svelte";
-	import BrainIcon from "~icons/lucide/brain";
-	import BriefcaseIcon from "~icons/lucide/briefcase";
-	import CodeIcon from "~icons/lucide/code";
-	import Gamepad2Icon from "~icons/lucide/gamepad-2";
-	import UsersIcon from "~icons/lucide/users";
+	import { iconMap } from "$lib/icons";
 	import BookmarkList from "./BookmarkList.svelte";
 	import EditGroupDialog from "../dialogs/EditGroupDialog.svelte";
 	import WidgetHeader from "./WidgetHeader.svelte";
@@ -45,14 +40,6 @@
 	let menuOpen = $state(false);
 
 	let isDragging = $derived(sortable.isDragging);
-
-	const iconMap: Record<string, Component> = {
-		briefcase: BriefcaseIcon,
-		brain: BrainIcon,
-		code: CodeIcon,
-		users: UsersIcon,
-		"gamepad-2": Gamepad2Icon,
-	};
 
 	function handleSave(updatedGroup: Group) {
 		bookmarks.updateGroup(updatedGroup);

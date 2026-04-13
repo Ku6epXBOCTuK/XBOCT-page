@@ -137,7 +137,7 @@ function fromJson(data: StorageJson): { columns: Column[]; groups: Group[] } {
 	return { columns, groups };
 }
 
-interface BookmarksStore {
+interface BookmarksState {
 	getColumns(): Column[];
 	getGroups(): Group[];
 	updateGroup(updatedGroup: Group): void;
@@ -156,7 +156,7 @@ interface BookmarksStore {
 	getFaviconUrl(url: string): string;
 }
 
-function createBookmarksState(): BookmarksStore {
+function createBookmarksState(): BookmarksState {
 	const defaultData = getDefaultData();
 	let columns = $state<Column[]>(defaultData.columns);
 	let groups = $state<Group[]>(defaultData.groups);

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { Bookmark } from "@/state/bookmarks.svelte";
+	import type { Bookmark } from "$lib/state/bookmarks.svelte";
 	import { createDroppable } from "@dnd-kit/svelte";
 	import BookmarkLink from "./BookmarkLink.svelte";
 

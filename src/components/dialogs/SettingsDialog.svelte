@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { bookmarks } from "@/state/bookmarks.svelte";
+	import { bookmarks } from "$lib/state/bookmarks.svelte";
 	import DownloadIcon from "~icons/lucide/download";
 	import UploadIcon from "~icons/lucide/upload";
 	import XIcon from "~icons/lucide/x";

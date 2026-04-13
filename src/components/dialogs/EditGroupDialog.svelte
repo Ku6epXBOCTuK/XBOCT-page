@@ -1,17 +1,14 @@
 <script lang="ts">
-	import type { Bookmark, Group } from "@/state/bookmarks.svelte";
-	import type { Component } from "svelte";
-	import { bookmarks as bookmarksStore } from "@/state/bookmarks.svelte";
+	import type { Bookmark, Group } from "$lib/state/bookmarks.svelte";
+	import { bookmarks as bookmarksState } from "$lib/state/bookmarks.svelte";
+	import { getDomain } from "$lib/url";
+	import { iconOptions } from "$lib/icons";
+	import { fetchPageInfo } from "$lib/services/bookmarks";
 	import ArrowDownIcon from "~icons/lucide/arrow-down";
 	import ArrowUpIcon from "~icons/lucide/arrow-up";
-	import BrainIcon from "~icons/lucide/brain";
-	import BriefcaseIcon from "~icons/lucide/briefcase";
-	import CodeIcon from "~icons/lucide/code";
-	import Gamepad2Icon from "~icons/lucide/gamepad-2";
 	import PencilIcon from "~icons/lucide/pencil";
 	import PlusIcon from "~icons/lucide/plus";
 	import TrashIcon from "~icons/lucide/trash-2";
-	import UsersIcon from "~icons/lucide/users";
 	import XIcon from "~icons/lucide/x";
 	import BookmarkEditDialog from "./BookmarkEditDialog.svelte";
 
@@ -37,19 +34,6 @@
 	let editingBookmarkId: string | null = $state(null);
 	let editingBookmark: Bookmark | null = $state(null);
 
-	const iconOptions: {
-		value: string;
-		icon: Component | null;
-		label: string;
-	}[] = [
-		{ value: "", icon: null, label: "Без иконки" },
-		{ value: "briefcase", icon: BriefcaseIcon, label: "Briefcase" },
-		{ value: "brain", icon: BrainIcon, label: "Brain" },
-		{ value: "code", icon: CodeIcon, label: "Code" },
-		{ value: "users", icon: UsersIcon, label: "Users" },
-		{ value: "gamepad-2", icon: Gamepad2Icon, label: "Gamepad" },
-	];
-
 	function handleSave() {
 		onSave({
 			...group,
@@ -74,65 +58,16 @@
 		const url = newUrl.trim();
 		if (!url) return;
 
-		const domain = getDomain(url);
-		const id = crypto.randomUUID();
-		const tempTitle = "получаем название...";
-
+		const pageInfo = await fetchPageInfo(url);
 		const newBookmark: Bookmark = {
-			id,
-			title: tempTitle,
+			id: crypto.randomUUID(),
+			title: pageInfo.title || getDomain(url),
 			url,
-			favicon: bookmarksStore.getFaviconUrl(url),
+			favicon: pageInfo.favicon || bookmarksState.getFaviconUrl(url),
 		};
 
 		bookmarks = [...bookmarks, newBookmark];
-		loadingUrls = new Set([...loadingUrls, id]);
 		newUrl = "";
-
-		console.log("[EditGroupDialog] Sending request for:", url);
-
-		try {
-			const response = await chrome.runtime.sendMessage({
-				action: "fetchPageInfo",
-				url,
-			});
-
-			console.log("[EditGroupDialog] Response:", response);
-
-			if (response && !response.error) {
-				bookmarks = bookmarks.map((b) =>
-					b.id === id
-						? {
-								...b,
-								title: response.title || domain,
-							}
-						: b,
-				);
-			} else {
-				console.log(
-					"[EditGroupDialog] Error or no response, using domain:",
-					domain,
-				);
-				bookmarks = bookmarks.map((b) =>
-					b.id === id ? { ...b, title: domain } : b,
-				);
-			}
-		} catch (err) {
-			console.error("[EditGroupDialog] Catch error:", err);
-			bookmarks = bookmarks.map((b) =>
-				b.id === id ? { ...b, title: domain } : b,
-			);
-		} finally {
-			loadingUrls = new Set([...loadingUrls].filter((i) => i !== id));
-		}
-	}
-
-	function getDomain(url: string): string {
-		try {
-			return new URL(url).hostname;
-		} catch {
-			return url;
-		}
 	}
 
 	function removeBookmark(id: string) {

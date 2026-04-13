@@ -1,6 +1,6 @@
 <script lang="ts">
-	import type { Column as ColumnType } from "@/state/bookmarks.svelte";
-	import { bookmarks } from "@/state/bookmarks.svelte";
+	import type { Column as ColumnType } from "$lib/state/bookmarks.svelte";
+	import { bookmarks } from "$lib/state/bookmarks.svelte";
 	import { createDroppable } from "@dnd-kit/svelte";
 	import Widget from "./Widget.svelte";
 

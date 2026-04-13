@@ -52,12 +52,17 @@ Chrome расширение со стартовой страницей для у
 
 ```
 src/
-├── types/          # TypeScript интерфейсы
-├── lib/            # Утилиты, services
+├── lib/            # Утилиты, services, state
+│   ├── state/     # Svelte state с runes (называть *.svelte.ts)
+│   ├── services/  # Сервисы
+│   ├── composables/ # Композаблы
+│   └── *.ts       # Утилиты
 ├── components/     # Переиспользуемые компоненты
-├── start/          # Стартовая страница (newtab)
-└── popup/          # Popup окно
+├── start/         # Стартовая страница (newtab)
+└── popup/         # Popup окно
 ```
+
+**Важно:** Файлы в `lib/state/` должны называться `*.svelte.ts`, т.к. используют Svelte runes (`$state`, `$derived`, `$effect`).
 
 ### 5. Конфиги
 

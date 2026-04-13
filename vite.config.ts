@@ -12,6 +12,7 @@ export default defineConfig({
 		alias: {
 			"@": `${path.resolve(__dirname, "src")}`,
 			$cmp: `${path.resolve(__dirname, "src/components")}`,
+			$lib: `${path.resolve(__dirname, "src/lib")}`,
 		},
 	},
 	plugins: [

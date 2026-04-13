@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { getTheme, toggleTheme } from "$lib/composables/useTheme";
 	import MoonIcon from "~icons/lucide/moon";
 	import SettingsIcon from "~icons/lucide/settings";
 	import SunIcon from "~icons/lucide/sun";
@@ -11,18 +12,11 @@
 
 	let { onSearch }: Props = $props();
 
-	let theme = $state(
-		typeof window !== "undefined"
-			? document.documentElement.getAttribute("data-theme") || "dark"
-			: "dark",
-	);
-
+	let theme = $state(getTheme());
 	let settingsOpen = $state(false);
 
-	function toggleTheme() {
-		const newTheme = theme === "dark" ? "light" : "dark";
-		theme = newTheme;
-		document.documentElement.setAttribute("data-theme", newTheme);
+	function handleToggleTheme() {
+		theme = toggleTheme();
 	}
 </script>
 
@@ -32,7 +26,11 @@
 		<Search {onSearch} />
 	</div>
 	<div class="header-right">
-		<button class="icon-button" onclick={toggleTheme} title="Переключить тему">
+		<button
+			class="icon-button"
+			onclick={handleToggleTheme}
+			title="Переключить тему"
+		>
 			{#if theme === "dark"}
 				<SunIcon />
 			{:else}

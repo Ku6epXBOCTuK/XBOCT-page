@@ -8,7 +8,8 @@
 		"module": "ESNext",
 		"paths": {
 			"@/*": ["./src/*"],
-			"$cmp/*": ["./src/components/*"]
+			"$cmp/*": ["./src/components/*"],
+			"$lib/*": ["./src/lib/*"]
 		},
 		"resolveJsonModule": true,
 		/**

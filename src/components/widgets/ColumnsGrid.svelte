@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { bookmarks } from "@/state/bookmarks.svelte";
+	import { bookmarks } from "$lib/state/bookmarks.svelte";
 	import Column from "./Column.svelte";
 
 	interface Props {

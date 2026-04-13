@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { Bookmark } from "@/state/bookmarks.svelte";
+	import type { Bookmark } from "$lib/state/bookmarks.svelte";
 	import XIcon from "~icons/lucide/x";
 
 	interface Props {
