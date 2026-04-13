@@ -4,12 +4,13 @@
 	import { getDomain } from "$lib/url";
 	import { iconOptions } from "$lib/icons";
 	import { fetchPageInfo } from "$lib/services/bookmarks";
+	import Dialog from "$cmp/Dialog.svelte";
+	import IconButton from "$cmp/IconButton.svelte";
 	import ArrowDownIcon from "~icons/lucide/arrow-down";
 	import ArrowUpIcon from "~icons/lucide/arrow-up";
 	import PencilIcon from "~icons/lucide/pencil";
 	import PlusIcon from "~icons/lucide/plus";
 	import TrashIcon from "~icons/lucide/trash-2";
-	import XIcon from "~icons/lucide/x";
 	import BookmarkEditDialog from "./BookmarkEditDialog.svelte";
 
 	interface Props {
@@ -21,11 +22,8 @@
 
 	let { group, onSave, onCancel, onDelete }: Props = $props();
 
-	// svelte-ignore state_referenced_locally
 	let name = $state(group.name);
-	// svelte-ignore state_referenced_locally
 	let icon = $state(group.icon || "");
-	// svelte-ignore state_referenced_locally
 	let bookmarks = $state<Bookmark[]>([...group.bookmarks]);
 
 	let newUrl = $state("");
@@ -105,140 +103,102 @@
 	}
 
 	function handleBookmarkCancel() {
-		if (
-			editingBookmark &&
-			!group.bookmarks.find((b) => b.id === editingBookmark!.id)
-		) {
-			// Добавленная но не сохраненная - удаляем
-		}
 		editingBookmarkId = null;
 		editingBookmark = null;
 	}
-
-	function handleKeydown(e: KeyboardEvent) {
-		if (e.key === "Escape") onCancel();
-	}
 </script>
 
-<div class="dialog-overlay" onclick={onCancel} role="presentation">
-	<div
-		class="dialog"
-		onclick={(e) => e.stopPropagation()}
-		role="dialog"
-		aria-modal="true"
-		tabindex="-1"
-		onkeydown={handleKeydown}
-	>
-		<div class="dialog-header">
-			<h2>Редактирование группы</h2>
-			<button class="close-btn" onclick={onCancel}>
-				<XIcon />
-			</button>
+<Dialog title="Редактирование группы" onclose={onCancel}>
+	<div class="form-group">
+		<label for="group-name">Название</label>
+		<input
+			id="group-name"
+			type="text"
+			bind:value={name}
+			placeholder="Название группы"
+		/>
+	</div>
+
+	<div class="form-group">
+		<label for="group-icon">Иконка</label>
+		<select id="group-icon" bind:value={icon}>
+			{#each iconOptions as opt (opt.value)}
+				<option value={opt.value}>{opt.label}</option>
+			{/each}
+		</select>
+	</div>
+
+	<div class="form-group">
+		<label for="bookmarks-list">Закладки</label>
+		<div class="url-input-row">
+			<input
+				type="url"
+				id="new-url"
+				bind:value={newUrl}
+				placeholder="https://example.com"
+				onkeydown={(e) => e.key === "Enter" && addBookmarkByUrl()}
+			/>
+			<button class="add-url-btn" onclick={addBookmarkByUrl}>Добавить</button>
 		</div>
-
-		<div class="dialog-content">
-			<div class="form-group">
-				<label for="group-name">Название</label>
-				<input
-					id="group-name"
-					type="text"
-					bind:value={name}
-					placeholder="Название группы"
-				/>
-			</div>
-
-			<div class="form-group">
-				<label for="group-icon">Иконка</label>
-				<select id="group-icon" bind:value={icon}>
-					{#each iconOptions as opt (opt.value)}
-						<option value={opt.value}>{opt.label}</option>
-					{/each}
-				</select>
-			</div>
-
-			<div class="form-group">
-				<label for="bookmarks-list">Закладки</label>
-				<div class="url-input-row">
-					<input
-						type="url"
-						id="new-url"
-						bind:value={newUrl}
-						placeholder="https://example.com"
-						onkeydown={(e) => e.key === "Enter" && addBookmarkByUrl()}
-					/>
-					<button class="add-url-btn" onclick={addBookmarkByUrl}>
-						Добавить
-					</button>
+		<div id="bookmarks-list" class="bookmarks-list">
+			{#each bookmarks as bookmark, index (bookmark.id)}
+				<div class="bookmark-item">
+					{#if bookmark.favicon}
+						<img src={bookmark.favicon} alt="" class="bookmark-favicon" />
+					{/if}
+					<span
+						class="bookmark-title"
+						class:loading={loadingUrls.has(bookmark.id)}
+						contenteditable="true"
+						oninput={(e) => {
+							const target = e.target as HTMLElement;
+							bookmark.title = target.innerText;
+						}}
+					>
+						{bookmark.title}
+					</span>
+					<div class="bookmark-actions">
+						<IconButton
+							icon={ArrowUpIcon}
+							disabled={index === 0}
+							onClick={() => moveBookmark(index, -1)}
+							title="Вверх"
+						/>
+						<IconButton
+							icon={ArrowDownIcon}
+							disabled={index === bookmarks.length - 1}
+							onClick={() => moveBookmark(index, 1)}
+							title="Вниз"
+						/>
+						<IconButton
+							icon={PencilIcon}
+							onClick={() => openBookmarkEdit(bookmark)}
+							title="Редактировать"
+						/>
+						<IconButton
+							icon={TrashIcon}
+							variant="danger"
+							onClick={() => removeBookmark(bookmark.id)}
+							title="Удалить"
+						/>
+					</div>
 				</div>
-				<div id="bookmarks-list" class="bookmarks-list">
-					{#each bookmarks as bookmark, index (bookmark.id)}
-						<div class="bookmark-item">
-							{#if bookmark.favicon}
-								<img src={bookmark.favicon} alt="" class="bookmark-favicon" />
-							{/if}
-							<span
-								class="bookmark-title"
-								class:loading={loadingUrls.has(bookmark.id)}
-								contenteditable="true"
-								oninput={(e) => {
-									const target = e.target as HTMLElement;
-									bookmark.title = target.innerText;
-								}}
-							>
-								{bookmark.title}
-							</span>
-							<div class="bookmark-actions">
-								<button
-									class="action-btn"
-									disabled={index === 0}
-									onclick={() => moveBookmark(index, -1)}
-									title="Вверх"
-								>
-									<ArrowUpIcon />
-								</button>
-								<button
-									class="action-btn"
-									disabled={index === bookmarks.length - 1}
-									onclick={() => moveBookmark(index, 1)}
-									title="Вниз"
-								>
-									<ArrowDownIcon />
-								</button>
-								<button
-									class="action-btn"
-									onclick={() => openBookmarkEdit(bookmark)}
-									title="Редактировать"
-								>
-									<PencilIcon />
-								</button>
-								<button
-									class="action-btn delete"
-									onclick={() => removeBookmark(bookmark.id)}
-									title="Удалить"
-								>
-									<TrashIcon />
-								</button>
-							</div>
-						</div>
-					{/each}
-				</div>
-				<button class="add-btn" onclick={addBookmark}>
-					<PlusIcon />
-					Добавить закладку
-				</button>
-			</div>
+			{/each}
 		</div>
+		<button class="add-btn" onclick={addBookmark}>
+			<PlusIcon />
+			Добавить закладку
+		</button>
+	</div>
 
-		<div class="dialog-footer">
-			<button class="delete-group-btn" onclick={onDelete}>Удалить группу</button
-			>
-			<div class="footer-right">
-				<button class="cancel-btn" onclick={onCancel}>Отмена</button>
-				<button class="save-btn" onclick={handleSave}>Сохранить</button>
-			</div>
+	<div class="dialog-footer">
+		<button class="delete-group-btn" onclick={onDelete}>Удалить группу</button>
+		<div class="footer-right">
+			<button class="cancel-btn" onclick={onCancel}>Отмена</button>
+			<button class="save-btn" onclick={handleSave}>Сохранить</button>
 		</div>
 	</div>
-</div>
+</Dialog>
 
 {#if editingBookmark && editingBookmarkId}
 	<BookmarkEditDialog
@@ -250,70 +210,6 @@
 {/if}
 
 <style>
-	.dialog-overlay {
-		position: fixed;
-		inset: 0;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		background: var(--overlay-black-70);
-		z-index: 1000;
-	}
-
-	.dialog {
-		width: 90%;
-		max-width: 480px;
-		max-height: 85vh;
-		display: flex;
-		flex-direction: column;
-		background: var(--surface);
-		border: 1px solid var(--overlay-white-10);
-		border-radius: 0.75rem;
-		overflow: hidden;
-	}
-
-	.dialog-header {
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-		padding: 1rem;
-		border-bottom: 1px solid var(--overlay-white-10);
-	}
-
-	.dialog-header h2 {
-		font-size: 1rem;
-		font-weight: 600;
-		margin: 0;
-	}
-
-	.close-btn {
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		width: 2rem;
-		height: 2rem;
-		padding: 0;
-		background: transparent;
-		border: none;
-		border-radius: 0.5rem;
-		color: var(--on-surface-dim);
-		cursor: pointer;
-	}
-
-	.close-btn:hover {
-		background: var(--overlay-white-10);
-		color: var(--on-surface);
-	}
-
-	.dialog-content {
-		flex: 1;
-		padding: 1rem;
-		overflow-y: auto;
-		display: flex;
-		flex-direction: column;
-		gap: 1rem;
-	}
-
 	.form-group {
 		display: flex;
 		flex-direction: column;
@@ -388,34 +284,6 @@
 		flex-shrink: 0;
 	}
 
-	.action-btn {
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		width: 1.75rem;
-		height: 1.75rem;
-		padding: 0;
-		background: transparent;
-		border: none;
-		border-radius: 0.375rem;
-		color: var(--on-surface-dim);
-		cursor: pointer;
-	}
-
-	.action-btn:hover:not(:disabled) {
-		background: var(--overlay-white-10);
-		color: var(--on-surface);
-	}
-
-	.action-btn:disabled {
-		opacity: 0.3;
-		cursor: not-allowed;
-	}
-
-	.action-btn.delete:hover {
-		color: var(--danger);
-	}
-
 	.add-btn {
 		display: flex;
 		align-items: center;
@@ -442,7 +310,7 @@
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
-		padding: 1rem;
+		padding-top: 1rem;
 		border-top: 1px solid var(--overlay-white-10);
 	}
 

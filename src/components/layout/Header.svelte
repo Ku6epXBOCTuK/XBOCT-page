@@ -48,7 +48,7 @@
 </header>
 
 {#if settingsOpen}
-	<SettingsDialog onClose={() => (settingsOpen = false)} />
+	<SettingsDialog onclose={() => (settingsOpen = false)} />
 {/if}
 
 <style>
