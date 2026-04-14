@@ -2,16 +2,16 @@
 	import SearchIcon from "~icons/lucide/search";
 
 	interface Props {
-		onSearch?: (query: string) => void;
+		onsearch?: (query: string) => void;
 	}
 
-	let { onSearch }: Props = $props();
+	let { onsearch }: Props = $props();
 	let value = $state("");
 
 	function handleInput(e: Event) {
 		const target = e.target as HTMLInputElement;
 		value = target.value;
-		onSearch?.(value);
+		onsearch?.(value);
 	}
 </script>
 

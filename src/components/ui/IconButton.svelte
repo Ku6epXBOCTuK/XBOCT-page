@@ -4,7 +4,7 @@
 	interface Props {
 		icon: Component;
 		title?: string;
-		onClick?: () => void;
+		onclick?: () => void;
 		disabled?: boolean;
 		variant?: "default" | "danger";
 	}
@@ -12,13 +12,13 @@
 	let {
 		icon: Icon,
 		title,
-		onClick,
+		onclick,
 		disabled = false,
 		variant = "default",
 	}: Props = $props();
 </script>
 
-<button class="icon-btn {variant}" onclick={onClick} {disabled} {title}>
+<button class="icon-btn {variant}" {onclick} {disabled} {title}>
 	<Icon />
 </button>
 

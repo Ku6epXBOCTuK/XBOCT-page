@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { bookmarks } from "$lib/state/bookmarks.svelte";
-	import Dialog from "$cmp/Dialog.svelte";
+	import Dialog from "$cmp/layout/Dialog.svelte";
+	import Button from "$cmp/ui/Button.svelte";
 	import DownloadIcon from "~icons/lucide/download";
 	import UploadIcon from "~icons/lucide/upload";
 
@@ -63,14 +64,14 @@
 		</label>
 
 		<div class="buttons-row">
-			<button class="action-btn" onclick={handleExport}>
+			<Button variant="secondary" onclick={handleExport}>
 				<DownloadIcon />
 				Экспорт
-			</button>
-			<button class="action-btn" onclick={handleImportClick}>
+			</Button>
+			<Button variant="secondary" onclick={handleImportClick}>
 				<UploadIcon />
 				Импорт
-			</button>
+			</Button>
 		</div>
 
 		<input
@@ -109,26 +110,6 @@
 	.buttons-row {
 		display: flex;
 		gap: 0.75rem;
-	}
-
-	.action-btn {
-		flex: 1;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		gap: 0.5rem;
-		padding: 0.75rem;
-		background: var(--overlay-white-5);
-		border: 1px solid var(--overlay-white-10);
-		border-radius: 0.5rem;
-		color: var(--on-surface);
-		font-size: 0.875rem;
-		cursor: pointer;
-		transition: background 0.15s;
-	}
-
-	.action-btn:hover {
-		background: var(--overlay-white-10);
 	}
 
 	.import-status {

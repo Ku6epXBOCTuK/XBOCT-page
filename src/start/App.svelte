@@ -134,7 +134,7 @@
 <div class="start-page">
 	<Background />
 
-	<Header onSearch={handleSearch} />
+	<Header onsearch={handleSearch} />
 
 	<main class="main">
 		<Stats count={totalBookmarks} />

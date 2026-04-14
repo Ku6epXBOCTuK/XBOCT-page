@@ -6,6 +6,7 @@
 	import BookmarkList from "./BookmarkList.svelte";
 	import EditGroupDialog from "../dialogs/EditGroupDialog.svelte";
 	import WidgetHeader from "./WidgetHeader.svelte";
+	import WidgetMenu from "./WidgetMenu.svelte";
 
 	interface Props {
 		group: Group;
@@ -56,8 +57,8 @@
 	<WidgetHeader
 		name={group.name}
 		icon={group.icon ? iconMap[group.icon] : undefined}
-		onEdit={() => (editDialogOpen = true)}
-		onMenu={() => (menuOpen = !menuOpen)}
+		onedit={() => (editDialogOpen = true)}
+		onmenu={() => (menuOpen = !menuOpen)}
 	/>
 	<BookmarkList bookmarks={group.bookmarks} groupId={group.id} />
 </div>
@@ -65,30 +66,15 @@
 {#if editDialogOpen}
 	<EditGroupDialog
 		{group}
-		onSave={handleSave}
-		onCancel={() => (editDialogOpen = false)}
-		onDelete={handleDelete}
+		onsave={handleSave}
+		oncancel={() => (editDialogOpen = false)}
+		ondelete={handleDelete}
 	/>
 {/if}
 
-{#if menuOpen}
-	<div
-		class="menu-overlay"
-		onclick={() => (menuOpen = false)}
-		onkeydown={(e) => e.key === "Escape" && (menuOpen = false)}
-		role="presentation"
-	>
-		<div
-			class="menu"
-			onclick={(e) => e.stopPropagation()}
-			onkeydown={(e) => e.key === "Escape" && (menuOpen = false)}
-			role="menu"
-			tabindex="-1"
-		>
-			<div class="menu-item" role="menuitem">П-placeholder меню</div>
-		</div>
-	</div>
-{/if}
+<WidgetMenu open={menuOpen} onclose={() => (menuOpen = false)}>
+	<div class="menu-item" role="menuitem">П-placeholder меню</div>
+</WidgetMenu>
 
 <style>
 	.widget {
@@ -104,23 +90,6 @@
 
 	.widget.dragging {
 		opacity: 0.3;
-	}
-
-	.menu-overlay {
-		position: fixed;
-		inset: 0;
-		z-index: 100;
-	}
-
-	.menu {
-		position: absolute;
-		top: 2rem;
-		right: 0.5rem;
-		min-width: 120px;
-		background: var(--surface);
-		border: 1px solid var(--overlay-white-10);
-		border-radius: 0.5rem;
-		padding: 0.25rem;
 	}
 
 	.menu-item {

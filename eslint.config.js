@@ -1,5 +1,5 @@
-import tseslint from "typescript-eslint";
 import eslintPluginSvelte from "eslint-plugin-svelte";
+import tseslint from "typescript-eslint";
 
 export default [
 	...tseslint.configs.recommended,
@@ -10,19 +10,26 @@ export default [
 		},
 	},
 	{
-		files: ["**/*.svelte"],
+		files: ["**/*.svelte", "**/*.svelte.ts", "**/*.ts"],
 		languageOptions: {
 			parserOptions: {
 				parser: tseslint.parser,
 			},
 		},
-	},
-	{
-		files: ["**/*.svelte.ts"],
-		languageOptions: {
-			parserOptions: {
-				parser: tseslint.parser,
-			},
+		rules: {
+			"@typescript-eslint/naming-convention": [
+				"error",
+				{
+					selector: ["property", "variable"],
+					filter: { regex: "^on", match: true },
+					format: null,
+					custom: {
+						// Проверяем, что после 'on' идут только строчные буквы
+						regex: "^on[a-z]+$",
+						match: true,
+					},
+				},
+			],
 		},
 	},
 ];

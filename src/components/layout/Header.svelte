@@ -3,14 +3,14 @@
 	import MoonIcon from "~icons/lucide/moon";
 	import SettingsIcon from "~icons/lucide/settings";
 	import SunIcon from "~icons/lucide/sun";
-	import Search from "../ui/Search.svelte";
 	import SettingsDialog from "../dialogs/SettingsDialog.svelte";
+	import Search from "../ui/Search.svelte";
 
 	interface Props {
-		onSearch?: (query: string) => void;
+		onsearch?: (query: string) => void;
 	}
 
-	let { onSearch }: Props = $props();
+	let { onsearch }: Props = $props();
 
 	let settingsOpen = $state(false);
 </script>
@@ -18,7 +18,7 @@
 <header class="header">
 	<div class="header-left">
 		<span class="logo">XBOCT</span>
-		<Search {onSearch} />
+		<Search {onsearch} />
 	</div>
 	<div class="header-right">
 		<button class="icon-button" onclick={theme.toggle} title="Переключить тему">

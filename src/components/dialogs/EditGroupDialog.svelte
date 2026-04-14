@@ -1,11 +1,12 @@
 <script lang="ts">
+	import Dialog from "$cmp/layout/Dialog.svelte";
+	import Button from "$cmp/ui/Button.svelte";
+	import IconButton from "$cmp/ui/IconButton.svelte";
+	import { iconOptions } from "$lib/icons";
+	import { fetchPageInfo } from "$lib/services/bookmarks";
 	import type { Bookmark, Group } from "$lib/state/bookmarks.svelte";
 	import { bookmarks as bookmarksState } from "$lib/state/bookmarks.svelte";
 	import { getDomain } from "$lib/url";
-	import { iconOptions } from "$lib/icons";
-	import { fetchPageInfo } from "$lib/services/bookmarks";
-	import Dialog from "$cmp/Dialog.svelte";
-	import IconButton from "$cmp/IconButton.svelte";
 	import ArrowDownIcon from "~icons/lucide/arrow-down";
 	import ArrowUpIcon from "~icons/lucide/arrow-up";
 	import PencilIcon from "~icons/lucide/pencil";
@@ -15,12 +16,12 @@
 
 	interface Props {
 		group: Group;
-		onSave: (group: Group) => void;
-		onCancel: () => void;
-		onDelete: () => void;
+		onsave: (group: Group) => void;
+		oncancel: () => void;
+		ondelete: () => void;
 	}
 
-	let { group, onSave, onCancel, onDelete }: Props = $props();
+	let { group, onsave, oncancel, ondelete }: Props = $props();
 
 	let name = $state(group.name);
 	let icon = $state(group.icon || "");
@@ -33,7 +34,7 @@
 	let editingBookmark: Bookmark | null = $state(null);
 
 	function handleSave() {
-		onSave({
+		onsave({
 			...group,
 			name,
 			icon: icon || undefined,
@@ -108,7 +109,7 @@
 	}
 </script>
 
-<Dialog title="Редактирование группы" onclose={onCancel}>
+<Dialog title="Редактирование группы" onclose={oncancel}>
 	<div class="form-group">
 		<label for="group-name">Название</label>
 		<input
@@ -138,7 +139,7 @@
 				placeholder="https://example.com"
 				onkeydown={(e) => e.key === "Enter" && addBookmarkByUrl()}
 			/>
-			<button class="add-url-btn" onclick={addBookmarkByUrl}>Добавить</button>
+			<Button variant="primary" onclick={addBookmarkByUrl}>Добавить</Button>
 		</div>
 		<div id="bookmarks-list" class="bookmarks-list">
 			{#each bookmarks as bookmark, index (bookmark.id)}
@@ -161,41 +162,41 @@
 						<IconButton
 							icon={ArrowUpIcon}
 							disabled={index === 0}
-							onClick={() => moveBookmark(index, -1)}
+							onclick={() => moveBookmark(index, -1)}
 							title="Вверх"
 						/>
 						<IconButton
 							icon={ArrowDownIcon}
 							disabled={index === bookmarks.length - 1}
-							onClick={() => moveBookmark(index, 1)}
+							onclick={() => moveBookmark(index, 1)}
 							title="Вниз"
 						/>
 						<IconButton
 							icon={PencilIcon}
-							onClick={() => openBookmarkEdit(bookmark)}
+							onclick={() => openBookmarkEdit(bookmark)}
 							title="Редактировать"
 						/>
 						<IconButton
 							icon={TrashIcon}
 							variant="danger"
-							onClick={() => removeBookmark(bookmark.id)}
+							onclick={() => removeBookmark(bookmark.id)}
 							title="Удалить"
 						/>
 					</div>
 				</div>
 			{/each}
 		</div>
-		<button class="add-btn" onclick={addBookmark}>
+		<Button variant="ghost" onclick={addBookmark}>
 			<PlusIcon />
 			Добавить закладку
-		</button>
+		</Button>
 	</div>
 
 	<div class="dialog-footer">
-		<button class="delete-group-btn" onclick={onDelete}>Удалить группу</button>
+		<Button variant="danger" onclick={ondelete}>Удалить группу</Button>
 		<div class="footer-right">
-			<button class="cancel-btn" onclick={onCancel}>Отмена</button>
-			<button class="save-btn" onclick={handleSave}>Сохранить</button>
+			<Button variant="secondary" onclick={oncancel}>Отмена</Button>
+			<Button variant="primary" onclick={handleSave}>Сохранить</Button>
 		</div>
 	</div>
 </Dialog>
@@ -203,9 +204,9 @@
 {#if editingBookmark && editingBookmarkId}
 	<BookmarkEditDialog
 		bookmark={editingBookmark}
-		onSave={handleBookmarkSave}
-		onCancel={handleBookmarkCancel}
-		onDelete={() => handleBookmarkDelete(editingBookmarkId!)}
+		onsave={handleBookmarkSave}
+		oncancel={handleBookmarkCancel}
+		ondelete={() => handleBookmarkDelete(editingBookmarkId!)}
 	/>
 {/if}
 
@@ -284,28 +285,6 @@
 		flex-shrink: 0;
 	}
 
-	.add-btn {
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		gap: 0.5rem;
-		padding: 0.5rem;
-		background: transparent;
-		border: 1px dashed var(--overlay-white-20);
-		border-radius: 0.5rem;
-		color: var(--on-surface-dim);
-		font-size: 0.875rem;
-		cursor: pointer;
-		transition:
-			border-color 0.15s ease,
-			color 0.15s ease;
-	}
-
-	.add-btn:hover {
-		border-color: var(--primary);
-		color: var(--primary);
-	}
-
 	.dialog-footer {
 		display: flex;
 		align-items: center;
@@ -317,51 +296,6 @@
 	.footer-right {
 		display: flex;
 		gap: 0.5rem;
-	}
-
-	.delete-group-btn {
-		padding: 0.5rem 1rem;
-		background: transparent;
-		border: 1px solid var(--danger);
-		border-radius: 0.5rem;
-		color: var(--danger);
-		font-size: 0.875rem;
-		cursor: pointer;
-		transition: background 0.15s ease;
-	}
-
-	.delete-group-btn:hover {
-		background: var(--danger-alpha);
-	}
-
-	.cancel-btn {
-		padding: 0.5rem 1rem;
-		background: var(--overlay-white-10);
-		border: none;
-		border-radius: 0.5rem;
-		color: var(--on-surface);
-		font-size: 0.875rem;
-		cursor: pointer;
-	}
-
-	.cancel-btn:hover {
-		background: var(--overlay-white-15);
-	}
-
-	.save-btn {
-		padding: 0.5rem 1rem;
-		background: var(--primary);
-		border: none;
-		border-radius: 0.5rem;
-		color: var(--on-surface-inverse);
-		font-size: 0.875rem;
-		font-weight: 600;
-		cursor: pointer;
-		transition: opacity 0.15s ease;
-	}
-
-	.save-btn:hover {
-		opacity: 0.9;
 	}
 
 	.url-input-row {
@@ -383,21 +317,6 @@
 	.url-input-row input:focus {
 		outline: none;
 		border-color: var(--primary);
-	}
-
-	.add-url-btn {
-		padding: 0.5rem 1rem;
-		background: var(--primary);
-		border: none;
-		border-radius: 0.5rem;
-		color: var(--on-surface-inverse);
-		font-size: 0.875rem;
-		font-weight: 600;
-		cursor: pointer;
-	}
-
-	.add-url-btn:hover {
-		opacity: 0.9;
 	}
 
 	.bookmark-title.loading {

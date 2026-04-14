@@ -1,28 +1,25 @@
 <script lang="ts">
 	import type { Component } from "svelte";
+	import IconButton from "$cmp/ui/IconButton.svelte";
 	import MoreVerticalIcon from "~icons/lucide/more-vertical";
 	import PencilIcon from "~icons/lucide/pencil";
 
 	interface Props {
 		name: string;
 		icon?: Component;
-		onEdit?: () => void;
-		onMenu?: () => void;
+		onedit?: () => void;
+		onmenu?: () => void;
 	}
 
-	let { name, icon: Icon, onEdit, onMenu }: Props = $props();
+	let { name, icon: Icon, onedit, onmenu }: Props = $props();
 </script>
 
 <div class="widget-header">
 	<h2 class="widget-title">{name}</h2>
 	<div class="widget-header-right">
 		<div class="widget-header-actions">
-			<button class="header-btn" onclick={onEdit} title="Редактировать">
-				<PencilIcon />
-			</button>
-			<button class="header-btn" onclick={onMenu} title="Меню">
-				<MoreVerticalIcon />
-			</button>
+			<IconButton icon={PencilIcon} title="Редактировать" onclick={onedit} />
+			<IconButton icon={MoreVerticalIcon} title="Меню" onclick={onmenu} />
 		</div>
 		{#if Icon}
 			<div class="widget-icon">
@@ -75,27 +72,5 @@
 
 	:global(.widget:hover) .widget-header-actions {
 		opacity: 1;
-	}
-
-	.header-btn {
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		width: 1.25rem;
-		height: 1.25rem;
-		padding: 0;
-		background: transparent;
-		border: none;
-		border-radius: 0.25rem;
-		color: var(--on-surface-dim);
-		cursor: pointer;
-		transition:
-			color 0.15s ease,
-			background 0.15s ease;
-	}
-
-	.header-btn:hover {
-		color: var(--on-surface);
-		background: var(--overlay-white-10);
 	}
 </style>

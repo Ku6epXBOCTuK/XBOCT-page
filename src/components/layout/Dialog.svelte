@@ -1,11 +1,12 @@
 <script lang="ts">
-	import { closeOnSelectOutside } from "@/lib/attachments";
+	import type { Snippet } from "svelte";
+	import Overlay from "./Overlay.svelte";
 	import XIcon from "~icons/lucide/x";
 
 	interface Props {
 		title: string;
 		onclose: () => void;
-		children?: import("svelte").Snippet;
+		children: Snippet;
 	}
 
 	let { title, onclose, children }: Props = $props();
@@ -15,11 +16,7 @@
 	}
 </script>
 
-<div
-	class="dialog-overlay"
-	role="presentation"
-	{@attach closeOnSelectOutside(onclose)}
->
+<Overlay dark {onclose}>
 	<div
 		class="dialog"
 		onclick={(e) => e.stopPropagation()}
@@ -35,22 +32,12 @@
 			</button>
 		</div>
 		<div class="dialog-content">
-			{@render children?.()}
+			{@render children()}
 		</div>
 	</div>
-</div>
+</Overlay>
 
 <style>
-	.dialog-overlay {
-		position: fixed;
-		inset: 0;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		background: var(--overlay-black-70);
-		z-index: 1000;
-	}
-
 	.dialog {
 		width: 90%;
 		max-width: 480px;

@@ -1,15 +1,16 @@
 <script lang="ts">
+	import Dialog from "$cmp/layout/Dialog.svelte";
+	import Button from "$cmp/ui/Button.svelte";
 	import type { Bookmark } from "$lib/state/bookmarks.svelte";
-	import Dialog from "$cmp/Dialog.svelte";
 
 	interface Props {
 		bookmark: Bookmark;
-		onSave: (bookmark: Bookmark) => void;
-		onCancel: () => void;
-		onDelete: () => void;
+		onsave: (bookmark: Bookmark) => void;
+		oncancel: () => void;
+		ondelete: () => void;
 	}
 
-	let { bookmark, onSave, onCancel, onDelete }: Props = $props();
+	let { bookmark, onsave, oncancel, ondelete }: Props = $props();
 
 	// svelte-ignore state_referenced_locally
 	let title = $state(bookmark.title);
@@ -18,11 +19,11 @@
 
 	function handleSave() {
 		if (!title.trim() || !url.trim()) return;
-		onSave({ ...bookmark, title: title.trim(), url: url.trim() });
+		onsave({ ...bookmark, title: title.trim(), url: url.trim() });
 	}
 </script>
 
-<Dialog title="Редактирование закладки" onclose={onCancel}>
+<Dialog title="Редактирование закладки" onclose={oncancel}>
 	{#if bookmark.favicon}
 		<div class="favicon-preview">
 			<img src={bookmark.favicon} alt="" />
@@ -50,10 +51,10 @@
 	</div>
 
 	<div class="dialog-footer">
-		<button class="delete-btn" onclick={onDelete}>Удалить</button>
+		<Button variant="danger" onclick={ondelete}>Удалить</Button>
 		<div class="footer-right">
-			<button class="cancel-btn" onclick={onCancel}>Отмена</button>
-			<button class="save-btn" onclick={handleSave}>Сохранить</button>
+			<Button variant="secondary" onclick={oncancel}>Отмена</Button>
+			<Button variant="primary" onclick={handleSave}>Сохранить</Button>
 		</div>
 	</div>
 </Dialog>
@@ -112,50 +113,5 @@
 	.footer-right {
 		display: flex;
 		gap: 0.5rem;
-	}
-
-	.delete-btn {
-		padding: 0.5rem 1rem;
-		background: transparent;
-		border: 1px solid var(--danger);
-		border-radius: 0.5rem;
-		color: var(--danger);
-		font-size: 0.875rem;
-		cursor: pointer;
-		transition: background 0.15s ease;
-	}
-
-	.delete-btn:hover {
-		background: var(--danger-alpha);
-	}
-
-	.cancel-btn {
-		padding: 0.5rem 1rem;
-		background: var(--overlay-white-10);
-		border: none;
-		border-radius: 0.5rem;
-		color: var(--on-surface);
-		font-size: 0.875rem;
-		cursor: pointer;
-	}
-
-	.cancel-btn:hover {
-		background: var(--overlay-white-15);
-	}
-
-	.save-btn {
-		padding: 0.5rem 1rem;
-		background: var(--primary);
-		border: none;
-		border-radius: 0.5rem;
-		color: var(--on-surface-inverse);
-		font-size: 0.875rem;
-		font-weight: 600;
-		cursor: pointer;
-		transition: opacity 0.15s ease;
-	}
-
-	.save-btn:hover {
-		opacity: 0.9;
 	}
 </style>
