@@ -4,11 +4,17 @@
 	import Header from "$cmp/layout/Header.svelte";
 	import Stats from "$cmp/layout/Stats.svelte";
 	import { bookmarks } from "$lib/state/bookmarks.svelte";
+	import { logMouseEvent } from "$lib/logger";
 	import { Debug } from "@dnd-kit/dom/plugins/debug";
 	import { DragDropProvider, DragOverlay } from "@dnd-kit/svelte";
 	import { onMount } from "svelte";
 	import "../vars.css";
 	import "./style.css";
+
+	onMount(() => {
+		window.addEventListener("click", (e) => logMouseEvent(e, "click"));
+		window.addEventListener("mouseup", (e) => logMouseEvent(e, "mouseup"));
+	});
 
 	interface DragData {
 		group?: {

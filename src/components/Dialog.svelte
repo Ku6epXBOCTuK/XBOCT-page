@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { closeOnSelectOutside } from "@/lib/attachments";
 	import XIcon from "~icons/lucide/x";
 
 	interface Props {
@@ -14,7 +15,11 @@
 	}
 </script>
 
-<div class="dialog-overlay" onclick={onclose} role="presentation">
+<div
+	class="dialog-overlay"
+	role="presentation"
+	{@attach closeOnSelectOutside(onclose)}
+>
 	<div
 		class="dialog"
 		onclick={(e) => e.stopPropagation()}
