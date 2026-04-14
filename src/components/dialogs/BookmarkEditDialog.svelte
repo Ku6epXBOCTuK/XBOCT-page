@@ -2,6 +2,9 @@
 	import Dialog from "$cmp/layout/Dialog.svelte";
 	import Button from "$cmp/ui/Button.svelte";
 	import type { Bookmark } from "$lib/state/bookmarks.svelte";
+	import CheckIcon from "~icons/lucide/check";
+	import TrashIcon from "~icons/lucide/trash-2";
+	import XIcon from "~icons/lucide/x";
 
 	interface Props {
 		bookmark: Bookmark;
@@ -51,10 +54,25 @@
 	</div>
 
 	<div class="dialog-footer">
-		<Button variant="danger" onclick={ondelete}>Удалить</Button>
+		<Button
+			label="Удалить"
+			icon={TrashIcon}
+			variant="danger"
+			onclick={ondelete}
+		/>
 		<div class="footer-right">
-			<Button variant="secondary" onclick={oncancel}>Отмена</Button>
-			<Button variant="primary" onclick={handleSave}>Сохранить</Button>
+			<Button
+				label="Отмена"
+				icon={XIcon}
+				variant="secondary"
+				onclick={oncancel}
+			/>
+			<Button
+				label="Сохранить"
+				icon={CheckIcon}
+				variant="primary"
+				onclick={handleSave}
+			/>
 		</div>
 	</div>
 </Dialog>

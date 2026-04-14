@@ -64,14 +64,18 @@
 		</label>
 
 		<div class="buttons-row">
-			<Button variant="secondary" onclick={handleExport}>
-				<DownloadIcon />
-				Экспорт
-			</Button>
-			<Button variant="secondary" onclick={handleImportClick}>
-				<UploadIcon />
-				Импорт
-			</Button>
+			<Button
+				label="Экспорт"
+				icon={DownloadIcon}
+				variant="secondary"
+				onclick={handleExport}
+			/>
+			<Button
+				label="Импорт"
+				icon={UploadIcon}
+				variant="secondary"
+				onclick={handleImportClick}
+			/>
 		</div>
 
 		<input

@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { Component } from "svelte";
-	import IconButton from "$cmp/ui/IconButton.svelte";
+	import Button from "$cmp/ui/Button.svelte";
 	import MoreVerticalIcon from "~icons/lucide/more-vertical";
 	import PencilIcon from "~icons/lucide/pencil";
 
@@ -18,8 +18,20 @@
 	<h2 class="widget-title">{name}</h2>
 	<div class="widget-header-right">
 		<div class="widget-header-actions">
-			<IconButton icon={PencilIcon} title="Редактировать" onclick={onedit} />
-			<IconButton icon={MoreVerticalIcon} title="Меню" onclick={onmenu} />
+			<Button
+				icon={PencilIcon}
+				title="Редактировать"
+				onclick={onedit}
+				size="mini"
+				variant="ghost"
+			/>
+			<Button
+				icon={MoreVerticalIcon}
+				title="Меню"
+				onclick={onmenu}
+				size="mini"
+				variant="ghost"
+			/>
 		</div>
 		{#if Icon}
 			<div class="widget-icon">

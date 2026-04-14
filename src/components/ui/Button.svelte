@@ -1,27 +1,34 @@
 <script lang="ts">
-	import type { Snippet } from "svelte";
+	import type { Component } from "svelte";
 
 	interface Props {
+		icon: Component;
+		label?: string;
+		size?: "default" | "mini";
 		variant?: "primary" | "secondary" | "danger" | "ghost";
 		disabled?: boolean;
 		onclick?: () => void;
 		type?: "button" | "submit";
-		children?: Snippet;
-		class?: string;
+		title?: string;
 	}
 
 	let {
+		icon: Icon,
+		label,
+		size = "default",
 		variant = "primary",
 		disabled = false,
 		onclick,
 		type = "button",
-		children,
-		class: className = "",
+		title,
 	}: Props = $props();
 </script>
 
-<button class="btn {variant} {className}" {type} {disabled} {onclick}>
-	{@render children?.()}
+<button class="btn {size} {variant}" {type} {disabled} {onclick} {title}>
+	<Icon />
+	{#if label}
+		<span class="label">{label}</span>
+	{/if}
 </button>
 
 <style>
@@ -30,15 +37,23 @@
 		align-items: center;
 		justify-content: center;
 		gap: 0.5rem;
-		padding: 0.5rem 1rem;
-		border: none;
+		border: 1px solid transparent;
 		border-radius: 0.5rem;
 		font-size: 0.875rem;
 		font-weight: 600;
 		cursor: pointer;
 		transition:
 			opacity 0.15s ease,
-			background 0.15s ease;
+			background 0.15s ease,
+			border-color 0.15s ease;
+	}
+
+	.btn.default {
+		padding: 0.5rem 1rem;
+	}
+
+	.btn.mini {
+		padding: 0.25rem;
 	}
 
 	.btn:disabled {
@@ -57,6 +72,7 @@
 
 	.btn.secondary {
 		background: var(--overlay-white-10);
+		border-color: var(--overlay-white-10);
 		color: var(--on-surface);
 	}
 
@@ -66,7 +82,7 @@
 
 	.btn.danger {
 		background: transparent;
-		border: 1px solid var(--danger);
+		border-color: var(--danger);
 		color: var(--danger);
 	}
 
@@ -76,7 +92,7 @@
 
 	.btn.ghost {
 		background: transparent;
-		border: 1px dashed var(--overlay-white-20);
+		border-color: var(--overlay-white-20);
 		color: var(--on-surface-dim);
 	}
 

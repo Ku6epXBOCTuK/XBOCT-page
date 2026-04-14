@@ -1,7 +1,6 @@
 <script lang="ts">
 	import Dialog from "$cmp/layout/Dialog.svelte";
 	import Button from "$cmp/ui/Button.svelte";
-	import IconButton from "$cmp/ui/IconButton.svelte";
 	import { iconOptions } from "$lib/icons";
 	import { fetchPageInfo } from "$lib/services/bookmarks";
 	import type { Bookmark, Group } from "$lib/state/bookmarks.svelte";
@@ -9,9 +8,11 @@
 	import { getDomain } from "$lib/url";
 	import ArrowDownIcon from "~icons/lucide/arrow-down";
 	import ArrowUpIcon from "~icons/lucide/arrow-up";
+	import CheckIcon from "~icons/lucide/check";
 	import PencilIcon from "~icons/lucide/pencil";
 	import PlusIcon from "~icons/lucide/plus";
 	import TrashIcon from "~icons/lucide/trash-2";
+	import XIcon from "~icons/lucide/x";
 	import BookmarkEditDialog from "./BookmarkEditDialog.svelte";
 
 	interface Props {
@@ -23,8 +24,11 @@
 
 	let { group, onsave, oncancel, ondelete }: Props = $props();
 
+	// svelte-ignore state_referenced_locally
 	let name = $state(group.name);
+	// svelte-ignore state_referenced_locally
 	let icon = $state(group.icon || "");
+	// svelte-ignore state_referenced_locally
 	let bookmarks = $state<Bookmark[]>([...group.bookmarks]);
 
 	let newUrl = $state("");
@@ -139,7 +143,12 @@
 				placeholder="https://example.com"
 				onkeydown={(e) => e.key === "Enter" && addBookmarkByUrl()}
 			/>
-			<Button variant="primary" onclick={addBookmarkByUrl}>Добавить</Button>
+			<Button
+				label="Добавить"
+				icon={PlusIcon}
+				variant="primary"
+				onclick={addBookmarkByUrl}
+			/>
 		</div>
 		<div id="bookmarks-list" class="bookmarks-list">
 			{#each bookmarks as bookmark, index (bookmark.id)}
@@ -159,44 +168,68 @@
 						{bookmark.title}
 					</span>
 					<div class="bookmark-actions">
-						<IconButton
+						<Button
 							icon={ArrowUpIcon}
 							disabled={index === 0}
 							onclick={() => moveBookmark(index, -1)}
 							title="Вверх"
+							size="mini"
+							variant="ghost"
 						/>
-						<IconButton
+						<Button
 							icon={ArrowDownIcon}
 							disabled={index === bookmarks.length - 1}
 							onclick={() => moveBookmark(index, 1)}
 							title="Вниз"
+							size="mini"
+							variant="ghost"
 						/>
-						<IconButton
+						<Button
 							icon={PencilIcon}
 							onclick={() => openBookmarkEdit(bookmark)}
 							title="Редактировать"
+							size="mini"
+							variant="ghost"
 						/>
-						<IconButton
+						<Button
 							icon={TrashIcon}
 							variant="danger"
 							onclick={() => removeBookmark(bookmark.id)}
 							title="Удалить"
+							size="mini"
 						/>
 					</div>
 				</div>
 			{/each}
 		</div>
-		<Button variant="ghost" onclick={addBookmark}>
-			<PlusIcon />
-			Добавить закладку
-		</Button>
+		<Button
+			label="Добавить закладку"
+			variant="ghost"
+			icon={PlusIcon}
+			onclick={addBookmark}
+		/>
 	</div>
 
 	<div class="dialog-footer">
-		<Button variant="danger" onclick={ondelete}>Удалить группу</Button>
+		<Button
+			label="Удалить группу"
+			icon={TrashIcon}
+			variant="danger"
+			onclick={ondelete}
+		/>
 		<div class="footer-right">
-			<Button variant="secondary" onclick={oncancel}>Отмена</Button>
-			<Button variant="primary" onclick={handleSave}>Сохранить</Button>
+			<Button
+				label="Отмена"
+				icon={XIcon}
+				variant="secondary"
+				onclick={oncancel}
+			/>
+			<Button
+				label="Сохранить"
+				icon={CheckIcon}
+				variant="primary"
+				onclick={handleSave}
+			/>
 		</div>
 	</div>
 </Dialog>
