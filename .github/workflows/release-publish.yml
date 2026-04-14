@@ -1,12 +1,15 @@
-name: Release Publish
+name: Create Release
 
 on:
-  push:
-    tags:
-      - "*" # Срабатывает на любой тег, начинающийся с v
+  pull_request:
+    branches:
+      - main
+    types: [closed]
+  workflow_dispatch:
 
 jobs:
-  publish:
+  publish-release:
+    if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -17,29 +20,23 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: "lts/*"
-          cache: "npm"
+      - name: Debug Tags
+        run: git tag -l
 
-      - name: Install and Build
+      - name: Get latest tag
+        id: vars
         run: |
-          npm ci
-          npm run build # Здесь создается ваш ZIP в папку release/
-
-      - name: Get Release Notes
-        id: changelog
-        run: |
-          # Устанавливаем cocogitto (если он не в контейнере) или используем тот же экшен
-          # Но проще всего запустить его через команду:
-          cog changelog --at ${{ github.ref_name }} > GITHUB_RELEASE_NOTES.md
+          git fetch --tags --force
+          # Флаг --tags заставляет describe видеть обычные (не аннотированные) теги
+          # Если тегов нет совсем, используем заглушку или выходим красиво
+          latest_tag=$(git describe --tags --abbrev=0 2>/dev/null || echo "v0.0.0")
+          echo "tag=$latest_tag" >> $GITHUB_OUTPUT
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: ${{ github.ref_name }}
-          files: release/crx-*.zip
-          body_path: GITHUB_RELEASE_NOTES.md # Используем только свежевырезанный кусок
+          tag_name: ${{ steps.vars.outputs.tag }}
+          name: Release ${{ steps.vars.outputs.tag }}
+          generate_release_notes: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
