@@ -20,16 +20,12 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Debug Tags
-        run: git tag -l
-
       - name: Get latest tag
         id: vars
         run: |
-          git fetch --tags --force
-          # Флаг --tags заставляет describe видеть обычные (не аннотированные) теги
-          # Если тегов нет совсем, используем заглушку или выходим красиво
-          latest_tag=$(git describe --tags --abbrev=0 2>/dev/null || echo "v0.0.0")
+          git fetch --tags
+          # Достаем последний тег, который создал cog в PR
+          latest_tag=$(git describe --tags --abbrev=0)
           echo "tag=$latest_tag" >> $GITHUB_OUTPUT
 
       - name: Create GitHub Release
