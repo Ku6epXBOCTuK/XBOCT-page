@@ -1,0 +1,45 @@
+name: Release Publish
+
+on:
+  push:
+    tags:
+      - "*" # Срабатывает на любой тег, начинающийся с v
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "lts/*"
+          cache: "npm"
+
+      - name: Install and Build
+        run: |
+          npm ci
+          npm run build # Здесь создается ваш ZIP в папку release/
+
+      - name: Get Release Notes
+        id: changelog
+        run: |
+          # Устанавливаем cocogitto (если он не в контейнере) или используем тот же экшен
+          # Но проще всего запустить его через команду:
+          cog changelog --at ${{ github.ref_name }} > GITHUB_RELEASE_NOTES.md
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.ref_name }}
+          files: release/crx-*.zip
+          body_path: GITHUB_RELEASE_NOTES.md # Используем только свежевырезанный кусок
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
