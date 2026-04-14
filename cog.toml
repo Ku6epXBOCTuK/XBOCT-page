@@ -1,0 +1,16 @@
+branch_whitelist = ["main"]
+ignore_merge_commits = true
+tag_prefix = ""
+
+pre_bump_hooks = ["npm version {{version}} --no-git-tag-version"]
+
+[changelog]
+path = "CHANGELOG.md"
+template = "remote"
+remote = "github.com"
+repository = "XBOCT-page"
+owner = "Ku6epXBOCTuK"
+
+[commit_types]
+chore = { omit_from_changelog = true }
+test = { omit_from_changelog = true }
