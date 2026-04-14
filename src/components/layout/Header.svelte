@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { getTheme, toggleTheme } from "$lib/composables/useTheme";
+	import { theme } from "$lib/state/theme.svelte";
 	import MoonIcon from "~icons/lucide/moon";
 	import SettingsIcon from "~icons/lucide/settings";
 	import SunIcon from "~icons/lucide/sun";
@@ -12,12 +12,7 @@
 
 	let { onSearch }: Props = $props();
 
-	let theme = $state(getTheme());
 	let settingsOpen = $state(false);
-
-	function handleToggleTheme() {
-		theme = toggleTheme();
-	}
 </script>
 
 <header class="header">
@@ -26,12 +21,8 @@
 		<Search {onSearch} />
 	</div>
 	<div class="header-right">
-		<button
-			class="icon-button"
-			onclick={handleToggleTheme}
-			title="Переключить тему"
-		>
-			{#if theme === "dark"}
+		<button class="icon-button" onclick={theme.toggle} title="Переключить тему">
+			{#if theme.current === "dark"}
 				<SunIcon />
 			{:else}
 				<MoonIcon />
