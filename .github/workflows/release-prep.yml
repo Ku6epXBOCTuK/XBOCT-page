@@ -1,0 +1,44 @@
+name: Release Prep
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  prepare:
+    if: "!contains(github.event.head_commit.message, 'chore(release)')"
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      # Вот это действие лечит "exit code 1" в 90% случаев
+      - name: Fetch all tags
+        run: git fetch --force --tags
+
+      - name: Cocogitto Bump
+        id: release
+        uses: cocogitto/cocogitto-action@v4
+        with:
+          command: bump
+          args: --auto
+          git-user: "github-actions[bot]"
+          git-user-email: "github-actions[bot]@users.noreply.github.com"
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v6
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          # Используем версию из шага выше
+          branch: release-v${{ steps.release.outputs.version }}
+          title: "chore(release): ${{ steps.release.outputs.version }}"
+          body: "This PR was automatically generated to bump version and update CHANGELOG.md"
+          base: main
