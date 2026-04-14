@@ -41,7 +41,7 @@ All notable changes to this project will be documented in this file. See [conven
 - add style lint, change obs variables - (aa7b8ae) - Ku6epXBOCTuK
 - move bookmarks logic to separate state - (24f5e73) - Ku6epXBOCTuK
 #### Miscellaneous Chores
-- init cog workflow - (5c5f09f) - Ku6epXBOCTuK
+- init cog workflow - (caa0fb4) - Ku6epXBOCTuK
 - setup cocogitto and github workflow - (ea3c89e) - Ku6epXBOCTuK
 - fix eslint ts errors in svelte files - (65ad615) - Ku6epXBOCTuK
 - update manifest and version - (5ad0e58) - Ku6epXBOCTuK
