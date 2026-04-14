@@ -1,45 +1,70 @@
-name: Release Publish
+name: Release
 
 on:
   push:
-    tags:
-      - "*" # Срабатывает на любой тег, начинающийся с v
+    branches: [main]
+
+permissions:
+  contents: write
 
 jobs:
-  publish:
+  release:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
+    if: "!startsWith(github.event.head_commit.message, 'chore(version):')"
 
     steps:
+      - name: Generate GitHub App token
+        id: app-token
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: ${{ vars.COCOGITTO_APP_ID }}
+          private-key: ${{ secrets.COCOGITTO_APP_PRIVATE_KEY }}
+
       - name: Checkout
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          token: ${{ steps.app-token.outputs.token }}
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: "lts/*"
-          cache: "npm"
-
-      - name: Install and Build
+      - name: Setup Git User
         run: |
-          npm ci
-          npm run build # Здесь создается ваш ZIP в папку release/
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
 
-      - name: Get Release Notes
+      - name: Install Cocogitto 6.5.0
+        run: |
+          curl -LOf https://github.com/cocogitto/cocogitto/releases/download/6.5.0/cocogitto-6.5.0-x86_64-unknown-linux-musl.tar.gz
+          tar -xzf cocogitto-6.5.0-x86_64-unknown-linux-musl.tar.gz
+          sudo mv cog /usr/local/bin/
+          cog --version
+
+      - name: Cocogitto Bump
+        id: cog
+        run: |
+          VERSION=$(cog bump --auto)
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+        env:
+          GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
+
+      - name: Push version bump commit + tag в main
+        if: steps.cog.outputs.version != ''
+        run: |
+          git push origin main
+          git push origin --tags
+
+      - name: Generate Cocogitto Changelog
         id: changelog
+        if: steps.cog.outputs.version != ''
         run: |
-          # Устанавливаем cocogitto (если он не в контейнере) или используем тот же экшен
-          # Но проще всего запустить его через команду:
-          cog changelog --at ${{ github.ref_name }} > GITHUB_RELEASE_NOTES.md
+          echo "stdout<<EOF" >> $GITHUB_OUTPUT
+          cog changelog --at ${{ steps.cog.outputs.version }} >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
 
       - name: Create GitHub Release
+        if: steps.cog.outputs.version != ''
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: ${{ github.ref_name }}
-          files: release/crx-*.zip
-          body_path: GITHUB_RELEASE_NOTES.md # Используем только свежевырезанный кусок
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          tag_name: ${{ steps.cog.outputs.version }}
+          name: Release ${{ steps.cog.outputs.version }}
+          body: ${{ steps.changelog.outputs.stdout }}
+          token: ${{ steps.app-token.outputs.token }}
