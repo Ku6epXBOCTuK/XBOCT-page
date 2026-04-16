@@ -1,4 +1,5 @@
 import { nanoid } from "nanoid";
+import { parseNetscapeHtml } from "$lib/services/bookmarks";
 
 export interface Bookmark {
 	id: string;
@@ -153,6 +154,7 @@ interface BookmarksState {
 	load(): Promise<void>;
 	exportJson(compressed?: boolean): void;
 	importJson(file: File): Promise<boolean>;
+	importNetscapeHtml(file: File): Promise<boolean>;
 	getFaviconUrl(url: string): string;
 }
 
@@ -376,6 +378,40 @@ function createBookmarksState(): BookmarksState {
 		}
 	}
 
+	async function importNetscapeHtml(file: File): Promise<boolean> {
+		try {
+			const parsed = await parseNetscapeHtml(file);
+			if (parsed.length === 0) {
+				console.log("[bookmarks] No groups found in HTML");
+				return false;
+			}
+
+			const columnsCount = columns.length;
+			const groupsPerColumn = Math.ceil(parsed.length / columnsCount);
+
+			groups = parsed.map((g, idx) => ({
+				id: nanoid(),
+				columnId:
+					columns[Math.floor(idx / groupsPerColumn)]?.id || columns[0].id,
+				order: 0,
+				name: g.name,
+				bookmarks: g.bookmarks.map((b) => ({
+					id: nanoid(),
+					url: b[0],
+					title: b[1],
+					favicon: getFaviconUrl(b[0]),
+				})),
+			}));
+
+			await saveToStorage();
+			console.log("[bookmarks] Netscape import done, groups:", groups.length);
+			return true;
+		} catch (e) {
+			console.error("[bookmarks] Netscape import error:", e);
+			return false;
+		}
+	}
+
 	return {
 		getColumns: () => columns,
 		getGroups: () => groups,
@@ -387,6 +423,7 @@ function createBookmarksState(): BookmarksState {
 		load: loadFromStorageAction,
 		exportJson,
 		importJson,
+		importNetscapeHtml,
 		getFaviconUrl,
 	};
 }
