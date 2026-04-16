@@ -2,6 +2,12 @@
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/) for commit guidelines.
 
 - - -
+## [0.3.0](https://github.com/Ku6epXBOCTuK/XBOCT-page/compare/0159ef90849285b50080f2d1c6b8918f931584dd..0.3.0) - 2026-04-16
+#### Features
+- add [DEV] prefix for dev env (#24) - ([0159ef9](https://github.com/Ku6epXBOCTuK/XBOCT-page/commit/0159ef90849285b50080f2d1c6b8918f931584dd)) - Ku6epXBOCTuK
+
+- - -
+
 ## [0.2.2](https://github.com/Ku6epXBOCTuK/XBOCT-page/compare/57ace763bdf1a3397e3aec57c16753c47e76a987..0.2.2) - 2026-04-16
 #### Bug Fixes
 - change page title and logos (#23) - ([57ace76](https://github.com/Ku6epXBOCTuK/XBOCT-page/commit/57ace763bdf1a3397e3aec57c16753c47e76a987)) - Ku6epXBOCTuK
