@@ -2,6 +2,12 @@
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/) for commit guidelines.
 
 - - -
+## [0.2.1](https://github.com/Ku6epXBOCTuK/XBOCT-page/compare/127971d37cc1993cca51f6d0f377da7ad056a578..0.2.1) - 2026-04-16
+#### Bug Fixes
+- resolve svg classname log (#22) - ([127971d](https://github.com/Ku6epXBOCTuK/XBOCT-page/commit/127971d37cc1993cca51f6d0f377da7ad056a578)) - Ku6epXBOCTuK
+
+- - -
+
 ## [0.2.0](https://github.com/Ku6epXBOCTuK/XBOCT-page/compare/926eed82708d82b3152527296548f59c830ddd08..0.2.0) - 2026-04-16
 #### Features
 - add import html button (start.me\netscape bookmark) (#21) - ([926eed8](https://github.com/Ku6epXBOCTuK/XBOCT-page/commit/926eed82708d82b3152527296548f59c830ddd08)) - Ku6epXBOCTuK
