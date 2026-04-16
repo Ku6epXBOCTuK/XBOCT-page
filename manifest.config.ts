@@ -1,9 +1,11 @@
 import { defineManifest } from "@crxjs/vite-plugin";
 import pkg from "./package.json";
 
+const isDev = process.env.NODE_ENV === "development";
+
 export default defineManifest({
 	manifest_version: 3,
-	name: "XBOCT-page",
+	name: isDev ? "[DEV] XBOCT-page" : "XBOCT-page",
 	version: pkg.version,
 	icons: {
 		16: "public/logo-16.png",
