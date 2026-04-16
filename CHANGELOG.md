@@ -2,6 +2,12 @@
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/) for commit guidelines.
 
 - - -
+## [0.2.2](https://github.com/Ku6epXBOCTuK/XBOCT-page/compare/57ace763bdf1a3397e3aec57c16753c47e76a987..0.2.2) - 2026-04-16
+#### Bug Fixes
+- change page title and logos (#23) - ([57ace76](https://github.com/Ku6epXBOCTuK/XBOCT-page/commit/57ace763bdf1a3397e3aec57c16753c47e76a987)) - Ku6epXBOCTuK
+
+- - -
+
 ## [0.2.1](https://github.com/Ku6epXBOCTuK/XBOCT-page/compare/127971d37cc1993cca51f6d0f377da7ad056a578..0.2.1) - 2026-04-16
 #### Bug Fixes
 - resolve svg classname log (#22) - ([127971d](https://github.com/Ku6epXBOCTuK/XBOCT-page/commit/127971d37cc1993cca51f6d0f377da7ad056a578)) - Ku6epXBOCTuK
