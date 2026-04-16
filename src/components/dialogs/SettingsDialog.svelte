@@ -3,6 +3,7 @@
 	import Dialog from "$cmp/layout/Dialog.svelte";
 	import Button from "$cmp/ui/Button.svelte";
 	import DownloadIcon from "~icons/lucide/download";
+	import FolderIcon from "~icons/lucide/folder";
 	import UploadIcon from "~icons/lucide/upload";
 
 	interface Props {
@@ -11,7 +12,8 @@
 
 	let { onclose }: Props = $props();
 
-	let fileInput: HTMLInputElement | null = $state(null);
+	let jsonFileInput: HTMLInputElement | null = $state(null);
+	let htmlFileInput: HTMLInputElement | null = $state(null);
 	let importStatus = $state<string | null>(null);
 	let compressed = $state(false);
 
@@ -19,11 +21,15 @@
 		bookmarks.exportJson(compressed);
 	}
 
-	function handleImportClick() {
-		fileInput?.click();
+	function handleJsonImportClick() {
+		jsonFileInput?.click();
 	}
 
-	async function handleFileChange(e: Event) {
+	function handleHtmlImportClick() {
+		htmlFileInput?.click();
+	}
+
+	async function handleJsonFileChange(e: Event) {
 		const target = e.target as HTMLInputElement;
 		const file = target.files?.[0];
 		if (!file) return;
@@ -51,11 +57,40 @@
 
 		target.value = "";
 	}
+
+	async function handleHtmlFileChange(e: Event) {
+		const target = e.target as HTMLInputElement;
+		const file = target.files?.[0];
+		if (!file) return;
+
+		const confirmed = confirm(
+			"Заменить все текущие закладки на закладки из HTML-файла?",
+		);
+		if (!confirmed) {
+			target.value = "";
+			return;
+		}
+
+		const success = await bookmarks.importNetscapeHtml(file);
+		if (success) {
+			importStatus = "Импорт HTML успешен!";
+			setTimeout(() => {
+				importStatus = null;
+			}, 3000);
+		} else {
+			importStatus = "Ошибка импорта HTML";
+			setTimeout(() => {
+				importStatus = null;
+			}, 3000);
+		}
+
+		target.value = "";
+	}
 </script>
 
 <Dialog title="Настройки" {onclose}>
 	<div class="section">
-		<h3 class="section-title">Импорт / Экспорт</h3>
+		<h3 class="section-title">Импорт / Эксппорт</h3>
 		<p class="section-desc">Сохраните или восстановите ваши закладки</p>
 
 		<label class="checkbox-label">
@@ -70,19 +105,36 @@
 				variant="secondary"
 				onclick={handleExport}
 			/>
+		</div>
+
+		<div class="buttons-row">
 			<Button
-				label="Импорт"
+				label="Импорт JSON"
 				icon={UploadIcon}
 				variant="secondary"
-				onclick={handleImportClick}
+				onclick={handleJsonImportClick}
+			/>
+			<Button
+				label="Импорт HTML"
+				icon={FolderIcon}
+				variant="secondary"
+				onclick={handleHtmlImportClick}
 			/>
 		</div>
 
 		<input
 			type="file"
 			accept=".json"
-			bind:this={fileInput}
-			onchange={handleFileChange}
+			bind:this={jsonFileInput}
+			onchange={handleJsonFileChange}
+			hidden
+		/>
+
+		<input
+			type="file"
+			accept=".html"
+			bind:this={htmlFileInput}
+			onchange={handleHtmlFileChange}
 			hidden
 		/>
 

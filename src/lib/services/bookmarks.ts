@@ -6,6 +6,11 @@ interface PageInfo {
 	favicon?: string;
 }
 
+interface ParsedGroup {
+	name: string;
+	bookmarks: [string, string][];
+}
+
 export async function fetchPageInfo(url: string): Promise<PageInfo> {
 	const domain = getDomain(url);
 
@@ -34,4 +39,43 @@ export function createBookmark(url: string, title?: string): Bookmark {
 		url,
 		favicon: "",
 	};
+}
+
+export async function parseNetscapeHtml(file: File): Promise<ParsedGroup[]> {
+	const text = await file.text();
+	const groups: ParsedGroup[] = [];
+
+	const lines = text.split("\n");
+	let currentGroup: ParsedGroup | null = null;
+
+	for (const line of lines) {
+		const trimmed = line.trim();
+
+		if (trimmed.startsWith("<DT><H3") && !trimmed.includes('PAGE="true"')) {
+			const nameMatch = trimmed.match(/<DT><H3[^>]*>([^<]+)<\/H3>/i);
+			if (nameMatch) {
+				const name = nameMatch[1].trim();
+				if (name) {
+					currentGroup = { name, bookmarks: [] };
+					groups.push(currentGroup);
+				}
+			}
+		}
+
+		if (trimmed.startsWith("<DT><A")) {
+			const match = trimmed.match(
+				/<DT><A[^>]*HREF="([^"]*)"[^>]*>([^<]*)<\/A>/i,
+			);
+			if (match && currentGroup) {
+				const url = match[1];
+				const title = match[2].trim();
+				if (url && title) {
+					currentGroup.bookmarks.push([url, title]);
+				}
+			}
+		}
+	}
+
+	console.log("[parseNetscapeHtml] Parsed", groups.length, "groups");
+	return groups;
 }
