@@ -6,11 +6,16 @@ export default defineManifest({
 	name: "XBOCT-page",
 	version: pkg.version,
 	icons: {
-		48: "public/logo.png",
+		16: "public/logo-16.png",
+		32: "public/logo-32.png",
+		48: "public/logo-48.png",
+		128: "public/logo-128.png",
+		256: "public/logo-512.png",
+		512: "public/logo-512.png",
 	},
 	action: {
 		default_icon: {
-			48: "public/logo.png",
+			48: "public/logo-48.png",
 		},
 		default_popup: "src/popup/index.html",
 	},
