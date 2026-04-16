@@ -2,6 +2,12 @@
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/) for commit guidelines.
 
 - - -
+## [0.2.0](https://github.com/Ku6epXBOCTuK/XBOCT-page/compare/926eed82708d82b3152527296548f59c830ddd08..0.2.0) - 2026-04-16
+#### Features
+- add import html button (start.me\netscape bookmark) (#21) - ([926eed8](https://github.com/Ku6epXBOCTuK/XBOCT-page/commit/926eed82708d82b3152527296548f59c830ddd08)) - Ku6epXBOCTuK
+
+- - -
+
 ## [0.1.0](https://github.com/Ku6epXBOCTuK/XBOCT-page/compare/c84a67a8e8888f81edef232ca0781e4b3391627c..0.1.0) - 2026-04-16
 #### Features
 - make widgets sortable - ([1b63291](https://github.com/Ku6epXBOCTuK/XBOCT-page/commit/1b63291f5086a3e19ad0d8e085ebb276372a97c5)) - Ku6epXBOCTuK
