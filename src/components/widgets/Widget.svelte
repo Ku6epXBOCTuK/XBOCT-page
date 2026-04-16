@@ -39,6 +39,7 @@
 
 	let editDialogOpen = $state(false);
 	let menuOpen = $state(false);
+	let menuButton = $state<HTMLElement>();
 
 	let isDragging = $derived(sortable.isDragging);
 
@@ -59,6 +60,7 @@
 		icon={group.icon ? iconMap[group.icon] : undefined}
 		onedit={() => (editDialogOpen = true)}
 		onmenu={() => (menuOpen = !menuOpen)}
+		bind:menuButtonRef={menuButton}
 	/>
 	<BookmarkList bookmarks={group.bookmarks} groupId={group.id} />
 </div>
@@ -72,7 +74,11 @@
 	/>
 {/if}
 
-<WidgetMenu open={menuOpen} onclose={() => (menuOpen = false)}>
+<WidgetMenu
+	open={menuOpen}
+	buttonRef={menuButton}
+	onclose={() => (menuOpen = false)}
+>
 	<div class="menu-item" role="menuitem">П-placeholder меню</div>
 </WidgetMenu>
 

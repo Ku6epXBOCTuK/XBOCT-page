@@ -10,6 +10,7 @@
 		onclick?: () => void;
 		type?: "button" | "submit";
 		title?: string;
+		buttonRef?: HTMLElement;
 	}
 
 	let {
@@ -21,10 +22,18 @@
 		onclick,
 		type = "button",
 		title,
+		buttonRef = $bindable(),
 	}: Props = $props();
 </script>
 
-<button class="btn {size} {variant}" {type} {disabled} {onclick} {title}>
+<button
+	class="btn {size} {variant}"
+	{type}
+	{disabled}
+	{title}
+	bind:this={buttonRef}
+	{onclick}
+>
 	<Icon />
 	{#if label}
 		<span class="label">{label}</span>

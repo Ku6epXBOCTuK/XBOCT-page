@@ -9,9 +9,16 @@
 		icon?: Component;
 		onedit?: () => void;
 		onmenu?: () => void;
+		menuButtonRef?: HTMLElement;
 	}
 
-	let { name, icon: Icon, onedit, onmenu }: Props = $props();
+	let {
+		name,
+		icon: Icon,
+		onedit,
+		onmenu,
+		menuButtonRef = $bindable(),
+	}: Props = $props();
 </script>
 
 <div class="widget-header">
@@ -29,6 +36,7 @@
 				icon={MoreVerticalIcon}
 				title="Меню"
 				onclick={onmenu}
+				bind:buttonRef={menuButtonRef}
 				size="mini"
 				variant="ghost"
 			/>
