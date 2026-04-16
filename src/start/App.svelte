@@ -131,6 +131,10 @@
 	}
 </script>
 
+<svelte:head>
+	<title>{import.meta.env.DEV ? "[DEV] " : ""}XBOCT-page</title>
+</svelte:head>
+
 <div class="start-page">
 	<Background />
 
