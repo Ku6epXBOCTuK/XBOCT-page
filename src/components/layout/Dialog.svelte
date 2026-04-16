@@ -39,6 +39,10 @@
 
 <style>
 	.dialog {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
 		width: 90%;
 		max-width: 480px;
 		max-height: 85vh;

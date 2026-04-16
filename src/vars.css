@@ -51,6 +51,7 @@
 	--overlay-black-5: oklch(0% 0 0 / 0.05);
 	--overlay-black-10: oklch(0% 0 0 / 0.1);
 	--overlay-black-40: oklch(0% 0 0 / 0.4);
+	--overlay-black-50: oklch(0% 0 0 / 0.5);
 	--overlay-black-70: oklch(0% 0 0 / 0.7);
 
 	--primary-alpha: oklch(72% 0.2 190 / 0.4);
@@ -114,6 +115,7 @@
 	--overlay-black-5: oklch(100% 0 0 / 0.05);
 	--overlay-black-10: oklch(100% 0 0 / 0.1);
 	--overlay-black-40: oklch(100% 0 0 / 0.4);
+	--overlay-black-50: oklch(100% 0 0 / 0.5);
 	--overlay-black-70: oklch(100% 0 0 / 0.7);
 
 	--primary-alpha: oklch(45% 0.18 200 / 0.4);
