@@ -12,5 +12,8 @@ repository = "XBOCT-page"
 owner = "Ku6epXBOCTuK"
 
 [commit_types]
+build = { omit_from_changelog = true }
 chore = { omit_from_changelog = true }
+ci = { omit_from_changelog = true }
+docs = { omit_from_changelog = true }
 test = { omit_from_changelog = true }
