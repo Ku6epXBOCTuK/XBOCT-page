@@ -54,22 +54,22 @@
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
-		padding-bottom: 0.25rem;
-		margin-bottom: 0.5rem;
+		padding-bottom: var(--space-2xs);
+		margin-bottom: var(--space-sm);
 		border-bottom: 1px solid var(--overlay-white-5);
 	}
 
 	.widget-header-right {
 		display: flex;
 		align-items: center;
-		gap: 0.5rem;
+		gap: var(--space-sm);
 	}
 
 	.widget-title {
-		font-size: 0.75rem;
+		font-size: var(--text-xs);
 		font-weight: 700;
 		text-transform: uppercase;
-		letter-spacing: 0.05em;
+		letter-spacing: var(--tracking-wide);
 		color: var(--primary);
 	}
 
@@ -77,17 +77,17 @@
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		width: 1rem;
-		height: 1rem;
+		width: var(--size-icon-sm);
+		height: var(--size-icon-sm);
 		color: var(--primary);
 	}
 
 	.widget-header-actions {
 		display: flex;
 		align-items: center;
-		gap: 0.25rem;
+		gap: var(--space-2xs);
 		opacity: 0;
-		transition: opacity 0.15s ease;
+		transition: opacity var(--transition-fast);
 	}
 
 	:global(.widget:hover) .widget-header-actions {

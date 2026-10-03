@@ -1,7 +1,7 @@
 <script lang="ts">
-	import { bookmarks } from "$lib/state/bookmarks.svelte";
 	import Dialog from "$cmp/layout/Dialog.svelte";
 	import Button from "$cmp/ui/Button.svelte";
+	import { useImportExport } from "$lib/composables/useImportExport.svelte";
 	import DownloadIcon from "~icons/lucide/download";
 	import FolderIcon from "~icons/lucide/folder";
 	import UploadIcon from "~icons/lucide/upload";
@@ -12,85 +12,28 @@
 
 	let { onclose }: Props = $props();
 
+	const importExport = useImportExport();
+
 	let jsonFileInput: HTMLInputElement | null = $state(null);
 	let htmlFileInput: HTMLInputElement | null = $state(null);
-	let importStatus = $state<string | null>(null);
 	let compressed = $state(false);
 
-	function handleExport() {
-		bookmarks.exportJson(compressed);
-	}
-
-	function handleJsonImportClick() {
-		jsonFileInput?.click();
-	}
-
-	function handleHtmlImportClick() {
-		htmlFileInput?.click();
-	}
-
-	async function handleJsonFileChange(e: Event) {
+	function handleFileChange(
+		e: Event,
+		confirmMessage: string,
+		importFile: (file: File) => void,
+	) {
 		const target = e.target as HTMLInputElement;
 		const file = target.files?.[0];
-		if (!file) return;
-
-		const confirmed = confirm(
-			"Заменить все текущие закладки на закладки из файла?",
-		);
-		if (!confirmed) {
-			target.value = "";
-			return;
-		}
-
-		const success = await bookmarks.importJson(file);
-		if (success) {
-			importStatus = "Импорт успешен!";
-			setTimeout(() => {
-				importStatus = null;
-			}, 3000);
-		} else {
-			importStatus = "Ошибка импорта";
-			setTimeout(() => {
-				importStatus = null;
-			}, 3000);
-		}
-
 		target.value = "";
-	}
-
-	async function handleHtmlFileChange(e: Event) {
-		const target = e.target as HTMLInputElement;
-		const file = target.files?.[0];
 		if (!file) return;
-
-		const confirmed = confirm(
-			"Заменить все текущие закладки на закладки из HTML-файла?",
-		);
-		if (!confirmed) {
-			target.value = "";
-			return;
-		}
-
-		const success = await bookmarks.importNetscapeHtml(file);
-		if (success) {
-			importStatus = "Импорт HTML успешен!";
-			setTimeout(() => {
-				importStatus = null;
-			}, 3000);
-		} else {
-			importStatus = "Ошибка импорта HTML";
-			setTimeout(() => {
-				importStatus = null;
-			}, 3000);
-		}
-
-		target.value = "";
+		if (confirm(confirmMessage)) importFile(file);
 	}
 </script>
 
 <Dialog title="Настройки" {onclose}>
 	<div class="section">
-		<h3 class="section-title">Импорт / Эксппорт</h3>
+		<h3 class="section-title">Импорт / Экспорт</h3>
 		<p class="section-desc">Сохраните или восстановите ваши закладки</p>
 
 		<label class="checkbox-label">
@@ -103,7 +46,7 @@
 				label="Экспорт"
 				icon={DownloadIcon}
 				variant="secondary"
-				onclick={handleExport}
+				onclick={() => importExport.exportJson(compressed)}
 			/>
 		</div>
 
@@ -112,13 +55,13 @@
 				label="Импорт JSON"
 				icon={UploadIcon}
 				variant="secondary"
-				onclick={handleJsonImportClick}
+				onclick={() => jsonFileInput?.click()}
 			/>
 			<Button
 				label="Импорт HTML"
 				icon={FolderIcon}
 				variant="secondary"
-				onclick={handleHtmlImportClick}
+				onclick={() => htmlFileInput?.click()}
 			/>
 		</div>
 
@@ -126,20 +69,29 @@
 			type="file"
 			accept=".json"
 			bind:this={jsonFileInput}
-			onchange={handleJsonFileChange}
+			onchange={(e) =>
+				handleFileChange(
+					e,
+					"Заменить все текущие закладки на закладки из файла?",
+					(file) => importExport.importJsonFile(file),
+				)}
 			hidden
 		/>
-
 		<input
 			type="file"
 			accept=".html"
 			bind:this={htmlFileInput}
-			onchange={handleHtmlFileChange}
+			onchange={(e) =>
+				handleFileChange(
+					e,
+					"Заменить все текущие закладки на закладки из HTML-файла?",
+					(file) => importExport.importHtmlFile(file),
+				)}
 			hidden
 		/>
 
-		{#if importStatus}
-			<p class="import-status">{importStatus}</p>
+		{#if importExport.importStatus}
+			<p class="import-status">{importExport.importStatus}</p>
 		{/if}
 	</div>
 </Dialog>
@@ -148,28 +100,28 @@
 	.section {
 		display: flex;
 		flex-direction: column;
-		gap: 0.75rem;
+		gap: var(--space-md);
 	}
 
 	.section-title {
-		font-size: 0.875rem;
+		font-size: var(--text-sm);
 		font-weight: 600;
 		margin: 0;
 	}
 
 	.section-desc {
-		font-size: 0.75rem;
+		font-size: var(--text-xs);
 		color: var(--on-surface-dim);
 		margin: 0;
 	}
 
 	.buttons-row {
 		display: flex;
-		gap: 0.75rem;
+		gap: var(--space-md);
 	}
 
 	.import-status {
-		font-size: 0.75rem;
+		font-size: var(--text-xs);
 		color: var(--primary);
 		text-align: center;
 		margin: 0;

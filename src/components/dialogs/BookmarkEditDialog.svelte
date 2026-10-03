@@ -1,10 +1,9 @@
 <script lang="ts">
 	import Dialog from "$cmp/layout/Dialog.svelte";
-	import Button from "$cmp/ui/Button.svelte";
+	import DialogFooter from "$cmp/layout/DialogFooter.svelte";
+	import FormField from "$cmp/ui/FormField.svelte";
+	import TextInput from "$cmp/ui/TextInput.svelte";
 	import type { Bookmark } from "$lib/state/bookmarks.svelte";
-	import CheckIcon from "~icons/lucide/check";
-	import TrashIcon from "~icons/lucide/trash-2";
-	import XIcon from "~icons/lucide/x";
 
 	interface Props {
 		bookmark: Bookmark;
@@ -33,103 +32,34 @@
 		</div>
 	{/if}
 
-	<div class="form-group">
-		<label for="bookmark-title">Название</label>
-		<input
-			id="bookmark-title"
-			type="text"
-			bind:value={title}
-			placeholder="Название"
-		/>
-	</div>
+	<FormField label="Название" for="bookmark-title">
+		<TextInput id="bookmark-title" bind:value={title} placeholder="Название" />
+	</FormField>
 
-	<div class="form-group">
-		<label for="bookmark-url">URL</label>
-		<input
+	<FormField label="URL" for="bookmark-url">
+		<TextInput
 			id="bookmark-url"
 			type="url"
 			bind:value={url}
 			placeholder="https://example.com"
 		/>
-	</div>
+	</FormField>
 
-	<div class="dialog-footer">
-		<Button
-			label="Удалить"
-			icon={TrashIcon}
-			variant="danger"
-			onclick={ondelete}
-		/>
-		<div class="footer-right">
-			<Button
-				label="Отмена"
-				icon={XIcon}
-				variant="secondary"
-				onclick={oncancel}
-			/>
-			<Button
-				label="Сохранить"
-				icon={CheckIcon}
-				variant="primary"
-				onclick={handleSave}
-			/>
-		</div>
-	</div>
+	<DialogFooter {oncancel} onsave={handleSave} {ondelete} />
 </Dialog>
 
 <style>
 	.favicon-preview {
 		display: flex;
 		justify-content: center;
-		padding: 1rem;
+		padding: var(--space-lg);
 		background: var(--overlay-white-3);
-		border-radius: 0.5rem;
+		border-radius: var(--radius-lg);
 	}
 
 	.favicon-preview img {
-		width: 32px;
-		height: 32px;
+		width: var(--size-favicon-lg);
+		height: var(--size-favicon-lg);
 		object-fit: contain;
-	}
-
-	.form-group {
-		display: flex;
-		flex-direction: column;
-		gap: 0.5rem;
-	}
-
-	.form-group label {
-		font-size: 0.75rem;
-		font-weight: 600;
-		color: var(--on-surface-dim);
-		text-transform: uppercase;
-		letter-spacing: 0.05em;
-	}
-
-	.form-group input {
-		padding: 0.5rem 0.75rem;
-		background: var(--overlay-white-5);
-		border: 1px solid var(--overlay-white-10);
-		border-radius: 0.5rem;
-		color: var(--on-surface);
-		font-size: 0.875rem;
-	}
-
-	.form-group input:focus {
-		outline: none;
-		border-color: var(--primary);
-	}
-
-	.dialog-footer {
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-		padding-top: 1rem;
-		border-top: 1px solid var(--overlay-white-10);
-	}
-
-	.footer-right {
-		display: flex;
-		gap: 0.5rem;
 	}
 </style>

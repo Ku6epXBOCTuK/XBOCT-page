@@ -15,17 +15,17 @@
 	.stats {
 		display: flex;
 		align-items: baseline;
-		gap: 0.5rem;
-		margin-bottom: 1rem;
+		gap: var(--space-sm);
+		margin-bottom: var(--space-lg);
 	}
 
 	.stats h1 {
-		font-size: 1.125rem;
+		font-size: var(--text-lg);
 		font-weight: 700;
 	}
 
 	.stats-count {
-		font-size: 0.75rem;
+		font-size: var(--text-xs);
 		color: var(--on-surface-variant);
 		opacity: 0.6;
 	}

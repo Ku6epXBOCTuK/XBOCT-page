@@ -54,12 +54,12 @@
 	.column {
 		display: flex;
 		flex-direction: column;
-		gap: 0.75rem;
-		padding: 0.25rem;
-		padding-bottom: 200px;
-		min-height: 200px;
-		border-radius: 0.5rem;
-		transition: background 0.15s ease;
+		gap: var(--space-md);
+		padding: var(--space-2xs);
+		padding-bottom: var(--column-scroll-spacer);
+		min-height: var(--column-min-height);
+		border-radius: var(--radius-lg);
+		transition: background var(--transition-fast);
 	}
 
 	.column.drop-target {

@@ -29,13 +29,13 @@
 	.overlay {
 		position: fixed;
 		inset: 0;
-		z-index: 100;
-		backdrop-filter: blur(2px);
+		z-index: var(--z-overlay);
+		backdrop-filter: blur(var(--blur-sm));
 		background: var(--overlay-black-5);
 	}
 
 	.overlay.dark {
 		background: var(--overlay-black-50);
-		z-index: 1000;
+		z-index: var(--z-dialog);
 	}
 </style>

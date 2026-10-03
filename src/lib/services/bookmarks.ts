@@ -6,7 +6,7 @@ interface PageInfo {
 	favicon?: string;
 }
 
-interface ParsedGroup {
+export interface ParsedGroup {
 	name: string;
 	bookmarks: [string, string][];
 }

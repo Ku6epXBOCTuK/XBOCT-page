@@ -49,11 +49,11 @@
 <style>
 	.menu {
 		position: fixed;
-		z-index: 101;
-		min-width: 120px;
+		z-index: var(--z-menu);
+		min-width: var(--menu-min-width);
 		background: var(--surface);
 		border: 1px solid var(--overlay-white-10);
-		border-radius: 0.5rem;
-		padding: 0.25rem;
+		border-radius: var(--radius-lg);
+		padding: var(--space-2xs);
 	}
 </style>
