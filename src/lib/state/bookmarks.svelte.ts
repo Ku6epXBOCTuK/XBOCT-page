@@ -23,6 +23,7 @@ export type { Bookmark, Column, Group } from "./bookmarks.types";
 interface BookmarksState {
 	getColumns(): Column[];
 	getGroups(): Group[];
+	addGroup(group: Group): void;
 	updateGroup(updatedGroup: Group): void;
 	deleteGroup(id: string): void;
 	moveGroup(groupId: string, targetColumnId: string, targetIndex: number): void;
@@ -59,6 +60,11 @@ function createBookmarksState(): BookmarksState {
 			columns = ensureFourColumns(columns);
 			groups = ensureFavicon(groups);
 		}
+	}
+
+	function addGroup(group: Group) {
+		groups = [...groups, group];
+		persist();
 	}
 
 	function updateGroup(updatedGroup: Group) {
@@ -128,6 +134,7 @@ function createBookmarksState(): BookmarksState {
 	return {
 		getColumns: () => columns,
 		getGroups: () => groups,
+		addGroup,
 		updateGroup,
 		deleteGroup,
 		moveGroup,

@@ -15,7 +15,7 @@
 		group: Group;
 		onsave: (group: Group) => void;
 		oncancel: () => void;
-		ondelete: () => void;
+		ondelete?: () => void;
 	}
 
 	let { group, onsave, oncancel, ondelete }: Props = $props();

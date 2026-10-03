@@ -1,8 +1,11 @@
 <script lang="ts">
 	import type { Group } from "$lib/state/bookmarks.svelte";
 	import { bookmarks } from "$lib/state/bookmarks.svelte";
+	import MenuItem from "$cmp/ui/MenuItem.svelte";
 	import { createSortable } from "@dnd-kit/svelte/sortable";
 	import { iconMap } from "$lib/icons";
+	import PencilIcon from "~icons/lucide/pencil";
+	import TrashIcon from "~icons/lucide/trash-2";
 	import BookmarkList from "./BookmarkList.svelte";
 	import EditGroupDialog from "../dialogs/EditGroupDialog.svelte";
 	import WidgetHeader from "./WidgetHeader.svelte";
@@ -52,6 +55,13 @@
 		bookmarks.deleteGroup(group.id);
 		editDialogOpen = false;
 	}
+
+	function handleMenuDelete() {
+		menuOpen = false;
+		if (confirm(`Удалить группу «${group.name}» со всеми закладками?`)) {
+			bookmarks.deleteGroup(group.id);
+		}
+	}
 </script>
 
 <div class="widget {isDragging ? 'dragging' : ''}" {@attach sortable.attach}>
@@ -79,7 +89,20 @@
 	buttonRef={menuButton}
 	onclose={() => (menuOpen = false)}
 >
-	<div class="menu-item" role="menuitem">П-placeholder меню</div>
+	<MenuItem
+		label="Редактировать"
+		icon={PencilIcon}
+		onclick={() => {
+			menuOpen = false;
+			editDialogOpen = true;
+		}}
+	/>
+	<MenuItem
+		label="Удалить группу"
+		icon={TrashIcon}
+		danger
+		onclick={handleMenuDelete}
+	/>
 </WidgetMenu>
 
 <style>
@@ -96,17 +119,5 @@
 
 	.widget.dragging {
 		opacity: 0.3;
-	}
-
-	.menu-item {
-		padding: var(--space-sm) var(--space-md);
-		color: var(--on-surface);
-		font-size: var(--text-sm);
-		border-radius: var(--radius-sm);
-		cursor: pointer;
-	}
-
-	.menu-item:hover {
-		background: var(--overlay-white-10);
 	}
 </style>
