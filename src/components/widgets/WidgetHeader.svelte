@@ -22,7 +22,14 @@
 </script>
 
 <div class="widget-header">
-	<h2 class="widget-title">{name}</h2>
+	<div class="widget-header-left">
+		{#if Icon}
+			<div class="widget-icon">
+				<Icon />
+			</div>
+		{/if}
+		<h2 class="widget-title">{name}</h2>
+	</div>
 	<div class="widget-header-right">
 		<div class="widget-header-actions">
 			<Button
@@ -41,11 +48,6 @@
 				variant="ghost"
 			/>
 		</div>
-		{#if Icon}
-			<div class="widget-icon">
-				<Icon />
-			</div>
-		{/if}
 	</div>
 </div>
 
@@ -57,6 +59,13 @@
 		padding-bottom: var(--space-2xs);
 		margin-bottom: var(--space-sm);
 		border-bottom: 1px solid var(--overlay-white-5);
+	}
+
+	.widget-header-left {
+		display: flex;
+		align-items: center;
+		gap: var(--space-sm);
+		min-width: 0;
 	}
 
 	.widget-header-right {

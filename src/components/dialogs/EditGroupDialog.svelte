@@ -3,7 +3,7 @@
 	import DialogFooter from "$cmp/layout/DialogFooter.svelte";
 	import Button from "$cmp/ui/Button.svelte";
 	import FormField from "$cmp/ui/FormField.svelte";
-	import Select from "$cmp/ui/Select.svelte";
+	import IconPicker from "$cmp/ui/IconPicker.svelte";
 	import TextInput from "$cmp/ui/TextInput.svelte";
 	import { iconOptions } from "$lib/icons";
 	import type { Bookmark, Group } from "$lib/state/bookmarks.svelte";
@@ -77,7 +77,7 @@
 	</FormField>
 
 	<FormField label="Иконка" for="group-icon">
-		<Select id="group-icon" bind:value={icon} options={iconOptions} />
+		<IconPicker id="group-icon" bind:value={icon} options={iconOptions} />
 	</FormField>
 
 	<FormField label="Закладки" for="bookmarks-list">

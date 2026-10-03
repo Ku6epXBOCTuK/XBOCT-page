@@ -1,13 +1,16 @@
 <script lang="ts">
+	import { iconMap } from "$lib/icons";
 	import type { Bookmark, Group } from "$lib/state/bookmarks.svelte";
 
 	interface Props {
-		group: Pick<Group, "name"> & {
+		group: Pick<Group, "name" | "icon"> & {
 			bookmarks?: Pick<Bookmark, "id" | "title">[];
 		};
 	}
 
 	let { group }: Props = $props();
+
+	let Icon = $derived(group.icon ? iconMap[group.icon] : undefined);
 
 	const PREVIEW_COUNT = 3;
 
@@ -21,6 +24,11 @@
 
 <div class="ghost-widget">
 	<div class="ghost-header">
+		{#if Icon}
+			<div class="widget-icon">
+				<Icon />
+			</div>
+		{/if}
 		<h2 class="widget-title">{group.name}</h2>
 	</div>
 	<div class="ghost-bookmarks">
@@ -55,10 +63,19 @@
 	.ghost-header {
 		display: flex;
 		align-items: center;
-		justify-content: space-between;
+		gap: var(--space-sm);
 		padding-bottom: var(--space-2xs);
 		margin-bottom: var(--space-sm);
 		border-bottom: 1px solid var(--overlay-white-5);
+	}
+
+	.widget-icon {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: var(--size-icon-sm);
+		height: var(--size-icon-sm);
+		color: var(--primary);
 	}
 
 	.widget-title {

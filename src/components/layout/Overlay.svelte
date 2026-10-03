@@ -4,11 +4,12 @@
 
 	interface Props {
 		dark?: boolean;
+		z?: string;
 		onclose: () => void;
 		children: Snippet;
 	}
 
-	let { dark = false, onclose, children }: Props = $props();
+	let { dark = false, z, onclose, children }: Props = $props();
 
 	function handleKeydown(e: KeyboardEvent) {
 		if (e.key === "Escape") onclose();
@@ -18,6 +19,7 @@
 <div
 	class="overlay"
 	class:dark
+	style:z-index={z}
 	role="presentation"
 	{@attach closeOnSelectOutside(onclose)}
 	onkeydown={handleKeydown}
