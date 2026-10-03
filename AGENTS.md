@@ -1,98 +1,45 @@
 # Agents Guidelines
 
-## Проект: XBOCT-page
+Chrome extension (Manifest V3) that replaces the new tab page with a bookmark manager.
 
-Chrome расширение со стартовой страницей для управления закладками.
+## Stack
 
-## Стек
+- Svelte 5 (runes mode only), TypeScript, Vite + CRXJS, pnpm
 
-- **Svelte 5** (только runes-режим)
-- TypeScript
-- Vite + CRXJS
-- ESLint + Prettier
+## Rules
 
-## Правила
+1. **Svelte 5 runes only** — `$state`, `$derived`, `$effect`, `$props()`. No legacy `let` reactivity, `$:` or lifecycle functions.
+2. **Components** — one responsibility each; all `.svelte` files live in `src/components/`. Callback props are lowercase (`onclose`, `onsave`).
+3. **Styling** — design tokens from `src/vars.css` only. No hardcoded px/rem values in components.
+4. **Types** — `import type` for types; prefer `interface` over `type` (unions/intersections excepted).
+5. **Icons** — from `lucide` via `~icons/lucide/*`.
+6. **Config files** — never modify without asking (ESLint, Prettier, Stylelint, tsconfig, etc.).
+7. **Comments** — only for non-obvious "why", never for self-explanatory code.
 
-### 1. Svelte 5
-
-Использовать только Svelte 5 синтаксис:
-
-- `$state()` вместо `let` для реактивных переменных
-- `$derived()` вместо `$:` для вычисляемых значений
-- `$effect()` вместо lifecycle функции
-- `$props()` для получения пропсов в компонентах
-
-### 2. Проверка кода
-
-После завершения любой задачи **всегда** выполнять:
-
-- `pnpm run check`
-- `pnpm run format`
-
-`pnpm run lint` — только после крупных изменений или по указанию пользователя.
-
-Команды запускать через PowerShell с bypass (см. раздел "Команды").
-
-Если `pnpm run check` выдает ошибки — исправить перед завершением.
-
-**Важно:** Не использовать прямой вызов утилит (`npx`, `./node_modules/.bin` и т.д.) для проверки/валидации/линтинга. Если нужной команды нет в разделе `scripts` `package.json` — сообщить пользователю.
-
-### 3. Импорты
-
-- Типы через `import type`
-- Иконки из `lucide-svelte`
-- Путь `@/` для src
-
-### 4. Компоненты
-
-- Все callback пропсы (`on*`) называть с маленькой буквы (`onclose`, `onSave` → `onclose`, `onsave`), для консистентности с Svelte event handlers
-
-### 5. Типизация
-
-- По возможности использовать `interface`, а не `type`
-- `type` только если необходимо (union, пересечения и т.д.)
-
-### 6. Структура файлов
+## File structure
 
 ```
 src/
-├── lib/            # Утилиты, services, state
-│   ├── state/     # Svelte state с runes (называть *.svelte.ts)
-│   ├── services/  # Сервисы
-│   ├── composables/ # Композаблы
-│   └── *.ts       # Утилиты
-├── components/     # Все Svelte компоненты
-├── start/         # Стартовая страница (newtab)
-└── popup/         # Popup окно
+├── lib/
+│   ├── state/        # reactive state (runes) — must be named *.svelte.ts
+│   ├── services/     # non-reactive logic, I/O
+│   ├── composables/  # reusable rune-based logic
+│   └── *.ts          # utilities
+├── components/       # all Svelte components (ui/, layout/, widgets/, dialogs/)
+├── start/            # new tab page
+└── popup/            # extension popup
 ```
 
-**Важно:** Все Svelte компоненты должны лежать в `src/components/`.
+## Verification
 
-**Важно:** Файлы в `lib/state/` должны называться `*.svelte.ts`, т.к. используют Svelte runes (`$state`, `$derived`, `$effect`).
-
-### 7. Конфиги
-
-**КОНФИГИ МЕНЯТЬ ЗАПРЕЩЕНО.** Если нужно изменить конфиг (ESLint, Prettier, Stylelint и т.д.) — сначала спросить пользователя.
-
-### 8. Комментарии
-
-Минимум комментариев, только для сложных моментов или объяснения "почему". Обычный код не комментируем.
-
-## Команды
-
-Пакетный менеджер — **pnpm**. На Windows запускать через PowerShell с обходом политики выполнения:
+Run after every task (PowerShell, Windows):
 
 ```powershell
-powershell -Command "Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass; cd 'путь_к_проекту'; pnpm run <команда>"
+powershell -Command "Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass; pnpm run <cmd>"
 ```
 
-```bash
-pnpm run dev      # Dev сервер
-pnpm run build    # Сборка (перезаписывает dist)
-pnpm run check    # Проверка типов
-pnpm run lint     # ESLint (только после крупных изменений)
-pnpm run lint:css # Stylelint (CSS + Svelte)
-pnpm run format   # Prettier
-```
+- Always: `pnpm run check`, `pnpm run format`
+- After large changes: `pnpm run lint`, `pnpm run lint:css`
+- Fix all errors before finishing. Never call tools directly (`npx`, `node_modules/.bin`) — if a script is missing from `package.json`, tell the user.
 
-**Важно:** `pnpm run build` перезаписывает папку dist и может сломать работающий dev сервер. Использовать только для финальной сборки.
+Do not run `pnpm run build` while the dev server is running — it overwrites `dist`.

@@ -7,6 +7,9 @@ export default defineManifest({
 	manifest_version: 3,
 	name: isDev ? "[DEV] XBOCT-page" : "XBOCT-page",
 	version: pkg.version,
+	description: pkg.description,
+	author: pkg.author,
+	homepage_url: pkg.homepage,
 	icons: {
 		16: "public/logo-16.png",
 		32: "public/logo-32.png",
