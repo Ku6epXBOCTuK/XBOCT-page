@@ -3,12 +3,12 @@
 	import Header from "$cmp/layout/Header.svelte";
 	import Stats from "$cmp/layout/Stats.svelte";
 	import ColumnsGrid from "$cmp/widgets/ColumnsGrid.svelte";
+	import BookmarkGhost from "$cmp/widgets/BookmarkGhost.svelte";
 	import DragGhost from "$cmp/widgets/DragGhost.svelte";
 	import { logMouseEvent } from "$lib/logger";
 	import { backup } from "$lib/state/backup.svelte";
 	import { bookmarks } from "$lib/state/bookmarks.svelte";
 	import { dnd } from "$lib/state/dnd.svelte";
-	import { Debug } from "@dnd-kit/dom/plugins/debug";
 	import { DragDropProvider, DragOverlay } from "@dnd-kit/svelte";
 	import { onMount } from "svelte";
 	import "../vars.css";
@@ -45,18 +45,17 @@
 		<DragDropProvider
 			onDragEnd={dnd.ondragend}
 			onDragStart={dnd.ondragstart}
+			onDragMove={dnd.ondragover}
 			onDragOver={dnd.ondragover}
-			plugins={(defaults) => [Debug, ...defaults]}
 		>
 			<ColumnsGrid />
 			{#if dnd.activeData?.group}
 				<DragOverlay>
-					{#snippet children(source)}
-						{@const g = (source.data as typeof dnd.activeData)?.group}
-						{#if g}
-							<DragGhost group={g} />
-						{/if}
-					{/snippet}
+					<DragGhost group={dnd.activeData.group} />
+				</DragOverlay>
+			{:else if dnd.activeData?.bookmark}
+				<DragOverlay>
+					<BookmarkGhost bookmark={dnd.activeData.bookmark} />
 				</DragOverlay>
 			{/if}
 		</DragDropProvider>

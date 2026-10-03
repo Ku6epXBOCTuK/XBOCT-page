@@ -32,6 +32,7 @@
 		},
 		type: "group",
 		accept: "group",
+		feedback: "none",
 		plugins: [SortableKeyboardPlugin],
 		get data() {
 			return {
@@ -54,8 +55,6 @@
 	let menuOpen = $state(false);
 	let menuButton = $state<HTMLElement>();
 
-	let isDragging = $derived(sortable.isDragging);
-
 	function handleSave(updatedGroup: Group) {
 		bookmarks.updateGroup(updatedGroup);
 		editDialogOpen = false;
@@ -74,7 +73,7 @@
 	}
 </script>
 
-<div class="widget {isDragging ? 'dragging' : ''}" {@attach sortable.attach}>
+<div class="widget" {@attach sortable.attach}>
 	<WidgetHeader
 		name={group.name}
 		icon={group.icon ? iconMap[group.icon] : undefined}
@@ -125,9 +124,5 @@
 		border: 1px solid var(--overlay-white-5);
 		border-radius: var(--radius-lg);
 		transition: opacity var(--transition-fast);
-	}
-
-	.widget.dragging {
-		opacity: 0.3;
 	}
 </style>

@@ -24,7 +24,18 @@
 		},
 		type: "bookmark",
 		accept: "bookmark",
+		feedback: "none",
 		plugins: [SortableKeyboardPlugin],
+		get data() {
+			return {
+				bookmark: {
+					id: bookmark.id,
+					title: bookmark.title,
+					url: bookmark.url,
+					favicon: bookmark.favicon,
+				},
+			};
+		},
 	});
 </script>
 

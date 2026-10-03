@@ -52,7 +52,7 @@
 
 <div
 	class="column"
-	class:drop-target={droppable.isDropTarget}
+	class:drop-target={dnd.isIndicatorIn("group", column.id)}
 	{@attach droppable.attach}
 	role="list"
 >
