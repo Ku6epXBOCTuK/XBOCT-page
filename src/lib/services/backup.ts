@@ -1,6 +1,5 @@
 const DB_NAME = "xboct-backup";
 const STORE = "handles";
-const HANDLE_KEY = "backupFile";
 
 function openDb(): Promise<IDBDatabase> {
 	return new Promise((resolve, reject) => {
@@ -13,34 +12,41 @@ function openDb(): Promise<IDBDatabase> {
 	});
 }
 
-export async function getStoredHandle(): Promise<FileSystemFileHandle | null> {
+export async function getStoredHandle(
+	key: string,
+): Promise<FileSystemFileHandle | null> {
 	const db = await openDb();
 	return new Promise((resolve, reject) => {
 		const request = db
 			.transaction(STORE, "readonly")
 			.objectStore(STORE)
-			.get(HANDLE_KEY);
+			.get(key);
 		request.onsuccess = () => resolve(request.result ?? null);
 		request.onerror = () => reject(request.error);
 	});
 }
 
-export async function storeHandle(handle: FileSystemFileHandle): Promise<void> {
+export async function storeHandle(
+	key: string,
+	handle: FileSystemFileHandle,
+): Promise<void> {
 	const db = await openDb();
 	return new Promise((resolve, reject) => {
 		const request = db
 			.transaction(STORE, "readwrite")
 			.objectStore(STORE)
-			.put(handle, HANDLE_KEY);
+			.put(handle, key);
 		request.onsuccess = () => resolve();
 		request.onerror = () => reject(request.error);
 	});
 }
 
-export async function pickBackupFile(): Promise<FileSystemFileHandle | null> {
+export async function pickBackupFile(
+	suggestedName: string,
+): Promise<FileSystemFileHandle | null> {
 	try {
 		return await window.showSaveFilePicker({
-			suggestedName: "xboct-bookmarks-backup.json",
+			suggestedName,
 			types: [
 				{ description: "JSON", accept: { "application/json": [".json"] } },
 			],

@@ -18,10 +18,10 @@
 
 	onMount(() => {
 		bookmarks.load();
-		backup.init().then(() => backup.backupIfDue());
+		backup.init().then(() => backup.backupDailyIfDue());
 		window.addEventListener("click", (e) => logMouseEvent(e, "click"));
 		window.addEventListener("mouseup", (e) => logMouseEvent(e, "mouseup"));
-		window.addEventListener("click", () => backup.backupIfDue(true), {
+		window.addEventListener("click", () => backup.flushPending(), {
 			once: true,
 		});
 	});
