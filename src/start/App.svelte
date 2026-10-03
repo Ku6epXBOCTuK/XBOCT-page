@@ -4,17 +4,15 @@
 	import Stats from "$cmp/layout/Stats.svelte";
 	import ColumnsGrid from "$cmp/widgets/ColumnsGrid.svelte";
 	import DragGhost from "$cmp/widgets/DragGhost.svelte";
-	import { useBookmarksDnd } from "$lib/composables/useBookmarksDnd.svelte";
 	import { logMouseEvent } from "$lib/logger";
 	import { backup } from "$lib/state/backup.svelte";
 	import { bookmarks } from "$lib/state/bookmarks.svelte";
+	import { dnd } from "$lib/state/dnd.svelte";
 	import { Debug } from "@dnd-kit/dom/plugins/debug";
 	import { DragDropProvider, DragOverlay } from "@dnd-kit/svelte";
 	import { onMount } from "svelte";
 	import "../vars.css";
 	import "./style.css";
-
-	const dnd = useBookmarksDnd();
 
 	onMount(() => {
 		bookmarks.load();
@@ -50,7 +48,7 @@
 			onDragOver={dnd.ondragover}
 			plugins={(defaults) => [Debug, ...defaults]}
 		>
-			<ColumnsGrid activeId={dnd.activeId} activeOverId={dnd.activeOverId} />
+			<ColumnsGrid />
 			{#if dnd.activeData?.group}
 				<DragOverlay>
 					{#snippet children(source)}

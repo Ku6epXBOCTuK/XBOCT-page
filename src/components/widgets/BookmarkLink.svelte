@@ -1,20 +1,31 @@
 <script lang="ts">
 	import type { Bookmark } from "$lib/state/bookmarks.svelte";
-	import { createDraggable } from "@dnd-kit/svelte";
+	import { createSortable } from "@dnd-kit/svelte/sortable";
+	import { SortableKeyboardPlugin } from "@dnd-kit/dom/sortable";
 	import HandleIcon from "~icons/lucide/grip-vertical";
 
 	interface Props {
 		bookmark: Bookmark;
 		groupId: string;
+		index: number;
 	}
 
-	let { bookmark, groupId }: Props = $props();
+	let { bookmark, groupId, index }: Props = $props();
 
-	const draggable = $derived(
-		createDraggable({
-			id: `bookmark:${bookmark.id}:${groupId}`,
-		}),
-	);
+	const sortable = createSortable({
+		get id() {
+			return bookmark.id;
+		},
+		get index() {
+			return index;
+		},
+		get group() {
+			return groupId;
+		},
+		type: "bookmark",
+		accept: "bookmark",
+		plugins: [SortableKeyboardPlugin],
+	});
 </script>
 
 <a
@@ -22,13 +33,13 @@
 	href={bookmark.url}
 	target="_blank"
 	rel="noopener noreferrer"
-	{@attach draggable.attach}
+	{@attach sortable.attach}
 >
 	{#if bookmark.favicon}
 		<img src={bookmark.favicon} alt="" class="bookmark-favicon" />
 	{/if}
 	<span class="bookmark-title">{bookmark.title}</span>
-	<HandleIcon {@attach draggable.attachHandle} class="bookmark-handle" />
+	<HandleIcon {@attach sortable.attachHandle} class="bookmark-handle" />
 </a>
 
 <style>

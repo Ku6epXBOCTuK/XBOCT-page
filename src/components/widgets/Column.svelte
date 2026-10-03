@@ -4,19 +4,19 @@
 		Group,
 	} from "$lib/state/bookmarks.svelte";
 	import { bookmarks } from "$lib/state/bookmarks.svelte";
+	import { dnd } from "$lib/state/dnd.svelte";
 	import Button from "$cmp/ui/Button.svelte";
 	import { createDroppable } from "@dnd-kit/svelte";
 	import PlusIcon from "~icons/lucide/plus";
 	import EditGroupDialog from "../dialogs/EditGroupDialog.svelte";
+	import DropIndicator from "./DropIndicator.svelte";
 	import Widget from "./Widget.svelte";
 
 	interface Props {
 		column: ColumnType;
-		activeId?: string;
-		activeOverId?: string;
 	}
 
-	let { column, activeId, activeOverId }: Props = $props();
+	let { column }: Props = $props();
 
 	let creatingGroup = $state<Group | null>(null);
 
@@ -35,12 +35,12 @@
 		creatingGroup = null;
 	}
 
-	const droppable = $derived(
-		createDroppable({
-			id: column.id,
-			accept: ["item", column.id],
-		}),
-	);
+	const droppable = createDroppable({
+		get id() {
+			return column.id;
+		},
+		accept: "group",
+	});
 
 	let columnGroups = $derived(
 		bookmarks
@@ -48,29 +48,23 @@
 			.filter((g) => g.columnId === column.id)
 			.toSorted((a, b) => a.order - b.order),
 	);
-
-	let columnGroupIds = $derived(columnGroups.map((g) => g.id));
-
-	let insertIndex = $derived.by(() => {
-		if (!activeOverId || activeOverId === activeId) return -1;
-		if (activeOverId === column.id) {
-			return columnGroups.length;
-		}
-		const idx = columnGroupIds.indexOf(activeOverId);
-		return idx >= 0 ? idx + 1 : -1;
-	});
-
-	let shouldHighlight = $derived(insertIndex >= 0);
 </script>
 
 <div
-	class="column {shouldHighlight ? 'drop-target' : ''}"
+	class="column"
+	class:drop-target={droppable.isDropTarget}
 	{@attach droppable.attach}
 	role="list"
 >
 	{#each columnGroups as group, i (group.id)}
+		{#if dnd.isIndicatorAt("group", column.id, i)}
+			<DropIndicator height={dnd.dragHeight} />
+		{/if}
 		<Widget {group} index={i} columnId={column.id} />
 	{/each}
+	{#if dnd.isIndicatorAt("group", column.id, columnGroups.length)}
+		<DropIndicator height={dnd.dragHeight} />
+	{/if}
 	<Button
 		label="Добавить группу"
 		icon={PlusIcon}
