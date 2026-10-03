@@ -38,6 +38,7 @@
 	--menu-min-width: 120px;
 	--column-min-height: 200px;
 	--column-scroll-spacer: 200px;
+	--drop-zone-min-height: 2rem;
 	--ghost-min-width: 200px;
 	--ghost-max-width: 280px;
 

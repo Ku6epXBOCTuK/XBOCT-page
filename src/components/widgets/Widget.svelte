@@ -3,6 +3,7 @@
 	import { bookmarks } from "$lib/state/bookmarks.svelte";
 	import MenuItem from "$cmp/ui/MenuItem.svelte";
 	import { createSortable } from "@dnd-kit/svelte/sortable";
+	import { SortableKeyboardPlugin } from "@dnd-kit/dom/sortable";
 	import { iconMap } from "$lib/icons";
 	import PencilIcon from "~icons/lucide/pencil";
 	import TrashIcon from "~icons/lucide/trash-2";
@@ -19,12 +20,21 @@
 
 	let { group, index, columnId }: Props = $props();
 
-	const sortable = $derived(
-		createSortable({
-			id: group.id,
-			index,
-			group: columnId,
-			data: {
+	const sortable = createSortable({
+		get id() {
+			return group.id;
+		},
+		get index() {
+			return index;
+		},
+		get group() {
+			return columnId;
+		},
+		type: "group",
+		accept: "group",
+		plugins: [SortableKeyboardPlugin],
+		get data() {
+			return {
 				group: {
 					id: group.id,
 					name: group.name,
@@ -36,9 +46,9 @@
 						favicon: b.favicon,
 					})),
 				},
-			},
-		}),
-	);
+			};
+		},
+	});
 
 	let editDialogOpen = $state(false);
 	let menuOpen = $state(false);
