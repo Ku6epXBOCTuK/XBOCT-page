@@ -56,6 +56,7 @@
 	--z-overlay: 100;
 	--z-menu: 101;
 	--z-dialog: 1000;
+	--z-popover: 1100;
 
 	--surface: #1a1c22;
 	--primary: #81ecff;
