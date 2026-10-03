@@ -1,6 +1,60 @@
 :root {
 	--font-sans: Inter, system-ui, sans-serif;
 
+	--space-2xs: 0.25rem;
+	--space-xs: 0.375rem;
+	--space-sm: 0.5rem;
+	--space-md: 0.75rem;
+	--space-lg: 1rem;
+	--space-xl: 1.5rem;
+	--space-2xl: 2.25rem;
+
+	--radius-sm: 0.25rem;
+	--radius-md: 0.375rem;
+	--radius-lg: 0.5rem;
+	--radius-xl: 0.75rem;
+	--radius-full: 9999px;
+
+	--text-2xs: 0.625rem;
+	--text-xs: 0.75rem;
+	--text-sm: 0.875rem;
+	--text-md: 1rem;
+	--text-lg: 1.125rem;
+
+	--tracking-tight: -0.025em;
+	--tracking-wide: 0.05em;
+
+	--size-favicon-sm: 16px;
+	--size-favicon-md: 20px;
+	--size-favicon-lg: 32px;
+	--size-icon-sm: 1rem;
+	--size-icon-md: 1.25rem;
+	--size-icon-lg: 2rem;
+
+	--page-max-width: 1920px;
+	--search-width: 20rem;
+	--dialog-max-width: 480px;
+	--menu-min-width: 120px;
+	--column-min-height: 200px;
+	--column-scroll-spacer: 200px;
+	--ghost-min-width: 200px;
+	--ghost-max-width: 280px;
+
+	--blur-sm: 2px;
+	--blur-md: 12px;
+	--blur-lg: 100px;
+
+	--transition-fast: 0.15s ease;
+	--transition-normal: 0.2s ease;
+	--transition-slow: 0.3s ease;
+
+	--z-background: 0;
+	--z-main: 1;
+	--z-header: 50;
+	--z-overlay: 100;
+	--z-menu: 101;
+	--z-dialog: 1000;
+
 	--surface: #1a1c22;
 	--primary: #81ecff;
 
@@ -16,6 +70,7 @@
 
 	--on-surface: oklch(96% 0.01 250);
 	--on-surface-variant: oklch(67% 0.015 250);
+	--on-surface-dim: oklch(55% 0.015 250);
 	--inverse-on-surface: oklch(33% 0.015 250);
 	--inverse-surface: oklch(98% 0.01 250);
 	--on-surface-inverse: oklch(0% 0 0);
@@ -79,6 +134,7 @@
 
 	--on-surface: oklch(12% 0.015 250);
 	--on-surface-variant: oklch(26% 0.015 250);
+	--on-surface-dim: oklch(40% 0.015 250);
 	--inverse-on-surface: oklch(94% 0.01 250);
 	--inverse-surface: oklch(18% 0.015 250);
 	--on-surface-inverse: oklch(100% 0 0);

@@ -84,14 +84,14 @@
 
 <style>
 	.widget {
-		padding: 0.75rem;
+		padding: var(--space-md);
 		display: flex;
 		flex-direction: column;
-		backdrop-filter: blur(12px);
+		backdrop-filter: blur(var(--blur-md));
 		background: var(--surface-container-alpha);
 		border: 1px solid var(--overlay-white-5);
-		border-radius: 0.5rem;
-		transition: opacity 0.15s ease;
+		border-radius: var(--radius-lg);
+		transition: opacity var(--transition-fast);
 	}
 
 	.widget.dragging {
@@ -99,10 +99,10 @@
 	}
 
 	.menu-item {
-		padding: 0.5rem 0.75rem;
+		padding: var(--space-sm) var(--space-md);
 		color: var(--on-surface);
-		font-size: 0.875rem;
-		border-radius: 0.25rem;
+		font-size: var(--text-sm);
+		border-radius: var(--radius-sm);
 		cursor: pointer;
 	}
 

@@ -12,13 +12,13 @@
 		position: fixed;
 		inset: 0;
 		pointer-events: none;
-		z-index: 0;
+		z-index: var(--z-background);
 	}
 
 	.glow {
 		position: absolute;
-		border-radius: 9999px;
-		filter: blur(100px);
+		border-radius: var(--radius-full);
+		filter: blur(var(--blur-lg));
 	}
 
 	.glow-primary {

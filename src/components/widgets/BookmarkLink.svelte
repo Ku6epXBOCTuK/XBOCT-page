@@ -36,19 +36,19 @@
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
-		gap: 0.5rem;
-		padding: 0.25rem 0.375rem;
+		gap: var(--space-sm);
+		padding: var(--space-2xs) var(--space-xs);
 		background: transparent;
 		border: none;
-		border-radius: 0.25rem;
+		border-radius: var(--radius-sm);
 		color: var(--on-surface-variant);
-		font-size: 0.75rem;
+		font-size: var(--text-xs);
 		text-align: left;
 		cursor: pointer;
 		text-decoration: none;
 		transition:
-			background 0.2s,
-			color 0.2s;
+			background var(--transition-normal),
+			color var(--transition-normal);
 		position: relative;
 	}
 
@@ -58,8 +58,8 @@
 	}
 
 	.bookmark-favicon {
-		width: 16px;
-		height: 16px;
+		width: var(--size-favicon-sm);
+		height: var(--size-favicon-sm);
 		object-fit: contain;
 		flex-shrink: 0;
 	}
@@ -74,7 +74,7 @@
 	.bookmark-link :global(.bookmark-handle) {
 		cursor: grab;
 		opacity: 0;
-		transition: 0.3s opacity;
+		transition: opacity var(--transition-slow);
 	}
 
 	.bookmark-link:hover :global(.bookmark-handle) {

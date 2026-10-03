@@ -45,24 +45,24 @@
 		display: inline-flex;
 		align-items: center;
 		justify-content: center;
-		gap: 0.5rem;
+		gap: var(--space-sm);
 		border: 1px solid transparent;
-		border-radius: 0.5rem;
-		font-size: 0.875rem;
+		border-radius: var(--radius-lg);
+		font-size: var(--text-sm);
 		font-weight: 600;
 		cursor: pointer;
 		transition:
-			opacity 0.15s ease,
-			background 0.15s ease,
-			border-color 0.15s ease;
+			opacity var(--transition-fast),
+			background var(--transition-fast),
+			border-color var(--transition-fast);
 	}
 
 	.btn.default {
-		padding: 0.5rem 1rem;
+		padding: var(--space-sm) var(--space-lg);
 	}
 
 	.btn.mini {
-		padding: 0.25rem;
+		padding: var(--space-2xs);
 	}
 
 	.btn:disabled {

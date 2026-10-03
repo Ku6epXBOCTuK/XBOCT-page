@@ -29,12 +29,12 @@
 <style>
 	.search {
 		position: relative;
-		width: 20rem;
+		width: var(--search-width);
 	}
 
 	.search :global(.search-icon) {
 		position: absolute;
-		left: 0.75rem;
+		left: var(--space-md);
 		top: 50%;
 		transform: translateY(-50%);
 		color: var(--on-surface-variant);
@@ -43,14 +43,14 @@
 
 	.search-input {
 		width: 100%;
-		padding: 0.375rem 0.75rem 0.375rem 2.25rem;
+		padding: var(--space-xs) var(--space-md) var(--space-xs) var(--space-2xl);
 		background: var(--surface-variant-alpha);
 		border: none;
-		border-radius: 0.375rem;
+		border-radius: var(--radius-md);
 		color: var(--on-surface);
-		font-size: 0.875rem;
+		font-size: var(--text-sm);
 		outline: none;
-		transition: box-shadow 0.2s;
+		transition: box-shadow var(--transition-normal);
 	}
 
 	.search-input::placeholder {

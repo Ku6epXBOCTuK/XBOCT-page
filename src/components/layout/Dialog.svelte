@@ -44,13 +44,13 @@
 		left: 50%;
 		transform: translate(-50%, -50%);
 		width: 90%;
-		max-width: 480px;
+		max-width: var(--dialog-max-width);
 		max-height: 85vh;
 		display: flex;
 		flex-direction: column;
 		background: var(--surface);
 		border: 1px solid var(--overlay-white-10);
-		border-radius: 0.75rem;
+		border-radius: var(--radius-xl);
 		overflow: hidden;
 	}
 
@@ -58,12 +58,12 @@
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
-		padding: 1rem;
+		padding: var(--space-lg);
 		border-bottom: 1px solid var(--overlay-white-10);
 	}
 
 	.dialog-header h2 {
-		font-size: 1rem;
+		font-size: var(--text-md);
 		font-weight: 600;
 		margin: 0;
 	}
@@ -72,12 +72,12 @@
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		width: 2rem;
-		height: 2rem;
+		width: var(--size-icon-lg);
+		height: var(--size-icon-lg);
 		padding: 0;
 		background: transparent;
 		border: none;
-		border-radius: 0.5rem;
+		border-radius: var(--radius-lg);
 		color: var(--on-surface-dim);
 		cursor: pointer;
 	}
@@ -89,10 +89,10 @@
 
 	.dialog-content {
 		flex: 1;
-		padding: 1rem;
+		padding: var(--space-lg);
 		overflow-y: auto;
 		display: flex;
 		flex-direction: column;
-		gap: 1rem;
+		gap: var(--space-lg);
 	}
 </style>
