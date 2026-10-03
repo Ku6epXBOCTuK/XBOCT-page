@@ -2,8 +2,11 @@
 	import Dialog from "$cmp/layout/Dialog.svelte";
 	import Button from "$cmp/ui/Button.svelte";
 	import { useImportExport } from "$lib/composables/useImportExport.svelte";
+	import { backup } from "$lib/state/backup.svelte";
 	import DownloadIcon from "~icons/lucide/download";
+	import FileJsonIcon from "~icons/lucide/file-json";
 	import FolderIcon from "~icons/lucide/folder";
+	import SaveIcon from "~icons/lucide/save";
 	import UploadIcon from "~icons/lucide/upload";
 
 	interface Props {
@@ -94,6 +97,39 @@
 			<p class="import-status">{importExport.importStatus}</p>
 		{/if}
 	</div>
+
+	<div class="section">
+		<h3 class="section-title">Бэкап</h3>
+		<p class="section-desc">
+			Автоматическое сохранение копии раз в день в выбранный файл
+		</p>
+
+		{#if backup.fileName}
+			<p class="backup-info">Файл: {backup.fileName}</p>
+			<p class="backup-info">
+				Последний бэкап: {backup.lastBackupAt
+					? new Date(backup.lastBackupAt).toLocaleString()
+					: "никогда"}
+			</p>
+		{/if}
+
+		<div class="buttons-row">
+			<Button
+				label={backup.configured ? "Изменить файл" : "Выбрать файл"}
+				icon={FileJsonIcon}
+				variant="secondary"
+				onclick={() => backup.chooseFile()}
+			/>
+			{#if backup.configured}
+				<Button
+					label="Сохранить сейчас"
+					icon={SaveIcon}
+					variant="secondary"
+					onclick={() => backup.writeNow()}
+				/>
+			{/if}
+		</div>
+	</div>
 </Dialog>
 
 <style>
@@ -118,6 +154,12 @@
 	.buttons-row {
 		display: flex;
 		gap: var(--space-md);
+	}
+
+	.backup-info {
+		font-size: var(--text-xs);
+		color: var(--on-surface-variant);
+		margin: 0;
 	}
 
 	.import-status {

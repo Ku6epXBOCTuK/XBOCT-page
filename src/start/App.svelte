@@ -6,6 +6,7 @@
 	import DragGhost from "$cmp/widgets/DragGhost.svelte";
 	import { useBookmarksDnd } from "$lib/composables/useBookmarksDnd.svelte";
 	import { logMouseEvent } from "$lib/logger";
+	import { backup } from "$lib/state/backup.svelte";
 	import { bookmarks } from "$lib/state/bookmarks.svelte";
 	import { Debug } from "@dnd-kit/dom/plugins/debug";
 	import { DragDropProvider, DragOverlay } from "@dnd-kit/svelte";
@@ -17,8 +18,12 @@
 
 	onMount(() => {
 		bookmarks.load();
+		backup.init().then(() => backup.backupIfDue());
 		window.addEventListener("click", (e) => logMouseEvent(e, "click"));
 		window.addEventListener("mouseup", (e) => logMouseEvent(e, "mouseup"));
+		window.addEventListener("click", () => backup.backupIfDue(true), {
+			once: true,
+		});
 	});
 
 	let totalBookmarks = $derived(bookmarks.getTotalBookmarks());

@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { backup } from "$lib/state/backup.svelte";
 	import { theme } from "$lib/state/theme.svelte";
 	import MoonIcon from "~icons/lucide/moon";
 	import SettingsIcon from "~icons/lucide/settings";
@@ -29,11 +30,16 @@
 			{/if}
 		</button>
 		<button
-			class="icon-button"
+			class="icon-button settings-button"
 			onclick={() => (settingsOpen = true)}
-			title="Настройки"
+			title={backup.initialized && !backup.configured
+				? "Настройки (бэкап не настроен)"
+				: "Настройки"}
 		>
 			<SettingsIcon class="settings-icon" />
+			{#if backup.initialized && !backup.configured}
+				<span class="backup-badge"></span>
+			{/if}
 		</button>
 	</div>
 </header>
@@ -99,5 +105,19 @@
 
 	.icon-button :global(.settings-icon) {
 		color: var(--on-surface-variant);
+	}
+
+	.settings-button {
+		position: relative;
+	}
+
+	.backup-badge {
+		position: absolute;
+		top: var(--space-2xs);
+		right: var(--space-2xs);
+		width: var(--size-badge);
+		height: var(--size-badge);
+		border-radius: var(--radius-full);
+		background: var(--danger);
 	}
 </style>
