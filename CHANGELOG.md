@@ -2,6 +2,21 @@
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/) for commit guidelines.
 
 - - -
+## [0.4.0](https://github.com/Ku6epXBOCTuK/XBOCT-page/compare/6ab46741d9af0ea6ad1a41235630f817caf51cf2..0.4.0) - 2026-10-03
+#### Features
+- group icon picker - ([6928ddf](https://github.com/Ku6epXBOCTuK/XBOCT-page/commit/6928ddf415c1d4df898e6e03e51450046fafea5a)) - Ku6epXBOCTuK
+- add backup - ([6f9dacc](https://github.com/Ku6epXBOCTuK/XBOCT-page/commit/6f9daccc64faa14af830cd66e4e99aafd8738bbd)) - Ku6epXBOCTuK
+- add and remove groups - ([530e4f8](https://github.com/Ku6epXBOCTuK/XBOCT-page/commit/530e4f80de971143208ce8d97ec03d766987b018)) - Ku6epXBOCTuK
+#### Bug Fixes
+- drag group better positioning - ([64452f1](https://github.com/Ku6epXBOCTuK/XBOCT-page/commit/64452f1a34ee6ee534d8d16cf23ae4e39cfb7efe)) - Ku6epXBOCTuK
+- drag group copy issue - ([df4fe4f](https://github.com/Ku6epXBOCTuK/XBOCT-page/commit/df4fe4f7898f63f59e89539cb4d48b2d8985da14)) - Ku6epXBOCTuK
+- add daily and instant slots for backup - ([3a52a17](https://github.com/Ku6epXBOCTuK/XBOCT-page/commit/3a52a17fdfb7c2b631030474ec785776002e3c7f)) - Ku6epXBOCTuK
+- resolve dialog and popup positions error - ([e6d496a](https://github.com/Ku6epXBOCTuK/XBOCT-page/commit/e6d496adb08e0758417fee6072e7928bce3c6e03)) - Ku6epXBOCTuK
+#### Refactoring
+- separate components, use design tokens - ([7e874e6](https://github.com/Ku6epXBOCTuK/XBOCT-page/commit/7e874e6c29f41636c410cc7d2f4ea7fe879e1870)) - Ku6epXBOCTuK
+
+- - -
+
 ## [0.3.0](https://github.com/Ku6epXBOCTuK/XBOCT-page/compare/0159ef90849285b50080f2d1c6b8918f931584dd..0.3.0) - 2026-04-16
 #### Features
 - add [DEV] prefix for dev env (#24) - ([0159ef9](https://github.com/Ku6epXBOCTuK/XBOCT-page/commit/0159ef90849285b50080f2d1c6b8918f931584dd)) - Ku6epXBOCTuK
