@@ -3,17 +3,17 @@
 	"type": "module",
 	"version": "0.3.0",
 	"private": true,
+	"packageManager": "pnpm@12.4.1",
 	"scripts": {
 		"dev": "vite",
 		"build": "vite build",
 		"check": "svelte-check --tsconfig ./tsconfig.app.json",
 		"lint": "eslint src/",
 		"lint:css": "stylelint \"src/**/*.{css,svelte}\"",
-		"format": "prettier --write src/ --log-level warn",
-		"postinstall": "patch-package"
+		"format": "prettier --write src/ --log-level warn"
 	},
 	"dependencies": {
-		"@dnd-kit/core": "^6.3.1",
+		"@dnd-kit/dom": "^0.3.2",
 		"@dnd-kit/svelte": "^0.3.2",
 		"@floating-ui/dom": "^1.7.6",
 		"nanoid": "^5.1.7",
@@ -28,7 +28,6 @@
 		"@types/node": "^25.5.2",
 		"eslint": "^10.2.0",
 		"eslint-plugin-svelte": "^3.17.0",
-		"patch-package": "^8.0.1",
 		"prettier": "^3.8.2",
 		"prettier-plugin-svelte": "^3.5.1",
 		"stylelint": "^17.6.0",

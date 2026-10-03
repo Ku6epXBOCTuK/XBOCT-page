@@ -1,0 +1,2 @@
+patchedDependencies:
+  '@crxjs/vite-plugin@2.7.1': patches/@crxjs__vite-plugin@2.7.1.patch

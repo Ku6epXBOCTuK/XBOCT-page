@@ -26,14 +26,14 @@ Chrome расширение со стартовой страницей для у
 
 После завершения любой задачи **всегда** выполнять:
 
-- `npm run check`
-- `npm run format`
+- `pnpm run check`
+- `pnpm run format`
 
-`npm run lint` — только после крупных изменений или по указанию пользователя.
+`pnpm run lint` — только после крупных изменений или по указанию пользователя.
 
 Команды запускать через PowerShell с bypass (см. раздел "Команды").
 
-Если `npm run check` выдает ошибки — исправить перед завершением.
+Если `pnpm run check` выдает ошибки — исправить перед завершением.
 
 **Важно:** Не использовать прямой вызов утилит (`npx`, `./node_modules/.bin` и т.д.) для проверки/валидации/линтинга. Если нужной команды нет в разделе `scripts` `package.json` — сообщить пользователю.
 
@@ -80,19 +80,19 @@ src/
 
 ## Команды
 
-На Windows запускать через PowerShell с обходом политики выполнения:
+Пакетный менеджер — **pnpm**. На Windows запускать через PowerShell с обходом политики выполнения:
 
 ```powershell
-powershell -Command "Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass; cd 'путь_к_проекту'; npm run <команда>"
+powershell -Command "Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass; cd 'путь_к_проекту'; pnpm run <команда>"
 ```
 
 ```bash
-npm run dev      # Dev сервер
-npm run build    # Сборка (перезаписывает dist)
-npm run check    # Проверка типов
-npm run lint     # ESLint (только после крупных изменений)
-npm run lint:css # Stylelint (CSS + Svelte)
-npm run format   # Prettier
+pnpm run dev      # Dev сервер
+pnpm run build    # Сборка (перезаписывает dist)
+pnpm run check    # Проверка типов
+pnpm run lint     # ESLint (только после крупных изменений)
+pnpm run lint:css # Stylelint (CSS + Svelte)
+pnpm run format   # Prettier
 ```
 
-**Важно:** `npm run build` перезаписывает папку dist и может сломать работающий dev сервер. Использовать только для финальной сборки.
+**Важно:** `pnpm run build` перезаписывает папку dist и может сломать работающий dev сервер. Использовать только для финальной сборки.
