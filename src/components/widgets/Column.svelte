@@ -1,7 +1,13 @@
 <script lang="ts">
-	import type { Column as ColumnType } from "$lib/state/bookmarks.svelte";
+	import type {
+		Column as ColumnType,
+		Group,
+	} from "$lib/state/bookmarks.svelte";
 	import { bookmarks } from "$lib/state/bookmarks.svelte";
+	import Button from "$cmp/ui/Button.svelte";
 	import { createDroppable } from "@dnd-kit/svelte";
+	import PlusIcon from "~icons/lucide/plus";
+	import EditGroupDialog from "../dialogs/EditGroupDialog.svelte";
 	import Widget from "./Widget.svelte";
 
 	interface Props {
@@ -11,6 +17,23 @@
 	}
 
 	let { column, activeId, activeOverId }: Props = $props();
+
+	let creatingGroup = $state<Group | null>(null);
+
+	function handleCreate() {
+		creatingGroup = {
+			id: crypto.randomUUID(),
+			columnId: column.id,
+			order: columnGroups.length,
+			name: "Новая группа",
+			bookmarks: [],
+		};
+	}
+
+	function handleCreateSave(group: Group) {
+		bookmarks.addGroup(group);
+		creatingGroup = null;
+	}
 
 	const droppable = $derived(
 		createDroppable({
@@ -48,7 +71,21 @@
 	{#each columnGroups as group, i (group.id)}
 		<Widget {group} index={i} columnId={column.id} />
 	{/each}
+	<Button
+		label="Добавить группу"
+		icon={PlusIcon}
+		variant="ghost"
+		onclick={handleCreate}
+	/>
 </div>
+
+{#if creatingGroup}
+	<EditGroupDialog
+		group={creatingGroup}
+		onsave={handleCreateSave}
+		oncancel={() => (creatingGroup = null)}
+	/>
+{/if}
 
 <style>
 	.column {
