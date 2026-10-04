@@ -4,7 +4,7 @@
 
 	interface Props {
 		group: Pick<Group, "name" | "icon"> & {
-			bookmarks?: Pick<Bookmark, "id" | "title">[];
+			bookmarks?: Pick<Bookmark, "id" | "title" | "hidden">[];
 		};
 	}
 
@@ -34,7 +34,9 @@
 	<div class="ghost-bookmarks">
 		{#each previewBookmarks as bookmark (bookmark.id)}
 			<div class="ghost-bookmark">
-				<span class="ghost-bookmark-title">{bookmark.title}</span>
+				<span class="ghost-bookmark-title" class:blurred={bookmark.hidden}>
+					{bookmark.title}
+				</span>
 			</div>
 		{/each}
 		{#if hiddenCount > 0}
@@ -106,6 +108,11 @@
 		overflow: hidden;
 		text-overflow: ellipsis;
 		display: block;
+	}
+
+	.blurred {
+		filter: blur(var(--blur-content));
+		user-select: none;
 	}
 
 	.ghost-more {

@@ -45,6 +45,7 @@
 	--blur-sm: 2px;
 	--blur-md: 12px;
 	--blur-lg: 100px;
+	--blur-content: 5px;
 
 	--transition-fast: 0.15s ease;
 	--transition-normal: 0.2s ease;

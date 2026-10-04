@@ -3,6 +3,7 @@ export interface Bookmark {
 	title: string;
 	url: string;
 	favicon: string;
+	hidden?: boolean;
 }
 
 export interface Group {
@@ -19,11 +20,13 @@ export interface Column {
 	order: number;
 }
 
+export type BookmarkTuple = [url: string, title: string, hidden?: boolean];
+
 export interface GroupJson {
 	column: number;
 	name: string;
 	icon?: string;
-	bookmarks: [string, string][];
+	bookmarks: BookmarkTuple[];
 }
 
 export interface StorageJson {

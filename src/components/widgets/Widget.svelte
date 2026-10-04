@@ -45,6 +45,7 @@
 						title: b.title,
 						url: b.url,
 						favicon: b.favicon,
+						hidden: b.hidden,
 					})),
 				},
 			};
