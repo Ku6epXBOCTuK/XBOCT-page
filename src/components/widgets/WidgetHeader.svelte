@@ -1,5 +1,6 @@
 <script lang="ts">
 	import type { Component } from "svelte";
+	import type { Attachment } from "svelte/attachments";
 	import Button from "$cmp/ui/Button.svelte";
 	import MoreVerticalIcon from "~icons/lucide/more-vertical";
 	import PencilIcon from "~icons/lucide/pencil";
@@ -7,6 +8,7 @@
 	interface Props {
 		name: string;
 		icon?: Component;
+		dragHandle?: Attachment<HTMLElement>;
 		onedit?: () => void;
 		onmenu?: () => void;
 		menuButtonRef?: HTMLElement;
@@ -15,6 +17,7 @@
 	let {
 		name,
 		icon: Icon,
+		dragHandle,
 		onedit,
 		onmenu,
 		menuButtonRef = $bindable(),
@@ -22,7 +25,7 @@
 </script>
 
 <div class="widget-header">
-	<div class="widget-header-left">
+	<div class="widget-header-left" {@attach dragHandle}>
 		{#if Icon}
 			<div class="widget-icon">
 				<Icon />
@@ -64,8 +67,15 @@
 	.widget-header-left {
 		display: flex;
 		align-items: center;
+		align-self: stretch;
+		flex: 1;
 		gap: var(--space-sm);
 		min-width: 0;
+		cursor: grab;
+	}
+
+	.widget-header-left:active {
+		cursor: grabbing;
 	}
 
 	.widget-header-right {

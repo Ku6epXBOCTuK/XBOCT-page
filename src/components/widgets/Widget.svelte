@@ -77,6 +77,7 @@
 	<WidgetHeader
 		name={group.name}
 		icon={group.icon ? iconMap[group.icon] : undefined}
+		dragHandle={sortable.attachHandle}
 		onedit={() => (editDialogOpen = true)}
 		onmenu={() => (menuOpen = !menuOpen)}
 		bind:menuButtonRef={menuButton}
