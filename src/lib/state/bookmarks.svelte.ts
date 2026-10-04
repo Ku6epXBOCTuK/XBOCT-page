@@ -16,7 +16,7 @@ import {
 	groupsFromNetscape,
 	readJsonFile,
 } from "$lib/services/bookmarksTransfer";
-import type { Column, Group } from "./bookmarks.types";
+import type { Bookmark, Column, Group } from "./bookmarks.types";
 
 export type { Bookmark, Column, Group } from "./bookmarks.types";
 
@@ -26,6 +26,7 @@ interface BookmarksState {
 	addGroup(group: Group): void;
 	updateGroup(updatedGroup: Group): void;
 	deleteGroup(id: string): void;
+	addBookmark(groupId: string, bookmark: Bookmark): void;
 	moveGroup(groupId: string, targetColumnId: string, targetIndex: number): void;
 	moveBookmark(
 		bookmarkId: string,
@@ -74,6 +75,13 @@ function createBookmarksState(): BookmarksState {
 
 	function deleteGroup(id: string) {
 		groups = groups.filter((g) => g.id !== id);
+		persist();
+	}
+
+	function addBookmark(groupId: string, bookmark: Bookmark) {
+		groups = groups.map((g) =>
+			g.id === groupId ? { ...g, bookmarks: [...g.bookmarks, bookmark] } : g,
+		);
 		persist();
 	}
 
@@ -137,6 +145,7 @@ function createBookmarksState(): BookmarksState {
 		addGroup,
 		updateGroup,
 		deleteGroup,
+		addBookmark,
 		moveGroup,
 		moveBookmark,
 		getTotalBookmarks,
