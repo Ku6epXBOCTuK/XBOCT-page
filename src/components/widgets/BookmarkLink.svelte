@@ -1,5 +1,6 @@
 <script lang="ts">
 	import type { Bookmark } from "$lib/state/bookmarks.svelte";
+	import { search } from "$lib/state/search.svelte";
 	import { createSortable } from "@dnd-kit/svelte/sortable";
 	import { SortableKeyboardPlugin } from "@dnd-kit/dom/sortable";
 	import EyeIcon from "~icons/lucide/eye";
@@ -65,6 +66,7 @@
 
 <a
 	class="bookmark-link"
+	class:dimmed={search.active && !search.matchesBookmark(bookmark)}
 	href={concealed ? undefined : bookmark.url}
 	target="_blank"
 	rel="noopener noreferrer"
@@ -120,6 +122,10 @@
 			background var(--transition-normal),
 			color var(--transition-normal);
 		position: relative;
+	}
+
+	.bookmark-link.dimmed {
+		opacity: 0.25;
 	}
 
 	.bookmark-link:hover {
