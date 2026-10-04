@@ -1,17 +1,45 @@
 <script lang="ts">
+	import type { Bookmark } from "$lib/state/bookmarks.svelte";
+	import { bookmarks } from "$lib/state/bookmarks.svelte";
+	import { search } from "$lib/state/search.svelte";
 	import SearchIcon from "~icons/lucide/search";
+	import SearchResults from "./SearchResults.svelte";
 
-	interface Props {
-		onsearch?: (query: string) => void;
+	let activeIndex = $state(0);
+	let focused = $state(false);
+
+	let results = $derived(
+		search.active
+			? bookmarks
+					.getGroups()
+					.flatMap((g) => g.bookmarks)
+					.filter((b) => search.matchesBookmark(b))
+			: [],
+	);
+
+	let listOpen = $derived(focused && results.length > 0);
+
+	$effect(() => {
+		void results;
+		activeIndex = 0;
+	});
+
+	function openResult(bookmark: Bookmark) {
+		window.open(bookmark.url, "_blank", "noopener,noreferrer");
 	}
 
-	let { onsearch }: Props = $props();
-	let value = $state("");
-
-	function handleInput(e: Event) {
-		const target = e.target as HTMLInputElement;
-		value = target.value;
-		onsearch?.(value);
+	function handleKeydown(e: KeyboardEvent) {
+		if (e.key === "ArrowDown" && results.length > 0) {
+			e.preventDefault();
+			activeIndex = (activeIndex + 1) % results.length;
+		} else if (e.key === "ArrowUp" && results.length > 0) {
+			e.preventDefault();
+			activeIndex = (activeIndex - 1 + results.length) % results.length;
+		} else if (e.key === "Enter" && listOpen) {
+			openResult(results[activeIndex]);
+		} else if (e.key === "Escape") {
+			search.query = "";
+		}
 	}
 </script>
 
@@ -21,9 +49,22 @@
 		class="search-input"
 		type="text"
 		placeholder="Search..."
-		{value}
-		oninput={handleInput}
+		role="combobox"
+		aria-expanded={listOpen}
+		aria-controls="search-results"
+		bind:value={search.query}
+		onfocus={() => (focused = true)}
+		onblur={() => (focused = false)}
+		onkeydown={handleKeydown}
 	/>
+	{#if listOpen}
+		<SearchResults
+			{results}
+			{activeIndex}
+			onselect={openResult}
+			onhover={(i) => (activeIndex = i)}
+		/>
+	{/if}
 </div>
 
 <style>

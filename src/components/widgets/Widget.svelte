@@ -1,6 +1,7 @@
 <script lang="ts">
 	import type { Group } from "$lib/state/bookmarks.svelte";
 	import { bookmarks } from "$lib/state/bookmarks.svelte";
+	import { search } from "$lib/state/search.svelte";
 	import MenuItem from "$cmp/ui/MenuItem.svelte";
 	import { createSortable } from "@dnd-kit/svelte/sortable";
 	import { SortableKeyboardPlugin } from "@dnd-kit/dom/sortable";
@@ -74,7 +75,11 @@
 	}
 </script>
 
-<div class="widget" {@attach sortable.attach}>
+<div
+	class="widget"
+	class:dimmed={search.active && !search.matchesGroup(group)}
+	{@attach sortable.attach}
+>
 	<WidgetHeader
 		name={group.name}
 		icon={group.icon ? iconMap[group.icon] : undefined}
@@ -126,5 +131,9 @@
 		border: 1px solid var(--overlay-white-5);
 		border-radius: var(--radius-lg);
 		transition: opacity var(--transition-fast);
+	}
+
+	.widget.dimmed {
+		opacity: 0.25;
 	}
 </style>

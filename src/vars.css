@@ -1,4 +1,6 @@
 :root {
+	color-scheme: dark;
+
 	--font-sans: Inter, system-ui, sans-serif;
 
 	--space-2xs: 0.25rem;
@@ -34,6 +36,7 @@
 
 	--page-max-width: 1920px;
 	--search-width: 20rem;
+	--search-result-height: 2rem;
 	--dialog-max-width: 480px;
 	--menu-min-width: 120px;
 	--column-min-height: 200px;
@@ -123,6 +126,8 @@
 }
 
 :root[data-theme="light"] {
+	color-scheme: light;
+
 	--surface: #edf3f7;
 	--primary: #005a7b;
 
