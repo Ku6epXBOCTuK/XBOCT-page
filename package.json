@@ -18,7 +18,7 @@
 		"check": "svelte-check --tsconfig ./tsconfig.app.json",
 		"lint": "eslint src/",
 		"lint:css": "stylelint \"src/**/*.{css,svelte}\"",
-		"format": "prettier --write src/ --log-level warn",
+		"format": "prettier --write . --log-level warn",
 		"screenshots": "node scripts/screenshots.mjs"
 	},
 	"dependencies": {
