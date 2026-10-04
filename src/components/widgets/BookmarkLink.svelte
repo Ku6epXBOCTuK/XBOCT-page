@@ -96,7 +96,9 @@
 			{/if}
 		</span>
 	{/if}
-	<HandleIcon {@attach sortable.attachHandle} class="bookmark-handle" />
+	<span class="bookmark-handle" {@attach sortable.attachHandle}>
+		<HandleIcon />
+	</span>
 </a>
 
 <style>
@@ -139,17 +141,21 @@
 		flex-grow: 1;
 	}
 
-	.bookmark-link :global(.bookmark-handle),
+	.bookmark-handle,
 	.bookmark-eye {
 		opacity: 0;
 		transition: opacity var(--transition-slow);
 	}
 
-	.bookmark-link :global(.bookmark-handle) {
+	.bookmark-handle {
+		display: flex;
+		align-items: center;
 		cursor: grab;
+		color: var(--on-surface-variant);
+		flex-shrink: 0;
 	}
 
-	.bookmark-link:hover :global(.bookmark-handle),
+	.bookmark-link:hover .bookmark-handle,
 	.bookmark-link:hover .bookmark-eye {
 		opacity: 1;
 	}

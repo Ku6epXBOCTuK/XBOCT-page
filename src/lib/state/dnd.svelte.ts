@@ -48,19 +48,32 @@ function createDndState() {
 		for (const droppable of manager.registry.droppables) {
 			if (isSortable(droppable)) continue;
 			if (!droppable.accepts(source)) continue;
-			const el = droppable.element;
-			if (!el) continue;
-			const rect = el.getBoundingClientRect();
-			if (
-				x >= rect.left &&
-				x <= rect.right &&
-				y >= rect.top &&
-				y <= rect.bottom
-			) {
-				return String(droppable.id);
+			if (isInside(droppable.element, x, y)) return String(droppable.id);
+		}
+
+		// Закладка над виджетом, но ниже его (сжавшегося) списка — целимся в список этого виджета
+		if (getLayer(source.sortable.type) === "bookmark") {
+			for (const droppable of manager.registry.droppables) {
+				if (!isSortable(droppable)) continue;
+				if (droppable.sortable.type !== "group") continue;
+				if (isInside(droppable.element, x, y)) {
+					return String(droppable.id);
+				}
 			}
 		}
 		return null;
+	}
+
+	function isInside(
+		el: Element | undefined,
+		x: number,
+		y: number,
+	): el is Element {
+		if (!el) return false;
+		const rect = el.getBoundingClientRect();
+		return (
+			x >= rect.left && x <= rect.right && y >= rect.top && y <= rect.bottom
+		);
 	}
 
 	function indexAtPosition(
