@@ -25,10 +25,6 @@
 	});
 
 	let totalBookmarks = $derived(bookmarks.getTotalBookmarks());
-
-	function handleSearch(query: string) {
-		console.log("Search:", query);
-	}
 </script>
 
 <svelte:head>
@@ -38,7 +34,7 @@
 <div class="start-page">
 	<Background />
 
-	<Header onsearch={handleSearch} />
+	<Header />
 
 	<main class="main">
 		<Stats count={totalBookmarks} />

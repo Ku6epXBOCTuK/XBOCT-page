@@ -7,19 +7,13 @@
 	import SettingsDialog from "../dialogs/SettingsDialog.svelte";
 	import Search from "../ui/Search.svelte";
 
-	interface Props {
-		onsearch?: (query: string) => void;
-	}
-
-	let { onsearch }: Props = $props();
-
 	let settingsOpen = $state(false);
 </script>
 
 <header class="header">
 	<div class="header-left">
 		<span class="logo">XBOCT</span>
-		<Search {onsearch} />
+		<Search />
 	</div>
 	<div class="header-right">
 		<button class="icon-button" onclick={theme.toggle} title="Переключить тему">
