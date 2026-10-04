@@ -71,7 +71,9 @@ export function toJson(groups: Group[], columns: Column[]): StorageJson {
 			column: columns.findIndex((c) => c.id === g.columnId),
 			name: g.name,
 			icon: g.icon,
-			bookmarks: g.bookmarks.map((b) => [b.url, b.title]),
+			bookmarks: g.bookmarks.map((b) =>
+				b.hidden ? [b.url, b.title, true] : [b.url, b.title],
+			),
 		})),
 	};
 }
@@ -90,6 +92,7 @@ export function groupsFromJson(data: StorageJson, columns: Column[]): Group[] {
 				url: b[0] || "",
 				title: b[1] || "",
 				favicon: getFaviconUrl(b[0] || ""),
+				hidden: b[2] === true || undefined,
 			})),
 		};
 	});

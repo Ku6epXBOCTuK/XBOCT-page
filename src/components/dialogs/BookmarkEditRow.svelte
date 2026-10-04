@@ -3,6 +3,8 @@
 	import type { Bookmark } from "$lib/state/bookmarks.svelte";
 	import ArrowDownIcon from "~icons/lucide/arrow-down";
 	import ArrowUpIcon from "~icons/lucide/arrow-up";
+	import EyeIcon from "~icons/lucide/eye";
+	import EyeOffIcon from "~icons/lucide/eye-off";
 	import PencilIcon from "~icons/lucide/pencil";
 	import TrashIcon from "~icons/lucide/trash-2";
 
@@ -46,6 +48,13 @@
 			disabled={index === total - 1}
 			onclick={() => onmove(index, 1)}
 			title="Вниз"
+			size="mini"
+			variant="ghost"
+		/>
+		<Button
+			icon={bookmark.hidden ? EyeOffIcon : EyeIcon}
+			onclick={() => (bookmark.hidden = bookmark.hidden ? undefined : true)}
+			title="Скрытая"
 			size="mini"
 			variant="ghost"
 		/>

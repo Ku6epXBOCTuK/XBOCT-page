@@ -18,10 +18,17 @@
 	let title = $state(bookmark.title);
 	// svelte-ignore state_referenced_locally
 	let url = $state(bookmark.url);
+	// svelte-ignore state_referenced_locally
+	let hidden = $state(bookmark.hidden ?? false);
 
 	function handleSave() {
 		if (!title.trim() || !url.trim()) return;
-		onsave({ ...bookmark, title: title.trim(), url: url.trim() });
+		onsave({
+			...bookmark,
+			title: title.trim(),
+			url: url.trim(),
+			hidden: hidden || undefined,
+		});
 	}
 </script>
 
@@ -45,10 +52,24 @@
 		/>
 	</FormField>
 
+	<label class="checkbox-label">
+		<input type="checkbox" bind:checked={hidden} />
+		Скрытая
+	</label>
+
 	<DialogFooter {oncancel} onsave={handleSave} {ondelete} />
 </Dialog>
 
 <style>
+	.checkbox-label {
+		display: flex;
+		align-items: center;
+		gap: var(--space-sm);
+		font-size: var(--text-sm);
+		color: var(--on-surface);
+		cursor: pointer;
+	}
+
 	.favicon-preview {
 		display: flex;
 		justify-content: center;

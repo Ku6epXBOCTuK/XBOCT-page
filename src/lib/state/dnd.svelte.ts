@@ -5,9 +5,9 @@ import { isSortable, type SortableDraggable } from "@dnd-kit/dom/sortable";
 
 export interface DragData {
 	group?: Pick<Group, "id" | "name" | "icon"> & {
-		bookmarks: Pick<Bookmark, "id" | "title" | "url" | "favicon">[];
+		bookmarks: Pick<Bookmark, "id" | "title" | "url" | "favicon" | "hidden">[];
 	};
-	bookmark?: Pick<Bookmark, "id" | "title" | "url" | "favicon">;
+	bookmark?: Pick<Bookmark, "id" | "title" | "url" | "favicon" | "hidden">;
 }
 
 type Layer = "group" | "bookmark";

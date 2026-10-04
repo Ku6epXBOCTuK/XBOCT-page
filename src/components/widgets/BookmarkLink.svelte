@@ -2,6 +2,8 @@
 	import type { Bookmark } from "$lib/state/bookmarks.svelte";
 	import { createSortable } from "@dnd-kit/svelte/sortable";
 	import { SortableKeyboardPlugin } from "@dnd-kit/dom/sortable";
+	import EyeIcon from "~icons/lucide/eye";
+	import EyeOffIcon from "~icons/lucide/eye-off";
 	import HandleIcon from "~icons/lucide/grip-vertical";
 
 	interface Props {
@@ -11,6 +13,28 @@
 	}
 
 	let { bookmark, groupId, index }: Props = $props();
+
+	const REVEAL_TIMEOUT_MS = 10_000;
+
+	let revealed = $state(false);
+	let concealed = $derived(!!bookmark.hidden && !revealed);
+	let revealTimer: ReturnType<typeof setTimeout> | undefined;
+
+	function handleClick(e: MouseEvent) {
+		if (concealed) e.preventDefault();
+	}
+
+	function toggleReveal(e: Event) {
+		e.preventDefault();
+		e.stopPropagation();
+		clearTimeout(revealTimer);
+		revealed = !revealed;
+		if (revealed) {
+			revealTimer = setTimeout(() => {
+				revealed = false;
+			}, REVEAL_TIMEOUT_MS);
+		}
+	}
 
 	const sortable = createSortable({
 		get id() {
@@ -41,15 +65,37 @@
 
 <a
 	class="bookmark-link"
-	href={bookmark.url}
+	href={concealed ? undefined : bookmark.url}
 	target="_blank"
 	rel="noopener noreferrer"
+	onclick={handleClick}
 	{@attach sortable.attach}
 >
 	{#if bookmark.favicon}
-		<img src={bookmark.favicon} alt="" class="bookmark-favicon" />
+		<img
+			src={bookmark.favicon}
+			alt=""
+			class="bookmark-favicon"
+			class:blurred={concealed}
+		/>
 	{/if}
-	<span class="bookmark-title">{bookmark.title}</span>
+	<span class="bookmark-title" class:blurred={concealed}>{bookmark.title}</span>
+	{#if bookmark.hidden}
+		<span
+			class="bookmark-eye"
+			role="button"
+			tabindex="0"
+			title={revealed ? "Скрыть" : "Показать"}
+			onclick={toggleReveal}
+			onkeydown={(e) => (e.key === "Enter" || e.key === " ") && toggleReveal(e)}
+		>
+			{#if revealed}
+				<EyeOffIcon />
+			{:else}
+				<EyeIcon />
+			{/if}
+		</span>
+	{/if}
 	<HandleIcon {@attach sortable.attachHandle} class="bookmark-handle" />
 </a>
 
@@ -93,14 +139,29 @@
 		flex-grow: 1;
 	}
 
-	.bookmark-link :global(.bookmark-handle) {
-		cursor: grab;
+	.bookmark-link :global(.bookmark-handle),
+	.bookmark-eye {
 		opacity: 0;
 		transition: opacity var(--transition-slow);
 	}
 
-	.bookmark-link:hover :global(.bookmark-handle) {
+	.bookmark-link :global(.bookmark-handle) {
 		cursor: grab;
+	}
+
+	.bookmark-link:hover :global(.bookmark-handle),
+	.bookmark-link:hover .bookmark-eye {
 		opacity: 1;
+	}
+
+	.bookmark-eye {
+		cursor: pointer;
+		color: var(--on-surface-variant);
+		flex-shrink: 0;
+	}
+
+	.blurred {
+		filter: blur(var(--blur-content));
+		user-select: none;
 	}
 </style>
