@@ -2,6 +2,17 @@
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/) for commit guidelines.
 
 - - -
+## [0.5.0](https://github.com/Ku6epXBOCTuK/XBOCT-page/compare/9935b95dcace993db1a2b0bdba83dccb8c23d3cb..0.5.0) - 2026-10-04
+#### Features
+- add popup - ([a64874c](https://github.com/Ku6epXBOCTuK/XBOCT-page/commit/a64874ce9cde23dd3e39bbe856b0b5e8a4091a03)) - Ku6epXBOCTuK
+- search on start page - ([7a4b52f](https://github.com/Ku6epXBOCTuK/XBOCT-page/commit/7a4b52f8d8e8a7f03bae0e4a6705e32fb3856d70)) - Ku6epXBOCTuK
+- add hidden links - ([ea8c024](https://github.com/Ku6epXBOCTuK/XBOCT-page/commit/ea8c0242a974306e2effd23c34e5571c81694869)) - Ku6epXBOCTuK
+- drag groups only by handle title - ([068d5df](https://github.com/Ku6epXBOCTuK/XBOCT-page/commit/068d5df4542ea05e64abc0d22e872754267b641b)) - Ku6epXBOCTuK
+#### Bug Fixes
+- drag and drop links - ([05ba60f](https://github.com/Ku6epXBOCTuK/XBOCT-page/commit/05ba60f7ca1e99d37bdee4beae47e7d784cbc6c8)) - Ku6epXBOCTuK
+
+- - -
+
 ## [0.4.0](https://github.com/Ku6epXBOCTuK/XBOCT-page/compare/6ab46741d9af0ea6ad1a41235630f817caf51cf2..0.4.0) - 2026-10-03
 #### Features
 - group icon picker - ([6928ddf](https://github.com/Ku6epXBOCTuK/XBOCT-page/commit/6928ddf415c1d4df898e6e03e51450046fafea5a)) - Ku6epXBOCTuK
