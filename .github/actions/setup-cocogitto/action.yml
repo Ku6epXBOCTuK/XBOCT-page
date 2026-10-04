@@ -1,6 +1,7 @@
 # .github/actions/setup-cocogitto/action.yml
 name: "Setup Cocogitto"
-description: "Installs a specific version of Cocogitto and cleans up the workspace"
+description:
+  "Installs a specific version of Cocogitto and cleans up the workspace"
 inputs:
   version:
     description: "Cocogitto version to install"

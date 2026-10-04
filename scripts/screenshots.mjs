@@ -90,10 +90,7 @@ async function main() {
 		viewport: VIEWPORT,
 		// Playwright passes --disable-extensions by default, which wins over --load-extension
 		ignoreDefaultArgs: ["--disable-extensions"],
-		args: [
-			`--disable-extensions-except=${DIST}`,
-			`--load-extension=${DIST}`,
-		],
+		args: [`--disable-extensions-except=${DIST}`, `--load-extension=${DIST}`],
 	});
 
 	try {
