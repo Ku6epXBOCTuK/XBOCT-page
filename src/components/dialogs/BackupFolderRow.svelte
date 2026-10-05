@@ -1,44 +1,41 @@
 <script lang="ts">
 	import Button from "$cmp/ui/Button.svelte";
-	import type { BackupSlot } from "$lib/state/backup.svelte";
-	import FileJsonIcon from "~icons/lucide/file-json";
+	import { backup } from "$lib/state/backup.svelte";
+	import FolderIcon from "~icons/lucide/folder";
 	import SaveIcon from "~icons/lucide/save";
-
-	interface Props {
-		title: string;
-		description: string;
-		slot: BackupSlot;
-	}
-
-	let { title, description, slot }: Props = $props();
 </script>
 
 <div class="backup-slot">
-	<h4 class="slot-title">{title}</h4>
-	<p class="slot-desc">{description}</p>
+	<h4 class="slot-title">Папка бэкапов</h4>
+	<p class="slot-desc">
+		Мгновенный бэкап при каждом изменении (xboct-latest.json) и дневной снимок
+		при первом запуске за день. Хранятся: последние 3 дня, по одному снимку в
+		неделю за 5 недель и в месяц за год.
+	</p>
 
-	{#if slot.fileName}
-		<p class="slot-info">Файл: {slot.fileName}</p>
+	{#if backup.dirName}
+		<p class="slot-info">Папка: {backup.dirName}</p>
 		<p class="slot-info">
-			Последний бэкап: {slot.lastBackupAt
-				? new Date(slot.lastBackupAt).toLocaleString()
+			Мгновенный: {backup.lastInstantAt
+				? new Date(backup.lastInstantAt).toLocaleString()
 				: "никогда"}
 		</p>
+		<p class="slot-info">Дневной: {backup.lastDailyDay ?? "никогда"}</p>
 	{/if}
 
 	<div class="slot-buttons">
 		<Button
-			label={slot.configured ? "Изменить файл" : "Выбрать файл"}
-			icon={FileJsonIcon}
+			label={backup.configured ? "Изменить папку" : "Выбрать папку"}
+			icon={FolderIcon}
 			variant="secondary"
-			onclick={() => slot.chooseFile()}
+			onclick={() => backup.chooseFolder()}
 		/>
-		{#if slot.configured}
+		{#if backup.configured}
 			<Button
 				label="Сохранить сейчас"
 				icon={SaveIcon}
 				variant="secondary"
-				onclick={() => slot.tryWrite(true)}
+				onclick={() => backup.tryWrite(true)}
 			/>
 		{/if}
 	</div>

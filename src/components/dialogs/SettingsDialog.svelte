@@ -2,11 +2,10 @@
 	import Dialog from "$cmp/layout/Dialog.svelte";
 	import Button from "$cmp/ui/Button.svelte";
 	import { useImportExport } from "$lib/composables/useImportExport.svelte";
-	import { backup } from "$lib/state/backup.svelte";
 	import DownloadIcon from "~icons/lucide/download";
 	import FolderIcon from "~icons/lucide/folder";
 	import UploadIcon from "~icons/lucide/upload";
-	import BackupSlotRow from "./BackupSlotRow.svelte";
+	import BackupFolderRow from "./BackupFolderRow.svelte";
 
 	interface Props {
 		onclose: () => void;
@@ -99,16 +98,7 @@
 
 	<div class="section">
 		<h3 class="section-title">Бэкап</h3>
-		<BackupSlotRow
-			title="Мгновенный"
-			description="Сохраняется при каждом изменении закладок"
-			slot={backup.instant}
-		/>
-		<BackupSlotRow
-			title="Ежедневный"
-			description="Сохраняется раз в день при открытии страницы"
-			slot={backup.daily}
-		/>
+		<BackupFolderRow />
 	</div>
 </Dialog>
 
