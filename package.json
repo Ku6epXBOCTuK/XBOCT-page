@@ -1,7 +1,7 @@
 {
 	"name": "xboct-page",
 	"type": "module",
-	"version": "0.5.1",
+	"version": "0.6.0",
 	"private": true,
 	"description": "A start page that organizes your bookmarks into draggable groups",
 	"license": "MIT",

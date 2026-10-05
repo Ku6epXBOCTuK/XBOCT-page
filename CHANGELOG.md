@@ -2,6 +2,12 @@
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/) for commit guidelines.
 
 - - -
+## [0.6.0](https://github.com/Ku6epXBOCTuK/XBOCT-page/compare/0857b99b668fd35371a7e2bc545eb4a3cdca386c..0.6.0) - 2026-10-05
+#### Features
+- update backup to use folder, rotating backups - ([0857b99](https://github.com/Ku6epXBOCTuK/XBOCT-page/commit/0857b99b668fd35371a7e2bc545eb4a3cdca386c)) - Ku6epXBOCTuK
+
+- - -
+
 ## [0.5.1](https://github.com/Ku6epXBOCTuK/XBOCT-page/compare/057dde404974159da8d1b58afd2cb3b44c62cc1c..0.5.1) - 2026-10-05
 #### Bug Fixes
 - dialog dont crop popover - ([057dde4](https://github.com/Ku6epXBOCTuK/XBOCT-page/commit/057dde404974159da8d1b58afd2cb3b44c62cc1c)) - Ku6epXBOCTuK
