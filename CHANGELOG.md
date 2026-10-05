@@ -2,6 +2,12 @@
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/) for commit guidelines.
 
 - - -
+## [0.5.1](https://github.com/Ku6epXBOCTuK/XBOCT-page/compare/057dde404974159da8d1b58afd2cb3b44c62cc1c..0.5.1) - 2026-10-05
+#### Bug Fixes
+- dialog dont crop popover - ([057dde4](https://github.com/Ku6epXBOCTuK/XBOCT-page/commit/057dde404974159da8d1b58afd2cb3b44c62cc1c)) - Ku6epXBOCTuK
+
+- - -
+
 ## [0.5.0](https://github.com/Ku6epXBOCTuK/XBOCT-page/compare/9935b95dcace993db1a2b0bdba83dccb8c23d3cb..0.5.0) - 2026-10-04
 #### Features
 - add popup - ([a64874c](https://github.com/Ku6epXBOCTuK/XBOCT-page/commit/a64874ce9cde23dd3e39bbe856b0b5e8a4091a03)) - Ku6epXBOCTuK
