@@ -40,10 +40,10 @@
 <style>
 	.dialog {
 		position: absolute;
-		top: 50%;
-		left: 50%;
-		transform: translate(-50%, -50%);
+		inset: 0;
+		margin: auto;
 		width: 90%;
+		height: fit-content;
 		max-width: var(--dialog-max-width);
 		max-height: 85vh;
 		display: flex;
